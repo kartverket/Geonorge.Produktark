@@ -115,26 +115,134 @@ namespace Kartverket.Produktark.Models
                 p_maalestokk.Add(ds_maalestokktall);
                 ct.AddElement(p_maalestokk);
 
+                Chunk ds_stedfesting_lede = new Chunk("Stedfestingsnøyaktighet (meter): ", font3_bold);
+                Chunk ds_stedfesting = new Chunk("”Mangler, kan vente”", font3);
 
+                Phrase p_stedfesting = new Phrase();
+                p_stedfesting.Add(ds_stedfesting_lede);
+                p_stedfesting.Add(ds_stedfesting);
+                ct.AddElement(p_stedfesting);
 
                 ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
+
+                Phrase p_utstrekningsbeskrivelse_overskrift = new Phrase("Utstrekningsbeskrivelse", font3_bold);
+                ct.AddElement(p_utstrekningsbeskrivelse_overskrift);
+                Phrase p_utstrekningsbeskrivelse = new Phrase("”Nøkkelord” sted", font3);
+                ct.AddElement(p_utstrekningsbeskrivelse);
+
+                Phrase p_dekningsoversikt_overskrift = new Phrase("Dekningsoversikt", font3_bold);
+                ct.AddElement(p_dekningsoversikt_overskrift);
+                Phrase p_dekningsoversikt = new Phrase("”MANGLER”", font3);
+                ct.AddElement(p_dekningsoversikt);
+
                 ct.AddElement(writeTblHeader("KILDER OG METODE"));
+
+                Phrase p_prosesshistorie = new Phrase("”Prosesshistorie”", font3);
+                ct.AddElement(p_prosesshistorie);
+
                 ct.AddElement(writeTblHeader("AJOURFØRING OG OPPDATERING"));
+
+                Phrase p_oppdateringshyppighet = new Phrase("”Oppdateringshyppighet”", font3);
+                ct.AddElement(p_oppdateringshyppighet);
+
+                Phrase p_status_overskrift = new Phrase("Status", font3_bold);
+                ct.AddElement(p_status_overskrift);
+                Phrase p_status = new Phrase("”Status”", font3);
+                ct.AddElement(p_status);
+
                 ct.AddElement(writeTblHeader("LEVERANSEBESKRIVELSE"));
-                ct.AddElement(writeTblHeader("OBJEKTTYPELISTE (VALGFRITT)"));
-                ct.AddElement(writeTblHeader("EGENSKAPSLISTE (VALGFRITT)"));
+
+                Phrase p_format_overskrift = new Phrase("Format (versjon)", font3_bold);
+                ct.AddElement(p_format_overskrift);
+
+                Paragraph p_format = new Paragraph("", font3);
+                List format = new List(List.UNORDERED);
+                format.SetListSymbol("\u2022");
+                ListItem liFormat = new ListItem("”Format”, ”Versjon”",font3);
+                format.Add(liFormat);
+                p_format.Add(format);
+                ct.AddElement(p_format);
+
+
+                Phrase p_projeksjoner_overskrift = new Phrase("Projeksjoner", font3_bold);
+                ct.AddElement(p_projeksjoner_overskrift);
+                Phrase p_projeksjoner = new Phrase("”MANGLER”", font3);
+                ct.AddElement(p_projeksjoner);
+
+                Phrase p_tilgangsrestriksjoner_overskrift = new Phrase("Tilgangsrestriksjoner", font3_bold);
+                ct.AddElement(p_tilgangsrestriksjoner_overskrift);
+                Phrase p_tilgangsrestriksjoner = new Phrase("”Tilgangsrestriksjoner”", font3);
+                ct.AddElement(p_tilgangsrestriksjoner);
+
+                Phrase p_tjeneste_overskrift = new Phrase("Tjeneste", font3_bold);
+                ct.AddElement(p_tjeneste_overskrift);
+
+                Phrase p_tjeneste_info = new Phrase("Sett inn tjeneste informasjon, evt. forklaring til deltema innenfor tjenester", font3);
+                ct.AddElement(p_tjeneste_info);
+
+                Phrase p_tjeneste_link = new Phrase();
+                Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", font_link);
+                anchor_tjeneste.Reference = "http://www.geonorge.no";
+                p_tjeneste_link.Add(anchor_tjeneste);
+                ct.AddElement(p_tjeneste_link);
+
+                Phrase p_tjeneste_kall = new Phrase("Beskrivelse av kall for datasettets tjenester – eks. GetMap, GetFeatureInfo", font3);
+                ct.AddElement(p_tjeneste_kall);
+
+                ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
+
+                Paragraph p_objekt_type = new Paragraph("", font3);
+                List l_objekt_type = new List(List.UNORDERED);
+                l_objekt_type.SetListSymbol("\u2022");
+                ListItem liObjekt_type = new ListItem("<sett inn objekttype og forklaring>", font3);
+                l_objekt_type.Add(liObjekt_type);
+                p_objekt_type.Add(l_objekt_type);
+                ct.AddElement(p_objekt_type);
+
+
+                ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
+
+                Paragraph p_egenskap = new Paragraph("", font3);
+                List l_egenskap = new List(List.UNORDERED);
+                l_egenskap.SetListSymbol("\u2022");
+                ListItem liEgenskap = new ListItem("<sett inn egenskap og forklaring>", font3);
+                l_egenskap.Add(liEgenskap);
+                p_egenskap.Add(l_egenskap);
+                ct.AddElement(p_egenskap);
+
                 ct.AddElement(writeTblHeader("LENKER"));
 
                 Paragraph p_lenker = new Paragraph("", font3);
+
                 List lenker = new List(List.UNORDERED);
                 lenker.SetListSymbol("\u2022");
-                ListItem li = new ListItem();
-                Anchor anchor = new Anchor("http://www.geonorge.no",font_link);
-                anchor.Reference = "http://www.geonorge.no";
-                li.Add(anchor);
-                p_lenker.Add(li);
-                ct.AddElement(p_lenker);
 
+                ListItem liMetadata = new ListItem();
+                Anchor anchorMetadata = new Anchor("Link til metadata i Geonorge", font_link);
+                anchorMetadata.Reference = "http://www.geonorge.no";
+                liMetadata.Add(anchorMetadata);
+
+                ListItem liProduktspesifikasjon = new ListItem();
+                Anchor anchorProduktspesifikasjon = new Anchor("Link til produktspesifikasjon", font_link);
+                anchorProduktspesifikasjon.Reference = "http://www.geonorge.no";
+                liProduktspesifikasjon.Add(anchorProduktspesifikasjon);
+
+                ListItem liTegnregler = new ListItem();
+                Anchor anchorTegnregler = new Anchor("Link til tegnregler", font_link);
+                anchorTegnregler.Reference = "http://www.geonorge.no";
+                liTegnregler.Add(anchorTegnregler);
+
+                ListItem liProduktside = new ListItem();
+                Anchor anchorProduktside = new Anchor("Link til produktside", font_link);
+                anchorProduktside.Reference = "http://www.geonorge.no";
+                liProduktside.Add(anchorProduktside);
+
+                lenker.Add(liMetadata);
+                lenker.Add(liProduktspesifikasjon);
+                lenker.Add(liTegnregler);
+                lenker.Add(liProduktside);
+                p_lenker.Add(lenker);
+                ct.AddElement(p_lenker);
 
 
 
@@ -213,9 +321,12 @@ namespace Kartverket.Produktark.Models
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
             PdfPCell cell = new PdfPCell(new Phrase(txt, new Font(Font.NORMAL, 12f, Font.BOLD, BaseColor.WHITE)));
+            //PdfPCell cell = new PdfPCell();
             cell.BackgroundColor = new BaseColor(0, 150, 0);
             cell.Border = 0;
             cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            //Chunk tblHead = new Chunk(txt);
+            //cell.AddElement(tblHead);
             table.AddCell(cell);
             return table;
         
