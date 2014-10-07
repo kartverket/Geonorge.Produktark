@@ -123,7 +123,9 @@ namespace Kartverket.Produktark.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Stream fileStream = new PdfGenerator().CreatePdf(id);
+            var imagePath = Server.MapPath("~/Images");
+
+            Stream fileStream = new PdfGenerator().CreatePdf(id, imagePath);
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
             fileStreamResult.FileDownloadName = "productsheet" + id + ".pdf";
             return fileStreamResult;

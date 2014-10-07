@@ -167,6 +167,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\PdfGenerator.cs" />
+    <Compile Include="Models\PdfHeaderFooter.cs" />
     <Compile Include="Models\ProductSheetContext.cs" />
     <Compile Include="Models\ProductSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,6 +183,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\logo_etat.png" />
+    <Content Include="Images\logo_karteksempel.png" />
+    <Content Include="Images\logo_norgedigitalt.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
