@@ -139,7 +139,7 @@ namespace Kartverket.Produktark.Controllers
 
             Stream fileStream = new PdfGenerator().CreatePdf(productSheet, imagePath);
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
-            fileStreamResult.FileDownloadName = Server.UrlEncode(productSheet.Title + ".pdf");
+            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid + ".pdf");
             return fileStreamResult;
         }
 

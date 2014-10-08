@@ -77,8 +77,8 @@ namespace Kartverket.Produktark.Models
                     ct.AddElement(purposeHeading);
                 }
 
-                if (!string.IsNullOrWhiteSpace(productsheet.SpecificUsage)) { 
-                Paragraph spesificUsage = new Paragraph("”Bruksområde”", font3);
+                if (!string.IsNullOrWhiteSpace(productsheet.SpecificUsage)) {
+                    Paragraph spesificUsage = new Paragraph(productsheet.SpecificUsage, font3);
                 ct.AddElement(spesificUsage);
                 }
 
@@ -90,171 +90,199 @@ namespace Kartverket.Produktark.Models
 
                 ct.AddElement(writeTblHeader("EIER/KONTAKTPERSON"));
 
-                Paragraph p_etat_faglig_kontakt = new Paragraph("”Navn” på etat for faglig kontakt", font3);
+                Paragraph contactOwnerOrganization = new Paragraph(productsheet.ContactOwner.Organization, font3);
+                
+                Phrase contactPublisher = new Phrase();
 
-                Chunk p_etat_kontakt_teknisk_lede = new Chunk("Datateknisk: ", font3_bold);
-                Chunk p_etat_kontakt_teknisk_navn = new Chunk("”Navn” på teknisk kontakt", font3);
-                Chunk p_etat_kontakt_teknisk_mail = new Chunk(", ”e-post”", font3);
+                if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Name))
+                {
+                    Chunk contactPublisherHeading = new Chunk("Datateknisk: ", font3_bold);
+                    Chunk contactPublisherName = new Chunk(productsheet.ContactPublisher.Name, font3);
+                    contactPublisher.Add(contactPublisherHeading);
+                    contactPublisher.Add(contactPublisherName);
+                    if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Email))
+                    {
+                    Chunk contactPublisherEmail = new Chunk(", "+productsheet.ContactPublisher.Email, font3);
+                    contactPublisher.Add(contactPublisherEmail);
+                    }
+                }
+                ct.AddElement(contactOwnerOrganization);
+                ct.AddElement(contactPublisher);
 
-                Phrase p_etat_faglig = new Phrase();
-                p_etat_faglig.Add(p_etat_kontakt_teknisk_lede);
-                p_etat_faglig.Add(p_etat_kontakt_teknisk_navn);
-                p_etat_faglig.Add(p_etat_kontakt_teknisk_mail);
+                Phrase contactOwner = new Phrase();
 
-                ct.AddElement(p_etat_faglig_kontakt);
-                ct.AddElement(p_etat_faglig);
+                if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Name)) {
+                Chunk contactOwnerHeading = new Chunk("Fagekspert: ", font3_bold);
+                Chunk contactOwnerName = new Chunk(productsheet.ContactOwner.Name, font3);
+                contactOwner.Add(contactOwnerHeading);
+                contactOwner.Add(contactOwnerName);
+                if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Email))
+                {
+                    Chunk contactOwnerEmail = new Chunk(", " + productsheet.ContactOwner.Email, font3);
+                    contactOwner.Add(contactOwnerEmail);
+                    }
+                }
 
+                ct.AddElement(contactOwner);
 
-                Chunk p_etat_kontakt_fag_lede = new Chunk("Fagekspert: ", font3_bold);
-                Chunk p_etat_kontakt_fag_navn = new Chunk("”Navn på faglig kontaktperson”", font3);
-                Chunk p_etat_kontakt_fag_mail = new Chunk(", ”e-post”", font3);
-
-                Phrase p_etat_fag = new Phrase();
-                p_etat_fag.Add(p_etat_kontakt_fag_lede);
-                p_etat_fag.Add(p_etat_kontakt_fag_navn);
-                p_etat_fag.Add(p_etat_kontakt_fag_mail);
-
-                ct.AddElement(p_etat_fag);
 
                 ct.AddElement(writeTblHeader("DATASETTOPPLØSNING"));
 
-                Chunk ds_maalestokktall_lede = new Chunk("Målestokktall: ", font3_bold);
-                Chunk ds_maalestokktall = new Chunk("”målestokktall”", font3);
+                if (!string.IsNullOrWhiteSpace(productsheet.ResolutionScale)) { 
+                Chunk resolutionScale_heading = new Chunk("Målestokktall: ", font3_bold);
+                Chunk resolutionScaleValue = new Chunk(productsheet.ResolutionScale, font3);
+                Phrase resolutionScale = new Phrase();
+                resolutionScale.Add(resolutionScale_heading);
+                resolutionScale.Add(resolutionScaleValue);
+                ct.AddElement(resolutionScale);
+                }
 
-                Phrase p_maalestokk = new Phrase();
-                p_maalestokk.Add(ds_maalestokktall_lede);
-                p_maalestokk.Add(ds_maalestokktall);
-                ct.AddElement(p_maalestokk);
 
-                Chunk ds_stedfesting_lede = new Chunk("Stedfestingsnøyaktighet (meter): ", font3_bold);
+                /*Chunk ds_stedfesting_lede = new Chunk("Stedfestingsnøyaktighet (meter): ", font3_bold);
                 Chunk ds_stedfesting = new Chunk("”Mangler, kan vente”", font3);
 
                 Phrase p_stedfesting = new Phrase();
                 p_stedfesting.Add(ds_stedfesting_lede);
                 p_stedfesting.Add(ds_stedfesting);
-                ct.AddElement(p_stedfesting);
+                ct.AddElement(p_stedfesting);*/
 
                 ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
 
-                Phrase p_utstrekningsbeskrivelse_overskrift = new Phrase("Utstrekningsbeskrivelse", font3_bold);
-                ct.AddElement(p_utstrekningsbeskrivelse_overskrift);
-                Phrase p_utstrekningsbeskrivelse = new Phrase("”Nøkkelord” sted", font3);
-                ct.AddElement(p_utstrekningsbeskrivelse);
+                if (productsheet.KeywordsPlace!=null) {
+                Phrase keywordsPlaceHeading = new Phrase("Utstrekningsbeskrivelse", font3_bold);
+                ct.AddElement(keywordsPlaceHeading);
+                    foreach (var keyword in productsheet.KeywordsPlace){
+                        Phrase keywordValue = new Phrase(keyword, font3);
+                        ct.AddElement(keywordValue);
+                    }          
+                }
 
-                Phrase p_dekningsoversikt_overskrift = new Phrase("Dekningsoversikt", font3_bold);
+                /*Phrase p_dekningsoversikt_overskrift = new Phrase("Dekningsoversikt", font3_bold);
                 ct.AddElement(p_dekningsoversikt_overskrift);
                 Phrase p_dekningsoversikt = new Phrase("”MANGLER”", font3);
-                ct.AddElement(p_dekningsoversikt);
+                ct.AddElement(p_dekningsoversikt);*/
 
                 ct.AddElement(writeTblHeader("KILDER OG METODE"));
 
-                Phrase p_prosesshistorie = new Phrase("”Prosesshistorie”", font3);
-                ct.AddElement(p_prosesshistorie);
+                if (!string.IsNullOrWhiteSpace(productsheet.ProcessHistory))
+                {
+                    Phrase processHistory = new Phrase(productsheet.ProcessHistory, font3);
+                    ct.AddElement(processHistory);
+                }
 
                 ct.AddElement(writeTblHeader("AJOURFØRING OG OPPDATERING"));
 
-                Phrase p_oppdateringshyppighet = new Phrase("”Oppdateringshyppighet”", font3);
-                ct.AddElement(p_oppdateringshyppighet);
+                if (!string.IsNullOrWhiteSpace(productsheet.ProcessHistory)) {
+                Phrase maintenanceFrequency = new Phrase(productsheet.ProcessHistory, font3);
+                ct.AddElement(maintenanceFrequency);
+                }
 
-                Phrase p_status_overskrift = new Phrase("Status", font3_bold);
-                ct.AddElement(p_status_overskrift);
-                Phrase p_status = new Phrase("”Status”", font3);
-                ct.AddElement(p_status);
+                if (!string.IsNullOrWhiteSpace(productsheet.Status))
+                {
+                    Phrase statusHeading = new Phrase("Status", font3_bold);
+                    ct.AddElement(statusHeading);
+                    Phrase statusValue = new Phrase(productsheet.Status, font3);
+                    ct.AddElement(statusValue);
+                }
 
                 ct.AddElement(writeTblHeader("LEVERANSEBESKRIVELSE"));
 
-                Phrase p_format_overskrift = new Phrase("Format (versjon)", font3_bold);
-                ct.AddElement(p_format_overskrift);
+                if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatName)) {
+                Phrase distributionFormatHeading = new Phrase("Format (versjon)", font3_bold);
+                ct.AddElement(distributionFormatHeading);
 
-                Paragraph p_format = new Paragraph("", font3);
+                Paragraph distributionFormat = new Paragraph("", font3);
                 List format = new List(List.UNORDERED);
                 format.SetListSymbol("\u2022");
-                ListItem liFormat = new ListItem("”Format”, ”Versjon”",font3);
+                ListItem liFormat = new ListItem(productsheet.DistributionFormatName + ", " + productsheet.DistributionFormatVersion, font3);
                 format.Add(liFormat);
-                p_format.Add(format);
-                ct.AddElement(p_format);
+                distributionFormat.Add(format);
+                ct.AddElement(distributionFormat);
+            }
 
 
-                Phrase p_projeksjoner_overskrift = new Phrase("Projeksjoner", font3_bold);
+                /*Phrase p_projeksjoner_overskrift = new Phrase("Projeksjoner", font3_bold);
                 ct.AddElement(p_projeksjoner_overskrift);
                 Phrase p_projeksjoner = new Phrase("”MANGLER”", font3);
-                ct.AddElement(p_projeksjoner);
+                ct.AddElement(p_projeksjoner);*/
 
-                Phrase p_tilgangsrestriksjoner_overskrift = new Phrase("Tilgangsrestriksjoner", font3_bold);
-                ct.AddElement(p_tilgangsrestriksjoner_overskrift);
-                Phrase p_tilgangsrestriksjoner = new Phrase("”Tilgangsrestriksjoner”", font3);
-                ct.AddElement(p_tilgangsrestriksjoner);
+                if (!string.IsNullOrWhiteSpace(productsheet.AccessConstraints))
+                {
+                    Phrase accessConstraintsHeading = new Phrase("Tilgangsrestriksjoner", font3_bold);
+                    ct.AddElement(accessConstraintsHeading);
+                    Phrase accessConstraints = new Phrase(productsheet.AccessConstraints, font3);
+                    ct.AddElement(accessConstraints);
+                }
 
-                Phrase p_tjeneste_overskrift = new Phrase("Tjeneste", font3_bold);
-                ct.AddElement(p_tjeneste_overskrift);
+                //Phrase p_tjeneste_overskrift = new Phrase("Tjeneste", font3_bold);
+                //ct.AddElement(p_tjeneste_overskrift);
 
-                Phrase p_tjeneste_info = new Phrase("Sett inn tjeneste informasjon, evt. forklaring til deltema innenfor tjenester", font3);
-                ct.AddElement(p_tjeneste_info);
+                //Phrase p_tjeneste_info = new Phrase("Sett inn tjeneste informasjon, evt. forklaring til deltema innenfor tjenester", font3);
+                //ct.AddElement(p_tjeneste_info);
 
-                Phrase p_tjeneste_link = new Phrase();
-                Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", fontLink);
-                anchor_tjeneste.Reference = "http://www.geonorge.no";
-                p_tjeneste_link.Add(anchor_tjeneste);
-                ct.AddElement(p_tjeneste_link);
+                //Phrase p_tjeneste_link = new Phrase();
+                //Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", fontLink);
+                //anchor_tjeneste.Reference = "http://www.geonorge.no";
+                //p_tjeneste_link.Add(anchor_tjeneste);
+                //ct.AddElement(p_tjeneste_link);
 
-                Phrase p_tjeneste_kall = new Phrase("Beskrivelse av kall for datasettets tjenester – eks. GetMap, GetFeatureInfo", font3);
-                ct.AddElement(p_tjeneste_kall);
+                //Phrase p_tjeneste_kall = new Phrase("Beskrivelse av kall for datasettets tjenester – eks. GetMap, GetFeatureInfo", font3);
+                //ct.AddElement(p_tjeneste_kall);
 
-                ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
+                //ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
 
-                Paragraph p_objekt_type = new Paragraph("", font3);
-                List l_objekt_type = new List(List.UNORDERED);
-                l_objekt_type.SetListSymbol("\u2022");
-                ListItem liObjekt_type = new ListItem("<sett inn objekttype og forklaring>", font3);
-                l_objekt_type.Add(liObjekt_type);
-                p_objekt_type.Add(l_objekt_type);
-                ct.AddElement(p_objekt_type);
+                //Paragraph p_objekt_type = new Paragraph("", font3);
+                //List l_objekt_type = new List(List.UNORDERED);
+                //l_objekt_type.SetListSymbol("\u2022");
+                //ListItem liObjekt_type = new ListItem("<sett inn objekttype og forklaring>", font3);
+                //l_objekt_type.Add(liObjekt_type);
+                //p_objekt_type.Add(l_objekt_type);
+                //ct.AddElement(p_objekt_type);
 
 
-                ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
+                //ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
 
-                Paragraph p_egenskap = new Paragraph("", font3);
-                List l_egenskap = new List(List.UNORDERED);
-                l_egenskap.SetListSymbol("\u2022");
-                ListItem liEgenskap = new ListItem("<sett inn egenskap og forklaring>", font3);
-                l_egenskap.Add(liEgenskap);
-                p_egenskap.Add(l_egenskap);
-                ct.AddElement(p_egenskap);
+                //Paragraph p_egenskap = new Paragraph("", font3);
+                //List l_egenskap = new List(List.UNORDERED);
+                //l_egenskap.SetListSymbol("\u2022");
+                //ListItem liEgenskap = new ListItem("<sett inn egenskap og forklaring>", font3);
+                //l_egenskap.Add(liEgenskap);
+                //p_egenskap.Add(l_egenskap);
+                //ct.AddElement(p_egenskap);
 
                 ct.AddElement(writeTblHeader("LENKER"));
 
-                Paragraph p_lenker = new Paragraph("", font3);
+                Paragraph linksParagraph = new Paragraph("", font3);
 
-                List lenker = new List(List.UNORDERED);
-                lenker.SetListSymbol("\u2022");
+                List links = new List(List.UNORDERED);
+                links.SetListSymbol("\u2022");
 
-                ListItem liMetadata = new ListItem();
-                Anchor anchorMetadata = new Anchor("Link til metadata i Geonorge", fontLink);
-                anchorMetadata.Reference = "http://www.geonorge.no";
-                liMetadata.Add(anchorMetadata);
+                ListItem metaData = new ListItem();
+                Anchor metaDatalink = new Anchor("Link til metadata i Geonorge", fontLink);
+                metaDatalink.Reference = "https://www.geonorge.no/geonetwork/?uuid="+productsheet.Uuid;
+                metaData.Add(metaDatalink);
 
-                ListItem liProduktspesifikasjon = new ListItem();
-                Anchor anchorProduktspesifikasjon = new Anchor("Link til produktspesifikasjon", fontLink);
-                anchorProduktspesifikasjon.Reference = "http://www.geonorge.no";
-                liProduktspesifikasjon.Add(anchorProduktspesifikasjon);
+                ListItem ProductSpecificationUrl = new ListItem();
+                Anchor ProductSpecificationLink = new Anchor("Link til produktspesifikasjon", fontLink);
+                ProductSpecificationLink.Reference = productsheet.ProductSpecificationUrl;
+                ProductSpecificationUrl.Add(ProductSpecificationLink);
 
-                ListItem liTegnregler = new ListItem();
-                Anchor anchorTegnregler = new Anchor("Link til tegnregler", fontLink);
-                anchorTegnregler.Reference = "http://www.geonorge.no";
-                liTegnregler.Add(anchorTegnregler);
+                ListItem legendDescription = new ListItem();
+                Anchor legendDescriptionUrl = new Anchor("Link til tegnregler", fontLink);
+                legendDescriptionUrl.Reference = productsheet.LegendDescriptionUrl;
+                legendDescription.Add(legendDescriptionUrl);
 
-                ListItem liProduktside = new ListItem();
-                Anchor anchorProduktside = new Anchor("Link til produktside", fontLink);
-                anchorProduktside.Reference = "http://www.geonorge.no";
-                liProduktside.Add(anchorProduktside);
+                ListItem productPage = new ListItem();
+                Anchor productPageUrl = new Anchor("Link til produktside", fontLink);
+                productPageUrl.Reference = productsheet.ProductPageUrl;
+                productPage.Add(productPageUrl);
 
-                lenker.Add(liMetadata);
-                lenker.Add(liProduktspesifikasjon);
-                lenker.Add(liTegnregler);
-                lenker.Add(liProduktside);
-                p_lenker.Add(lenker);
-                ct.AddElement(p_lenker);
-
+                links.Add(metaData);
+                links.Add(ProductSpecificationUrl);
+                links.Add(legendDescription);
+                links.Add(productPage);
+                linksParagraph.Add(links);
+                ct.AddElement(linksParagraph);
 
 
                 float gutter = -20f;

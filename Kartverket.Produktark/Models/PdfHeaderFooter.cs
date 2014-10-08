@@ -51,10 +51,10 @@ namespace Kartverket.Produktark.Models
 
             Rectangle pageSize = document.PageSize;
 
-            var image_etat = Image.GetInstance(_imagePath + "/logo_etat.png");
-            image_etat.ScalePercent(18);
-            image_etat.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
-            document.Add(image_etat);
+            var imageOrganization = Image.GetInstance(_imagePath + "/logo_etat.png");
+            imageOrganization.ScalePercent(18);
+            imageOrganization.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
+            document.Add(imageOrganization);
 
             var image_logo = Image.GetInstance(_imagePath + "/logo_norgedigitalt.png");
             image_logo.ScalePercent(50);
@@ -88,7 +88,7 @@ namespace Kartverket.Produktark.Models
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
             cb.SetTextMatrix(pageSize.GetLeft(36), pageSize.GetBottom(15));
-            cb.ShowText("<Sett inn dataeier> - <Sett inn dato>");
+            cb.ShowText(_productsheet.ContactOwner.Organization + " - <dato, hvilken?>");
             cb.EndText();
 
         }
