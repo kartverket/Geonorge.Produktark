@@ -11,5 +11,10 @@ namespace Kartverket.Produktark.Models
         public string Uuid { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string SupplementalDescription { get; set; }
+        public string Purpose { get; set; }
+        public string SpecificUsage { get; set; }
+        public string UseLimitations { get; set; }
+        
     }
 }
