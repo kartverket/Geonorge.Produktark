@@ -8,17 +8,19 @@ namespace Kartverket.Produktark.Models
     public class PdfHeaderFooter : PdfPageEventHelper
     {
         private DateTime PrintTime = DateTime.Now;
-        private BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        private BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
         private PdfContentByte cb;
 
         // we will put the final number of pages in a template
         private PdfTemplate template;
 
         private string _imagePath;
+        private ProductSheet _productsheet;
 
-        public PdfHeaderFooter(string imagePath)
+        public PdfHeaderFooter(string imagePath, ProductSheet productsheet)
         {
             this._imagePath = imagePath;
+            this._productsheet = productsheet;
         }
 
         #region Properties
@@ -38,7 +40,7 @@ namespace Kartverket.Produktark.Models
         public override void OnOpenDocument(PdfWriter writer, Document document)
         {
             PrintTime = DateTime.Now;
-            bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             cb = writer.DirectContent;
             template = cb.CreateTemplate(50, 50);
         }
@@ -51,7 +53,7 @@ namespace Kartverket.Produktark.Models
 
             var image_etat = Image.GetInstance(_imagePath + "/logo_etat.png");
             image_etat.ScalePercent(18);
-            image_etat.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(40));
+            image_etat.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
             document.Add(image_etat);
 
             var image_logo = Image.GetInstance(_imagePath + "/logo_norgedigitalt.png");
@@ -66,8 +68,8 @@ namespace Kartverket.Produktark.Models
 
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
-            cb.SetTextMatrix(pageSize.GetRight(150), pageSize.GetTop(60));
-            cb.ShowText("<Sett inn navn på datasett>");
+            cb.SetTextMatrix(pageSize.GetRight(170), pageSize.GetTop(60));
+            cb.ShowText(_productsheet.Title);
             cb.EndText();
 
         }

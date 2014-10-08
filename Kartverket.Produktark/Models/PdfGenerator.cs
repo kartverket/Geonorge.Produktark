@@ -16,7 +16,7 @@ namespace Kartverket.Produktark.Models
         {
             Document doc = new Document();
 
-            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             Font font1 = new Font(Font.NORMAL, 22f);
             Font font2 = new Font(Font.NORMAL, 12f);
             Font font3 = new Font(Font.NORMAL, 9f);
@@ -24,14 +24,13 @@ namespace Kartverket.Produktark.Models
             font3_bold.SetStyle("bold");
             font3_bold.Size = 9f;
 
-            Font font_link = new Font();
-            font_link.SetFamily("Helvetica");
-            font_link.SetStyle("underline");
-            font_link.Size = 9f;
-            font_link.SetColor(0, 0, 255);
+            Font fontLink = new Font();
+            fontLink.SetFamily("Times");
+            fontLink.SetStyle("underline");
+            fontLink.Size = 9f;
+            fontLink.SetColor(0, 0, 255);
 
             MemoryStream output = new MemoryStream();
-
 
             try
             {
@@ -39,7 +38,7 @@ namespace Kartverket.Produktark.Models
                 writer.CloseStream = false;
 
                 // must be initialized before document is opened.
-                writer.PageEvent = new PdfHeaderFooter(imagePath);
+                writer.PageEvent = new PdfHeaderFooter(imagePath, productsheet);
 
                 doc.Open();
 
@@ -48,36 +47,46 @@ namespace Kartverket.Produktark.Models
 
                 cb.BeginText();
                 cb.SetFontAndSize(bf, 22);
-                cb.SetTextMatrix(doc.Left+35, doc.Top-60);
-                cb.ShowText("Produktark: <sett inn ”Navn” på datasett>");
+                cb.SetTextMatrix(doc.Left, doc.Top-60);
+                cb.ShowText("Produktark: " + productsheet.Title);
                 cb.EndText();
 
 
                 ct.AddElement(writeTblHeader("BESKRIVELSE"));
-                Paragraph p_description = new Paragraph();
-                var image_mapexample = Image.GetInstance(imagePath + "/logo_karteksempel.png");
-                image_mapexample.ScalePercent(50);
-                ct.AddElement(image_mapexample);
-                ct.AddElement(p_description);
+                Paragraph descriptionHeading = new Paragraph();
+                var imageMap = Image.GetInstance(imagePath + "/logo_karteksempel.png");
+                imageMap.ScalePercent(50);
+                ct.AddElement(imageMap);
+                ct.AddElement(descriptionHeading);
 
                 if (!string.IsNullOrWhiteSpace(productsheet.Description)) {
-                    Paragraph p_sammendrag = new Paragraph(productsheet.Description, font3);
-                    ct.AddElement(p_sammendrag);
+                    Paragraph Description = new Paragraph(productsheet.Description, font3);
+                    ct.AddElement(Description);
                 }
-
-                Paragraph p_suppelerende_beskrivelse = new Paragraph("”Supplerende beskrivelse”", font3);
-                ct.AddElement(p_suppelerende_beskrivelse);
+                if (!string.IsNullOrWhiteSpace(productsheet.SupplementalDescription))
+                {
+                    Paragraph supplementalDescription = new Paragraph(productsheet.SupplementalDescription, font3);
+                    ct.AddElement(supplementalDescription);
+                }
 
                 ct.AddElement(writeTblHeader("FORMÅL/BRUKSOMRÅDE"));
 
-                Paragraph p_formaal = new Paragraph("”Formål”", font3);
-                ct.AddElement(p_formaal);
+                if (!string.IsNullOrWhiteSpace(productsheet.Purpose))
+                {
+                    Paragraph purposeHeading = new Paragraph(productsheet.Purpose, font3);
+                    ct.AddElement(purposeHeading);
+                }
 
-                Paragraph p_bruksomraade = new Paragraph("”Bruksområde”", font3);
-                ct.AddElement(p_bruksomraade);
+                if (!string.IsNullOrWhiteSpace(productsheet.SpecificUsage)) { 
+                Paragraph spesificUsage = new Paragraph("”Bruksområde”", font3);
+                ct.AddElement(spesificUsage);
+                }
 
-                Paragraph p_bruksbegrensninger = new Paragraph("”Bruksbegrensninger”", font3);
-                ct.AddElement(p_bruksbegrensninger);
+                if (!string.IsNullOrWhiteSpace(productsheet.UseLimitations))
+                {
+                    Paragraph useLimitations = new Paragraph(productsheet.UseLimitations, font3);
+                    ct.AddElement(useLimitations);
+                }
 
                 ct.AddElement(writeTblHeader("EIER/KONTAKTPERSON"));
 
@@ -183,7 +192,7 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(p_tjeneste_info);
 
                 Phrase p_tjeneste_link = new Phrase();
-                Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", font_link);
+                Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", fontLink);
                 anchor_tjeneste.Reference = "http://www.geonorge.no";
                 p_tjeneste_link.Add(anchor_tjeneste);
                 ct.AddElement(p_tjeneste_link);
@@ -220,22 +229,22 @@ namespace Kartverket.Produktark.Models
                 lenker.SetListSymbol("\u2022");
 
                 ListItem liMetadata = new ListItem();
-                Anchor anchorMetadata = new Anchor("Link til metadata i Geonorge", font_link);
+                Anchor anchorMetadata = new Anchor("Link til metadata i Geonorge", fontLink);
                 anchorMetadata.Reference = "http://www.geonorge.no";
                 liMetadata.Add(anchorMetadata);
 
                 ListItem liProduktspesifikasjon = new ListItem();
-                Anchor anchorProduktspesifikasjon = new Anchor("Link til produktspesifikasjon", font_link);
+                Anchor anchorProduktspesifikasjon = new Anchor("Link til produktspesifikasjon", fontLink);
                 anchorProduktspesifikasjon.Reference = "http://www.geonorge.no";
                 liProduktspesifikasjon.Add(anchorProduktspesifikasjon);
 
                 ListItem liTegnregler = new ListItem();
-                Anchor anchorTegnregler = new Anchor("Link til tegnregler", font_link);
+                Anchor anchorTegnregler = new Anchor("Link til tegnregler", fontLink);
                 anchorTegnregler.Reference = "http://www.geonorge.no";
                 liTegnregler.Add(anchorTegnregler);
 
                 ListItem liProduktside = new ListItem();
-                Anchor anchorProduktside = new Anchor("Link til produktside", font_link);
+                Anchor anchorProduktside = new Anchor("Link til produktside", fontLink);
                 anchorProduktside.Reference = "http://www.geonorge.no";
                 liProduktside.Add(anchorProduktside);
 
@@ -266,14 +275,12 @@ namespace Kartverket.Produktark.Models
                     if (i == 0)
                     {
                         //Writing the first column
-                        //ct.SetColumns(left, right);
                         ct.SetSimpleColumn(doc.Left, doc.Bottom, doc.Right - colwidth, doc.Top);
                         i++;
                     }
                     else
                     {
                         //write the second column
-                        //ct.SetColumns(left2, right2);
                         ct.SetSimpleColumn(doc.Left + colwidth, doc.Bottom, doc.Right, doc.Top);
                         
                     }
