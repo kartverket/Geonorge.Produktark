@@ -182,6 +182,10 @@
     <Compile Include="Migrations\201410080740412_AddMetatadataFields.Designer.cs">
       <DependentUpon>201410080740412_AddMetatadataFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410081044315_AddRestOfMetadataFields.cs" />
+    <Compile Include="Migrations\201410081044315_AddRestOfMetadataFields.Designer.cs">
+      <DependentUpon>201410081044315_AddRestOfMetadataFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
@@ -252,6 +256,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201410080740412_AddMetatadataFields.resx">
       <DependentUpon>201410080740412_AddMetatadataFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410081044315_AddRestOfMetadataFields.resx">
+      <DependentUpon>201410081044315_AddRestOfMetadataFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
