@@ -186,6 +186,10 @@
     <Compile Include="Migrations\201410081044315_AddRestOfMetadataFields.Designer.cs">
       <DependentUpon>201410081044315_AddRestOfMetadataFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410081058310_AddOrganizationToContact.cs" />
+    <Compile Include="Migrations\201410081058310_AddOrganizationToContact.Designer.cs">
+      <DependentUpon>201410081058310_AddOrganizationToContact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
@@ -259,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410081044315_AddRestOfMetadataFields.resx">
       <DependentUpon>201410081044315_AddRestOfMetadataFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410081058310_AddOrganizationToContact.resx">
+      <DependentUpon>201410081058310_AddOrganizationToContact.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

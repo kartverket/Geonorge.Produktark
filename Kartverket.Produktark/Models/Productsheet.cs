@@ -35,5 +35,6 @@ namespace Kartverket.Produktark.Models
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Organization { get; set; }
     }
 }
