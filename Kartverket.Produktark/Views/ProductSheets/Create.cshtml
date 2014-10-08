@@ -4,84 +4,34 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Opprett produktark for @Model.Title</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "ProductSheets", FormMethod.Post, new { @class = "form form-horizontal" })) 
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ProductSheet</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Uuid, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Uuid, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Uuid, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <ul class="nav nav-tabs" style="clear:both">
+        <li class="active"><a href="#details" data-toggle="tab"><span class="glyphicon glyphicon-home"></span>Detaljer om produktet  </a></li>
+        <li><a href="#metadata" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Informasjon hentet fra metadata</a></li>
+    </ul>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="details">
+            .....
         </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.SupplementalDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SupplementalDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SupplementalDescription, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.Purpose, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Purpose, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Purpose, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.SpecificUsage, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecificUsage, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SpecificUsage, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.UseLimitations, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UseLimitations, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UseLimitations, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+        <div class="tab-pane" id="metadata">
+            @Html.Partial("_Metadata", Model)
         </div>
     </div>
-}
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lagre og opprett PDF" class="btn btn-default" />
+        </div>
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

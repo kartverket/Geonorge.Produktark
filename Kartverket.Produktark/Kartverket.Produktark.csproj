@@ -195,6 +195,7 @@
     <Compile Include="Models\PdfHeaderFooter.cs" />
     <Compile Include="Models\ProductSheetContext.cs" />
     <Compile Include="Models\ProductSheet.cs" />
+    <Compile Include="Models\ProductSheetService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -246,6 +247,7 @@
     <Content Include="Views\ProductSheets\Details.cshtml" />
     <Content Include="Views\ProductSheets\Edit.cshtml" />
     <Content Include="Views\ProductSheets\Index.cshtml" />
+    <Content Include="Views\ProductSheets\_Metadata.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

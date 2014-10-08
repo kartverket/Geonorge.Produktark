@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using GeoNorgeAPI;
 using Kartverket.Produktark.Models;
 
 namespace Kartverket.Produktark.Controllers
@@ -36,24 +37,28 @@ namespace Kartverket.Produktark.Controllers
             return View(productSheet);
         }
 
-        // GET: ProductSheets/Create
-        public ActionResult Create()
+       
+        public ActionResult Create(string uuid)
         {
-            return View();
+            ProductSheet model = null;
+            if (!string.IsNullOrWhiteSpace(uuid))
+            {
+                model = new ProductSheetService().CreateProductSheetFromMetadata(uuid);
+            }
+            return View(model);
         }
 
+
         // POST: ProductSheets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Uuid,Title,Description")] ProductSheet productSheet)
+        public ActionResult Create(ProductSheet productSheet)
         {
             if (ModelState.IsValid)
             {
                 db.ProductSheet.Add(productSheet);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("CreatePdf", new { id = productSheet.Id });
             }
 
             return View(productSheet);
