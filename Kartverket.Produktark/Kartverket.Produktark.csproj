@@ -41,8 +41,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Arkitektum.GIS.Lib.MetadataCSW">
+      <HintPath>..\packages\Arkitektum.GIS.Lib.MetadataCSW.1.4.5175.32353\lib\net45\Arkitektum.GIS.Lib.MetadataCSW.dll</HintPath>
+    </Reference>
+    <Reference Include="Arkitektum.GIS.Lib.SerializeUtil">
+      <HintPath>..\packages\Arkitektum.GIS.Lib.SerializeUtil.1.0.1.0\lib\net45\Arkitektum.GIS.Lib.SerializeUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoNorgeAPI">
+      <HintPath>..\packages\GeoNorgeAPI.2.5.7.0\lib\net45\GeoNorgeAPI.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.5.5.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -166,6 +178,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410080740412_AddMetatadataFields.cs" />
+    <Compile Include="Migrations\201410080740412_AddMetatadataFields.Designer.cs">
+      <DependentUpon>201410080740412_AddMetatadataFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
     <Compile Include="Models\ProductSheetContext.cs" />
@@ -216,7 +233,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ProductSheets\Create.cshtml" />
     <Content Include="Views\ProductSheets\Delete.cshtml" />
     <Content Include="Views\ProductSheets\Details.cshtml" />
@@ -232,6 +248,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201410080740412_AddMetatadataFields.resx">
+      <DependentUpon>201410080740412_AddMetatadataFields.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
