@@ -54,12 +54,13 @@ namespace Kartverket.Produktark.Models
             return keywords.Select(simpleKeyword => simpleKeyword.Keyword).ToList();
         }
 
-        private Contact CreateContact(SimpleContact contactMetadata)
+        private Contact CreateContact(SimpleContact contact)
         {
             return new Contact
             {
-                Email = contactMetadata.Email,
-                Name = contactMetadata.Name
+                Email = contact.Email,
+                Name = contact.Name,
+                Organization = contact.Organization
             };
         }
     }
