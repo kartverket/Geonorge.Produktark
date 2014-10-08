@@ -125,9 +125,16 @@ namespace Kartverket.Produktark.Controllers
             }
             var imagePath = Server.MapPath("~/Images");
 
-            Stream fileStream = new PdfGenerator().CreatePdf(id, imagePath);
+
+            ProductSheet productSheet = db.ProductSheet.Find(id);
+            if (productSheet == null)
+            {
+                return HttpNotFound();
+            }
+
+            Stream fileStream = new PdfGenerator().CreatePdf(productSheet, imagePath);
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
-            fileStreamResult.FileDownloadName = "productsheet" + id + ".pdf";
+            fileStreamResult.FileDownloadName = "productsheet" + productSheet.Title + ".pdf";
             return fileStreamResult;
         }
 

@@ -12,7 +12,7 @@ namespace Kartverket.Produktark.Models
 {
     public class PdfGenerator
     {
-        public Stream CreatePdf(int? productsheet,string imagePath)
+        public Stream CreatePdf(ProductSheet productsheet, string imagePath)
         {
             Document doc = new Document();
 
@@ -60,8 +60,10 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(image_mapexample);
                 ct.AddElement(p_description);
 
-                Paragraph p_sammendrag = new Paragraph("”Sammendrag”",font3);
-                ct.AddElement(p_sammendrag);
+                if (!string.IsNullOrWhiteSpace(productsheet.Description)) {
+                    Paragraph p_sammendrag = new Paragraph(productsheet.Description, font3);
+                    ct.AddElement(p_sammendrag);
+                }
 
                 Paragraph p_suppelerende_beskrivelse = new Paragraph("”Supplerende beskrivelse”", font3);
                 ct.AddElement(p_suppelerende_beskrivelse);
@@ -321,12 +323,9 @@ namespace Kartverket.Produktark.Models
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
             PdfPCell cell = new PdfPCell(new Phrase(txt, new Font(Font.NORMAL, 12f, Font.BOLD, BaseColor.WHITE)));
-            //PdfPCell cell = new PdfPCell();
             cell.BackgroundColor = new BaseColor(0, 150, 0);
             cell.Border = 0;
-            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            //Chunk tblHead = new Chunk(txt);
-            //cell.AddElement(tblHead);
+            cell.VerticalAlignment = Element.ALIGN_TOP;
             table.AddCell(cell);
             return table;
         
