@@ -8,7 +8,7 @@ namespace Kartverket.Produktark.Models
     public class PdfHeaderFooter : PdfPageEventHelper
     {
         private DateTime PrintTime = DateTime.Now;
-        private BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        private BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
         private PdfContentByte cb;
 
         // we will put the final number of pages in a template
@@ -40,7 +40,7 @@ namespace Kartverket.Produktark.Models
         public override void OnOpenDocument(PdfWriter writer, Document document)
         {
             PrintTime = DateTime.Now;
-            bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bf = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             cb = writer.DirectContent;
             template = cb.CreateTemplate(50, 50);
         }
@@ -68,8 +68,7 @@ namespace Kartverket.Produktark.Models
 
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
-            cb.SetTextMatrix(pageSize.GetRight(170), pageSize.GetTop(60));
-            cb.ShowText(_productsheet.Title);
+            cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT, _productsheet.Title, pageSize.GetRight(35), pageSize.GetTop(60), 0);
             cb.EndText();
 
         }
@@ -85,10 +84,13 @@ namespace Kartverket.Produktark.Models
             cb.SetLineWidth(0.3f);
             cb.Stroke();
 
+            DateTime dt = DateTime.Today;
+
+
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
             cb.SetTextMatrix(pageSize.GetLeft(36), pageSize.GetBottom(15));
-            cb.ShowText(_productsheet.ContactOwner.Organization + " - <dato, hvilken?>");
+            cb.ShowText(_productsheet.ContactOwner.Organization + " - " + dt.ToString("dd.MM.yyyy"));
             cb.EndText();
 
         }

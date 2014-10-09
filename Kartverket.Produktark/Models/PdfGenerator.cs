@@ -15,20 +15,15 @@ namespace Kartverket.Produktark.Models
         public Stream CreatePdf(ProductSheet productsheet, string imagePath)
         {
             Document doc = new Document();
-
-            BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            Font font1 = new Font(Font.NORMAL, 22f);
-            Font font2 = new Font(Font.NORMAL, 12f);
-            Font font3 = new Font(Font.NORMAL, 9f);
-            Font font3_bold = new Font();
-            font3_bold.SetStyle("bold");
-            font3_bold.Size = 9f;
-
-            Font fontLink = new Font();
-            fontLink.SetFamily("Times");
-            fontLink.SetStyle("underline");
-            fontLink.Size = 9f;
+ 
+            BaseFont bf = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, BaseColor.BLACK);
+            Font font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.BLACK);
+            Font font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.NORMAL, BaseColor.BLACK);
+            Font font3_bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.BOLD, BaseColor.BLACK);
+            Font fontLink = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.UNDERLINE);
             fontLink.SetColor(0, 0, 255);
+            
 
             MemoryStream output = new MemoryStream();
 
@@ -44,18 +39,17 @@ namespace Kartverket.Produktark.Models
 
                 PdfContentByte cb = writer.DirectContent;
                 ColumnText ct = new ColumnText(cb);
-
                 cb.BeginText();
-                cb.SetFontAndSize(bf, 22);
+                cb.SetFontAndSize(bf,22);
                 cb.SetTextMatrix(doc.Left, doc.Top-60);
                 cb.ShowText("Produktark: " + productsheet.Title);
                 cb.EndText();
-
 
                 ct.AddElement(writeTblHeader("BESKRIVELSE"));
                 Paragraph descriptionHeading = new Paragraph();
                 var imageMap = Image.GetInstance(imagePath + "/logo_karteksempel.png");
                 imageMap.ScalePercent(50);
+                imageMap.SpacingBefore = 4;
                 ct.AddElement(imageMap);
                 ct.AddElement(descriptionHeading);
 
@@ -69,6 +63,7 @@ namespace Kartverket.Produktark.Models
                     ct.AddElement(supplementalDescription);
                 }
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("FORMÅL/BRUKSOMRÅDE"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.Purpose))
@@ -88,6 +83,7 @@ namespace Kartverket.Produktark.Models
                     ct.AddElement(useLimitations);
                 }
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("EIER/KONTAKTPERSON"));
 
                 Paragraph contactOwnerOrganization = new Paragraph(productsheet.ContactOwner.Organization, font3);
@@ -125,7 +121,7 @@ namespace Kartverket.Produktark.Models
 
                 ct.AddElement(contactOwner);
 
-
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("DATASETTOPPLØSNING"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ResolutionScale)) { 
@@ -146,6 +142,7 @@ namespace Kartverket.Produktark.Models
                 p_stedfesting.Add(ds_stedfesting);
                 ct.AddElement(p_stedfesting);*/
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
 
                 if (productsheet.KeywordsPlace!=null) {
@@ -162,6 +159,7 @@ namespace Kartverket.Produktark.Models
                 Phrase p_dekningsoversikt = new Phrase("”MANGLER”", font3);
                 ct.AddElement(p_dekningsoversikt);*/
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("KILDER OG METODE"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ProcessHistory))
@@ -170,21 +168,24 @@ namespace Kartverket.Produktark.Models
                     ct.AddElement(processHistory);
                 }
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("AJOURFØRING OG OPPDATERING"));
 
-                if (!string.IsNullOrWhiteSpace(productsheet.ProcessHistory)) {
-                Phrase maintenanceFrequency = new Phrase(productsheet.ProcessHistory, font3);
-                ct.AddElement(maintenanceFrequency);
+                if (!string.IsNullOrWhiteSpace(productsheet.MaintenanceFrequency))
+                {
+                    Phrase maintenanceFrequency = new Phrase(getMaintenanceFrequencyValue(productsheet.MaintenanceFrequency), font3);
+                    ct.AddElement(maintenanceFrequency);
                 }
 
                 if (!string.IsNullOrWhiteSpace(productsheet.Status))
                 {
                     Phrase statusHeading = new Phrase("Status", font3_bold);
                     ct.AddElement(statusHeading);
-                    Phrase statusValue = new Phrase(productsheet.Status, font3);
+                    Phrase statusValue = new Phrase(getStatusValue(productsheet.Status), font3);
                     ct.AddElement(statusValue);
                 }
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("LEVERANSEBESKRIVELSE"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatName)) {
@@ -194,7 +195,13 @@ namespace Kartverket.Produktark.Models
                 Paragraph distributionFormat = new Paragraph("", font3);
                 List format = new List(List.UNORDERED);
                 format.SetListSymbol("\u2022");
-                ListItem liFormat = new ListItem(productsheet.DistributionFormatName + ", " + productsheet.DistributionFormatVersion, font3);
+                format.IndentationLeft = 5;
+                string formatVersion = productsheet.DistributionFormatName;
+                if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatVersion)) {
+                    formatVersion = formatVersion + ", " + productsheet.DistributionFormatVersion;
+                }
+
+                ListItem liFormat = new ListItem(formatVersion, font3);
                 format.Add(liFormat);
                 distributionFormat.Add(format);
                 ct.AddElement(distributionFormat);
@@ -250,37 +257,46 @@ namespace Kartverket.Produktark.Models
                 //p_egenskap.Add(l_egenskap);
                 //ct.AddElement(p_egenskap);
 
+                ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("LENKER"));
 
                 Paragraph linksParagraph = new Paragraph("", font3);
 
                 List links = new List(List.UNORDERED);
                 links.SetListSymbol("\u2022");
+                links.IndentationLeft = 5;
 
                 ListItem metaData = new ListItem();
                 Anchor metaDatalink = new Anchor("Link til metadata i Geonorge", fontLink);
                 metaDatalink.Reference = "https://www.geonorge.no/geonetwork/?uuid="+productsheet.Uuid;
                 metaData.Add(metaDatalink);
+                links.Add(metaData);
 
-                ListItem ProductSpecificationUrl = new ListItem();
-                Anchor ProductSpecificationLink = new Anchor("Link til produktspesifikasjon", fontLink);
-                ProductSpecificationLink.Reference = productsheet.ProductSpecificationUrl;
-                ProductSpecificationUrl.Add(ProductSpecificationLink);
+                if (!string.IsNullOrWhiteSpace(productsheet.ProductSpecificationUrl)) { 
+                    ListItem ProductSpecificationUrl = new ListItem();
+                    Anchor ProductSpecificationLink = new Anchor("Link til produktspesifikasjon", fontLink);
+                    ProductSpecificationLink.Reference = productsheet.ProductSpecificationUrl;
+                    ProductSpecificationUrl.Add(ProductSpecificationLink);
+                    links.Add(ProductSpecificationUrl);
+                }
 
-                ListItem legendDescription = new ListItem();
-                Anchor legendDescriptionUrl = new Anchor("Link til tegnregler", fontLink);
-                legendDescriptionUrl.Reference = productsheet.LegendDescriptionUrl;
-                legendDescription.Add(legendDescriptionUrl);
+                if (!string.IsNullOrWhiteSpace(productsheet.LegendDescriptionUrl))
+                {
+                    ListItem legendDescription = new ListItem();
+                    Anchor legendDescriptionUrl = new Anchor("Link til tegnregler", fontLink);
+                    legendDescriptionUrl.Reference = productsheet.LegendDescriptionUrl;
+                    legendDescription.Add(legendDescriptionUrl);
+                    links.Add(legendDescription);
+                }
 
+                if (!string.IsNullOrWhiteSpace(productsheet.ProductPageUrl)) { 
                 ListItem productPage = new ListItem();
                 Anchor productPageUrl = new Anchor("Link til produktside", fontLink);
                 productPageUrl.Reference = productsheet.ProductPageUrl;
                 productPage.Add(productPageUrl);
-
-                links.Add(metaData);
-                links.Add(ProductSpecificationUrl);
-                links.Add(legendDescription);
                 links.Add(productPage);
+                }
+                
                 linksParagraph.Add(links);
                 ct.AddElement(linksParagraph);
 
@@ -354,16 +370,108 @@ namespace Kartverket.Produktark.Models
 
         PdfPTable writeTblHeader(string txt)
         {
+            Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.WHITE);
+            Phrase content = new Phrase(txt, fontHead);
 
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
-            PdfPCell cell = new PdfPCell(new Phrase(txt, new Font(Font.NORMAL, 12f, Font.BOLD, BaseColor.WHITE)));
+            PdfPCell cell = new PdfPCell(content);
             cell.BackgroundColor = new BaseColor(0, 150, 0);
             cell.Border = 0;
-            cell.VerticalAlignment = Element.ALIGN_TOP;
+            cell.PaddingTop = 0;
+            cell.PaddingBottom = 3;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
             table.AddCell(cell);
             return table;
         
+        }
+
+        PdfPTable writeTblFooter(string txt)
+        {
+
+            PdfPTable table = new PdfPTable(1);
+            table.WidthPercentage = 100;
+            //table.SpacingBefore = 2;
+            table.SpacingAfter = 10;
+            PdfPCell cell = new PdfPCell();
+            cell.Border = 0;
+            table.AddCell(cell);
+            return table;
+
+        }
+
+        string getMaintenanceFrequencyValue(string mf)
+        {
+            string returnTxt = mf;
+            switch(mf){
+                case "continual":
+                    returnTxt = "Kontinuerlig";
+                    break;
+                case "daily":
+                    returnTxt = "Daglig";
+                    break;
+                case "weekly":
+                    returnTxt = "Ukentlig";
+                    break;
+                case "fortnightly":
+                    returnTxt = "Annenhver uke";
+                    break;
+                case "monthly":
+                    returnTxt = "Månedlig";
+                    break;
+                case "quarterly":
+                    returnTxt = "Hvert kvartal";
+                    break;
+                case "biannually":
+                    returnTxt = "Hvert halvår";
+                    break;
+                case "annually":
+                    returnTxt = "Årlig";
+                    break;
+                case "asNeeded":
+                    returnTxt = "Etter behov";
+                    break;
+                case "irregular":
+                    returnTxt = "Ujevnt";
+                    break;
+                case "notPlanned":
+                    returnTxt = "Ikke planlagt";
+                    break;
+                case "unknown":
+                    returnTxt = "Ukjent";
+                    break;
+                }
+            return returnTxt;
+        }
+
+        string getStatusValue(string status)
+        {
+            string returnTxt = status;
+            switch (status)
+            {
+                case "completed":
+                    returnTxt = "Fullført";
+                    break;
+                case "historicalArchive":
+                    returnTxt = "Arkivert";
+                    break;
+                case "obsolete":
+                    returnTxt = "Utdatert";
+                    break;
+                case "onGoing":
+                    returnTxt = "Kontinuerlig oppdatert";
+                    break;
+                case "planned":
+                    returnTxt = "Planlagt";
+                    break;
+                case "required":
+                    returnTxt = "Må oppdateres";
+                    break;
+                case "underDevelopment":
+                    returnTxt = "Under arbeid";
+                    break;
+            }
+            return returnTxt;
         }
     }
 }
