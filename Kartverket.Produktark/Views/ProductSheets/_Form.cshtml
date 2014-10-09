@@ -1,0 +1,25 @@
+﻿@model Kartverket.Produktark.Models.ProductSheet
+
+<div class="pull-right">
+    <p><small>UUID: @Model.Uuid</small></p>
+</div>
+
+<ul class="nav nav-tabs" style="clear:both">
+    <li class="active"><a href="#metadata" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Informasjon hentet fra metadata</a></li>
+    <li><a href="#details" data-toggle="tab"><span class="glyphicon glyphicon-home"></span> Flere detaljer om produktet</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="metadata">
+        @Html.Partial("_Metadata", Model)
+    </div>
+    <div class="tab-pane" id="details">
+        @Html.Partial("_AdditionalDetails", Model)
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Lagre og opprett PDF" class="btn btn-default" />
+    </div>
+</div>

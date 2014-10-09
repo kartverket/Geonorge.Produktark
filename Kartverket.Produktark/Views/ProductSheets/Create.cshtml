@@ -1,36 +1,18 @@
 ﻿@model Kartverket.Produktark.Models.ProductSheet
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Opprett produktark for " + Model.Title;
 }
 
-<h2>Opprett produktark for @Model.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm("Create", "ProductSheets", FormMethod.Post, new { @class = "form form-horizontal" })) 
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Uuid)
 
-    <ul class="nav nav-tabs" style="clear:both">
-        <li class="active"><a href="#details" data-toggle="tab"><span class="glyphicon glyphicon-home"></span>Detaljer om produktet  </a></li>
-        <li><a href="#metadata" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Informasjon hentet fra metadata</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="details">
-            .....
-        </div>
-        <div class="tab-pane" id="metadata">
-            @Html.Partial("_Metadata", Model)
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Lagre og opprett PDF" class="btn btn-default" />
-        </div>
-    </div>
-
+    @Html.Partial("_Form", Model)
 }
 
 @section Scripts {
