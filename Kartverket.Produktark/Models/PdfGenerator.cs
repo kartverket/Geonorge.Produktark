@@ -59,7 +59,7 @@ namespace Kartverket.Produktark.Models
                 }
                 if (!string.IsNullOrWhiteSpace(productsheet.SupplementalDescription))
                 {
-                    Paragraph supplementalDescription = new Paragraph(productsheet.SupplementalDescription, font3);
+                    Paragraph supplementalDescription = new Paragraph("\n" + productsheet.SupplementalDescription, font3);
                     ct.AddElement(supplementalDescription);
                 }
 
@@ -73,13 +73,14 @@ namespace Kartverket.Produktark.Models
                 }
 
                 if (!string.IsNullOrWhiteSpace(productsheet.SpecificUsage)) {
-                    Paragraph spesificUsage = new Paragraph(productsheet.SpecificUsage, font3);
-                ct.AddElement(spesificUsage);
+                    Paragraph specificUsage = new Paragraph("\n" + productsheet.SpecificUsage, font3);
+                    
+                    ct.AddElement(specificUsage);
                 }
 
                 if (!string.IsNullOrWhiteSpace(productsheet.UseLimitations))
                 {
-                    Paragraph useLimitations = new Paragraph(productsheet.UseLimitations, font3);
+                    Paragraph useLimitations = new Paragraph("\n" + productsheet.UseLimitations, font3);
                     ct.AddElement(useLimitations);
                 }
 
@@ -211,7 +212,7 @@ namespace Kartverket.Produktark.Models
 
                 if (!string.IsNullOrWhiteSpace(productsheet.Projections))
                 {
-                    Phrase projectionsHeading = new Phrase("Projeksjoner", font3Bold);
+                    Phrase projectionsHeading = new Phrase("\n" + "Projeksjoner", font3Bold);
                     ct.AddElement(projectionsHeading);
                     Phrase projections = new Phrase(productsheet.Projections, font3);
                     ct.AddElement(projections);
@@ -219,21 +220,23 @@ namespace Kartverket.Produktark.Models
 
                 if (!string.IsNullOrWhiteSpace(productsheet.AccessConstraints))
                 {
-                    Phrase accessConstraintsHeading = new Phrase("Tilgangsrestriksjoner", font3Bold);
+                    Phrase accessConstraintsHeading = new Phrase("\n" + "Tilgangsrestriksjoner", font3Bold);
                     ct.AddElement(accessConstraintsHeading);
                     Phrase accessConstraints = new Phrase(productsheet.AccessConstraints, font3);
                     ct.AddElement(accessConstraints);
                 }
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ServiceDetails)) {
-                    Phrase serviceDetailsHeading = new Phrase("Tjeneste", font3Bold);
+                    Phrase serviceDetailsHeading = new Phrase("\n" + "Tjeneste", font3Bold);
                     ct.AddElement(serviceDetailsHeading);
                 
                     Phrase serviceDetails = new Phrase(productsheet.ServiceDetails, font3);
                     ct.AddElement(serviceDetails);
                 }
+
                 if (!string.IsNullOrWhiteSpace(productsheet.ListOfFeatureTypes))
                 {
+                    ct.AddElement(writeTblFooter(""));
                     ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
 
                     Phrase listOfFeatureTypes = new Phrase(productsheet.ListOfFeatureTypes, font3);
@@ -241,10 +244,9 @@ namespace Kartverket.Produktark.Models
                     
                 }
 
-                ct.AddElement(writeTblFooter(""));
-
                 if (!string.IsNullOrWhiteSpace(productsheet.ListOfAttributes))
                 {
+                    ct.AddElement(writeTblFooter(""));
                     ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
                     Phrase listOfAttributes = new Phrase(productsheet.ListOfAttributes, font3);
                     ct.AddElement(listOfAttributes);
