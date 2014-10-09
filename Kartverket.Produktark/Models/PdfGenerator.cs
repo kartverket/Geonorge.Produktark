@@ -385,7 +385,7 @@ namespace Kartverket.Produktark.Models
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
             //table.SpacingBefore = 2;
-            table.SpacingAfter = 10;
+            table.SpacingAfter = 20;
             PdfPCell cell = new PdfPCell();
             cell.Border = 0;
             table.AddCell(cell);
