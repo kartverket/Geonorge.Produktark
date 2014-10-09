@@ -20,7 +20,7 @@ namespace Kartverket.Produktark.Models
             Font font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, BaseColor.BLACK);
             Font font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.BLACK);
             Font font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.NORMAL, BaseColor.BLACK);
-            Font font3_bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.BOLD, BaseColor.BLACK);
+            Font font3Bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.BOLD, BaseColor.BLACK);
             Font fontLink = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 9f, Font.UNDERLINE);
             fontLink.SetColor(0, 0, 255);
             
@@ -92,7 +92,7 @@ namespace Kartverket.Produktark.Models
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Name))
                 {
-                    Chunk contactPublisherHeading = new Chunk("Datateknisk: ", font3_bold);
+                    Chunk contactPublisherHeading = new Chunk("Datateknisk: ", font3Bold);
                     Chunk contactPublisherName = new Chunk(productsheet.ContactPublisher.Name, font3);
                     contactPublisher.Add(contactPublisherHeading);
                     contactPublisher.Add(contactPublisherName);
@@ -108,7 +108,7 @@ namespace Kartverket.Produktark.Models
                 Phrase contactOwner = new Phrase();
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Name)) {
-                Chunk contactOwnerHeading = new Chunk("Fagekspert: ", font3_bold);
+                Chunk contactOwnerHeading = new Chunk("Fagekspert: ", font3Bold);
                 Chunk contactOwnerName = new Chunk(productsheet.ContactOwner.Name, font3);
                 contactOwner.Add(contactOwnerHeading);
                 contactOwner.Add(contactOwnerName);
@@ -125,36 +125,41 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(writeTblHeader("DATASETTOPPLØSNING"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.ResolutionScale)) { 
-                Chunk resolutionScale_heading = new Chunk("Målestokktall: ", font3_bold);
+                Chunk resolutionScaleHeading = new Chunk("Målestokktall: ", font3Bold);
                 Chunk resolutionScaleValue = new Chunk(productsheet.ResolutionScale, font3);
                 Phrase resolutionScale = new Phrase();
-                resolutionScale.Add(resolutionScale_heading);
+                resolutionScale.Add(resolutionScaleHeading);
                 resolutionScale.Add(resolutionScaleValue);
                 ct.AddElement(resolutionScale);
                 }
 
+                if (!string.IsNullOrWhiteSpace(productsheet.PrecisionInMeters))
+                {
+                    Chunk precisionInMetersHeading = new Chunk("Stedfestingsnøyaktighet (meter): ", font3Bold);
+                    Chunk precisionInMeters = new Chunk(productsheet.PrecisionInMeters, font3);
 
-                /*Chunk ds_stedfesting_lede = new Chunk("Stedfestingsnøyaktighet (meter): ", font3_bold);
-                Chunk ds_stedfesting = new Chunk("”Mangler, kan vente”", font3);
-
-                Phrase p_stedfesting = new Phrase();
-                p_stedfesting.Add(ds_stedfesting_lede);
-                p_stedfesting.Add(ds_stedfesting);
-                ct.AddElement(p_stedfesting);*/
+                    Phrase precision = new Phrase();
+                    precision.Add(precisionInMetersHeading);
+                    precision.Add(precisionInMeters);
+                    ct.AddElement(precision);
+                }
 
                 ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
 
                 if (productsheet.KeywordsPlace!=null) {
-                    Phrase keywordsPlaceHeading = new Phrase("Utstrekningsbeskrivelse", font3_bold);
+                    Phrase keywordsPlaceHeading = new Phrase("Utstrekningsbeskrivelse", font3Bold);
                     ct.AddElement(keywordsPlaceHeading);
                     ct.AddElement(new Phrase(productsheet.KeywordsPlace, font3));
                 }
 
-                /*Phrase p_dekningsoversikt_overskrift = new Phrase("Dekningsoversikt", font3_bold);
-                ct.AddElement(p_dekningsoversikt_overskrift);
-                Phrase p_dekningsoversikt = new Phrase("”MANGLER”", font3);
-                ct.AddElement(p_dekningsoversikt);*/
+                if (!string.IsNullOrWhiteSpace(productsheet.CoverageArea))
+                {
+                    Phrase coverageAreaHeading = new Phrase("Dekningsoversikt", font3Bold);
+                    ct.AddElement(coverageAreaHeading);
+                    Phrase coverageArea = new Phrase(productsheet.CoverageArea, font3);
+                    ct.AddElement(coverageArea);
+                }
 
                 ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("KILDER OG METODE"));
@@ -176,7 +181,7 @@ namespace Kartverket.Produktark.Models
 
                 if (!string.IsNullOrWhiteSpace(productsheet.Status))
                 {
-                    Phrase statusHeading = new Phrase("Status", font3_bold);
+                    Phrase statusHeading = new Phrase("Status", font3Bold);
                     ct.AddElement(statusHeading);
                     Phrase statusValue = new Phrase(getStatusValue(productsheet.Status), font3);
                     ct.AddElement(statusValue);
@@ -186,7 +191,7 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(writeTblHeader("LEVERANSEBESKRIVELSE"));
 
                 if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatName)) {
-                Phrase distributionFormatHeading = new Phrase("Format (versjon)", font3_bold);
+                Phrase distributionFormatHeading = new Phrase("Format (versjon)", font3Bold);
                 ct.AddElement(distributionFormatHeading);
 
                 Paragraph distributionFormat = new Paragraph("", font3);
@@ -202,57 +207,48 @@ namespace Kartverket.Produktark.Models
                 format.Add(liFormat);
                 distributionFormat.Add(format);
                 ct.AddElement(distributionFormat);
-            }
+                }
 
-
-                /*Phrase p_projeksjoner_overskrift = new Phrase("Projeksjoner", font3_bold);
-                ct.AddElement(p_projeksjoner_overskrift);
-                Phrase p_projeksjoner = new Phrase("”MANGLER”", font3);
-                ct.AddElement(p_projeksjoner);*/
+                if (!string.IsNullOrWhiteSpace(productsheet.Projections))
+                {
+                    Phrase projectionsHeading = new Phrase("Projeksjoner", font3Bold);
+                    ct.AddElement(projectionsHeading);
+                    Phrase projections = new Phrase(productsheet.Projections, font3);
+                    ct.AddElement(projections);
+                }
 
                 if (!string.IsNullOrWhiteSpace(productsheet.AccessConstraints))
                 {
-                    Phrase accessConstraintsHeading = new Phrase("Tilgangsrestriksjoner", font3_bold);
+                    Phrase accessConstraintsHeading = new Phrase("Tilgangsrestriksjoner", font3Bold);
                     ct.AddElement(accessConstraintsHeading);
                     Phrase accessConstraints = new Phrase(productsheet.AccessConstraints, font3);
                     ct.AddElement(accessConstraints);
                 }
 
-                //Phrase p_tjeneste_overskrift = new Phrase("Tjeneste", font3_bold);
-                //ct.AddElement(p_tjeneste_overskrift);
+                if (!string.IsNullOrWhiteSpace(productsheet.ServiceDetails)) {
+                    Phrase serviceDetailsHeading = new Phrase("Tjeneste", font3Bold);
+                    ct.AddElement(serviceDetailsHeading);
+                
+                    Phrase serviceDetails = new Phrase(productsheet.ServiceDetails, font3);
+                    ct.AddElement(serviceDetails);
+                }
+                if (!string.IsNullOrWhiteSpace(productsheet.ListOfFeatureTypes))
+                {
+                    ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
 
-                //Phrase p_tjeneste_info = new Phrase("Sett inn tjeneste informasjon, evt. forklaring til deltema innenfor tjenester", font3);
-                //ct.AddElement(p_tjeneste_info);
+                    Phrase listOfFeatureTypes = new Phrase(productsheet.ListOfFeatureTypes, font3);
+                    ct.AddElement(listOfFeatureTypes);
+                    
+                }
 
-                //Phrase p_tjeneste_link = new Phrase();
-                //Anchor anchor_tjeneste = new Anchor("Sett inn lenke til tjeneste", fontLink);
-                //anchor_tjeneste.Reference = "http://www.geonorge.no";
-                //p_tjeneste_link.Add(anchor_tjeneste);
-                //ct.AddElement(p_tjeneste_link);
+                ct.AddElement(writeTblFooter(""));
 
-                //Phrase p_tjeneste_kall = new Phrase("Beskrivelse av kall for datasettets tjenester – eks. GetMap, GetFeatureInfo", font3);
-                //ct.AddElement(p_tjeneste_kall);
-
-                //ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
-
-                //Paragraph p_objekt_type = new Paragraph("", font3);
-                //List l_objekt_type = new List(List.UNORDERED);
-                //l_objekt_type.SetListSymbol("\u2022");
-                //ListItem liObjekt_type = new ListItem("<sett inn objekttype og forklaring>", font3);
-                //l_objekt_type.Add(liObjekt_type);
-                //p_objekt_type.Add(l_objekt_type);
-                //ct.AddElement(p_objekt_type);
-
-
-                //ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
-
-                //Paragraph p_egenskap = new Paragraph("", font3);
-                //List l_egenskap = new List(List.UNORDERED);
-                //l_egenskap.SetListSymbol("\u2022");
-                //ListItem liEgenskap = new ListItem("<sett inn egenskap og forklaring>", font3);
-                //l_egenskap.Add(liEgenskap);
-                //p_egenskap.Add(l_egenskap);
-                //ct.AddElement(p_egenskap);
+                if (!string.IsNullOrWhiteSpace(productsheet.ListOfAttributes))
+                {
+                    ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
+                    Phrase listOfAttributes = new Phrase(productsheet.ListOfAttributes, font3);
+                    ct.AddElement(listOfAttributes);
+                }
 
                 ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("LENKER"));
@@ -367,7 +363,7 @@ namespace Kartverket.Produktark.Models
 
         PdfPTable writeTblHeader(string txt)
         {
-            Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.WHITE);
+            Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.WHITE);
             Phrase content = new Phrase(txt, fontHead);
 
             PdfPTable table = new PdfPTable(1);
