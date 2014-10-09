@@ -146,12 +146,9 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
 
                 if (productsheet.KeywordsPlace!=null) {
-                Phrase keywordsPlaceHeading = new Phrase("Utstrekningsbeskrivelse", font3_bold);
-                ct.AddElement(keywordsPlaceHeading);
-                    foreach (var keyword in productsheet.KeywordsPlace){
-                        Phrase keywordValue = new Phrase(keyword, font3);
-                        ct.AddElement(keywordValue);
-                    }          
+                    Phrase keywordsPlaceHeading = new Phrase("Utstrekningsbeskrivelse", font3_bold);
+                    ct.AddElement(keywordsPlaceHeading);
+                    ct.AddElement(new Phrase(productsheet.KeywordsPlace, font3));
                 }
 
                 /*Phrase p_dekningsoversikt_overskrift = new Phrase("Dekningsoversikt", font3_bold);

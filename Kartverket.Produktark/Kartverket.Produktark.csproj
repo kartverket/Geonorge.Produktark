@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201410081058310_AddOrganizationToContact.Designer.cs">
       <DependentUpon>201410081058310_AddOrganizationToContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410091221411_AddAdditionalFields.cs" />
+    <Compile Include="Migrations\201410091221411_AddAdditionalFields.Designer.cs">
+      <DependentUpon>201410091221411_AddAdditionalFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
@@ -268,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410081058310_AddOrganizationToContact.resx">
       <DependentUpon>201410081058310_AddOrganizationToContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410091221411_AddAdditionalFields.resx">
+      <DependentUpon>201410091221411_AddAdditionalFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

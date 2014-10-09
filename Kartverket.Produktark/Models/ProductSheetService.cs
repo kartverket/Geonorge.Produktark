@@ -49,9 +49,9 @@ namespace Kartverket.Produktark.Models
             };
         }
 
-        private List<string> CreateKeywords(IEnumerable<SimpleKeyword> keywords)
+        private string CreateKeywords(IEnumerable<SimpleKeyword> keywords)
         {
-            return keywords.Select(simpleKeyword => simpleKeyword.Keyword).ToList();
+            return String.Join(", ", keywords.Select(simpleKeyword => simpleKeyword.Keyword));
         }
 
         private Contact CreateContact(SimpleContact contact)
