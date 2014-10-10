@@ -6,6 +6,7 @@ using System.Web;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.events;
+using Kartverket.Produktark.Logging;
 
 
 namespace Kartverket.Produktark.Models
@@ -13,12 +14,7 @@ namespace Kartverket.Produktark.Models
     public class PdfGenerator
     {
 
-        public PdfGenerator(ProductSheet productSheet, string imagePath)
-        {
-            this.productsheet = productSheet;
-            this.imagePath = imagePath;
-        }
-
+        private static readonly ILog Logger = LogProvider.For<PdfGenerator>();
         ProductSheet productsheet; 
         string imagePath;
         Document doc;
@@ -33,19 +29,15 @@ namespace Kartverket.Produktark.Models
         PdfContentByte cb;
         ColumnText ct;
 
+        public PdfGenerator(ProductSheet productSheet, string imagePath)
+        {
+            this.productsheet = productSheet;
+            this.imagePath = imagePath;
+        }
+
+
         public Stream CreatePdf()
         {
-            doc = new Document();
- 
-            bf = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, BaseColor.BLACK);
-            font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.BLACK);
-            font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.NORMAL, BaseColor.BLACK);
-            font3Bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.BLACK);
-            fontLink = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.UNDERLINE);
-            fontLink.SetColor(0, 0, 255);
-            
-            output = new MemoryStream();
 
             try
             {
@@ -69,7 +61,7 @@ namespace Kartverket.Produktark.Models
 
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Logger.Error(ex.Message);
             }
 
             finally
@@ -138,6 +130,18 @@ namespace Kartverket.Produktark.Models
 
         private void Startup()
         {
+            doc = new Document();
+
+            bf = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, BaseColor.BLACK);
+            font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.BLACK);
+            font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.NORMAL, BaseColor.BLACK);
+            font3Bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.BLACK);
+            fontLink = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.UNDERLINE);
+            fontLink.SetColor(0, 0, 255);
+
+            output = new MemoryStream();
+
             writer = PdfWriter.GetInstance(doc, output);
             writer.CloseStream = false;
 
