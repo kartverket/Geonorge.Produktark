@@ -19,6 +19,7 @@ namespace Kartverket.Produktark
 
             MvcHandler.DisableMvcResponseHeader = true;
 
+            log4net.Config.XmlConfigurator.Configure();
         }
     }
 }
