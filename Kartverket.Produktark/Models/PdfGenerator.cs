@@ -7,6 +7,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.events;
 using Kartverket.Produktark.Logging;
+using System.Text.RegularExpressions;
 
 
 namespace Kartverket.Produktark.Models
@@ -214,9 +215,21 @@ namespace Kartverket.Produktark.Models
             {
                 ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("EGENSKAPSLISTE"));
-                Phrase listOfAttributes = new Phrase(productsheet.ListOfAttributes, font3);
+
+                List listOfAttributes = new List(List.UNORDERED);
+                listOfAttributes.SetListSymbol("\u2022");
+                listOfAttributes.IndentationLeft = 5;
+
+                var Attributes = Regex.Split(productsheet.ListOfAttributes, "\r\n");
+                foreach (string Attribute in Attributes)
+                {
+                    ListItem liAttribute = new ListItem(Attribute, font3);
+                    listOfAttributes.Add(liAttribute);
+                }
+
                 ct.AddElement(listOfAttributes);
             }
+
         }
 
         private void AddFeatureTypes()
@@ -226,7 +239,16 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(writeTblFooter(""));
                 ct.AddElement(writeTblHeader("OBJEKTTYPELISTE"));
 
-                Phrase listOfFeatureTypes = new Phrase(productsheet.ListOfFeatureTypes, font3);
+                List listOfFeatureTypes = new List(List.UNORDERED);
+                listOfFeatureTypes.SetListSymbol("\u2022");
+                listOfFeatureTypes.IndentationLeft = 5;
+
+                var FeatureTypes = Regex.Split(productsheet.ListOfFeatureTypes,"\r\n");
+                foreach (string FeatureType in FeatureTypes) {
+                    ListItem liFeature = new ListItem(FeatureType, font3);
+                    listOfFeatureTypes.Add(liFeature);
+                }
+
                 ct.AddElement(listOfFeatureTypes);
 
             }
