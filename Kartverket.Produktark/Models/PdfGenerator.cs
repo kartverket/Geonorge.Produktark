@@ -151,6 +151,7 @@ namespace Kartverket.Produktark.Models
 
             doc.Open();
             doc.AddTitle(productsheet.Title);
+            doc.AddLanguage("Norwegian");
 
             cb = writer.DirectContent;
             ct = new ColumnText(cb);
