@@ -52,7 +52,8 @@ namespace Kartverket.Produktark.Models
             Rectangle pageSize = document.PageSize;
 
             Image imageOrganization;
-            imageOrganization = Image.GetInstance(new Uri("http://static.forskning.no/00/39/20/34/Skog_logo_liten_None.jpg")); // or locally = Image.GetInstance(_imagePath + "/logo_etat.png"); "http://www.havn.no/Pictures/BWlogoTransp_160.png"
+            //imageOrganization = Image.GetInstance(new Uri("http://static.forskning.no/00/39/20/34/Skog_logo_liten_None.jpg")); // or locally = Image.GetInstance(_imagePath + "/logo_etat.png"); "http://www.havn.no/Pictures/BWlogoTransp_160.png"
+            imageOrganization = Image.GetInstance(_imagePath + "/logo_etat.png");
             imageOrganization.ScaleToFit(41f, 41f);
             imageOrganization.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
             document.Add(imageOrganization);

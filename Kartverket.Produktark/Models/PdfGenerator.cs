@@ -149,6 +149,7 @@ namespace Kartverket.Produktark.Models
             writer.PageEvent = new PdfHeaderFooter(imagePath, productsheet);
 
             doc.Open();
+            doc.AddTitle(productsheet.Title);
 
             cb = writer.DirectContent;
             ct = new ColumnText(cb);
