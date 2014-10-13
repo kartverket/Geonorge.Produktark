@@ -486,7 +486,12 @@ namespace Kartverket.Produktark.Models
         PdfPTable writeTblHeader(string txt)
         {
             Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.WHITE);
-            Phrase content = new Phrase(txt, fontHead);
+            
+            Anchor content = new Anchor(txt, fontHead);
+            content.Name = txt;
+
+            PdfOutline root = writer.RootOutline;
+            PdfOutline mbot = new PdfOutline(root, PdfAction.GotoLocalPage(txt, false), txt); 
 
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
