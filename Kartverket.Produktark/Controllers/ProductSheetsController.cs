@@ -13,6 +13,7 @@ using Kartverket.Produktark.Models;
 
 namespace Kartverket.Produktark.Controllers
 {
+    [Authorize]
     public class ProductSheetsController : Controller
     {
         private static readonly ILog Logger = LogProvider.For<ProductSheetsController>();
