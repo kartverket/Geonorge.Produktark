@@ -56,6 +56,9 @@ namespace Kartverket.Produktark.Controllers
             {
                 model = _productSheetService.CreateProductSheetFromMetadata(uuid);
             }
+            else
+                model = new ProductSheet();
+
             return View(model);
         }
 
@@ -120,7 +123,7 @@ namespace Kartverket.Produktark.Controllers
 
             Stream fileStream = new PdfGenerator(productSheet, imagePath).CreatePdf();
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
-            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid + ".pdf");
+            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid != null ? productSheet.Uuid : productSheet.Id+ ".pdf");
 
             Logger.Info(string.Format("Creating PDF for {0} [{1}]", productSheet.Title, productSheet.Uuid));
 

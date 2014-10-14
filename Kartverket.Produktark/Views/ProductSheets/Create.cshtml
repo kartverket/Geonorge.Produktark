@@ -1,7 +1,10 @@
 ﻿@model Kartverket.Produktark.Models.ProductSheet
 
-@{
-    ViewBag.Title = "Opprett produktark for " + Model.Title;
+@{  if (Model.Title != null)
+    {
+        ViewBag.Title = "Opprett produktark for " + Model.Title;}
+    else {
+        ViewBag.Title = "Opprett produktark";}
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,7 +13,9 @@
 @using (Html.BeginForm("Create", "ProductSheets", FormMethod.Post, new { @class = "form form-horizontal" })) 
 {
     @Html.AntiForgeryToken()
+    if (Model.Uuid != null) {
     @Html.HiddenFor(m => m.Uuid)
+    }
 
     @Html.Partial("_Form", Model)
 }

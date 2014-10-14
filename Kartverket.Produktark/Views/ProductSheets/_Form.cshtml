@@ -1,9 +1,11 @@
 ﻿@model Kartverket.Produktark.Models.ProductSheet
 
+@{if (Model.Uuid != null) {
 <div class="pull-right">
     <p><small>UUID: @Model.Uuid</small></p>
 </div>
-
+    }
+}
 <ul class="nav nav-tabs" style="clear:both">
     <li class="active"><a href="#metadata" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Informasjon hentet fra metadata</a></li>
     <li><a href="#details" data-toggle="tab"><span class="glyphicon glyphicon-home"></span> Flere detaljer om produktet</a></li>
