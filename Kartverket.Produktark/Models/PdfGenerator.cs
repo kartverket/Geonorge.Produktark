@@ -76,10 +76,6 @@ namespace Kartverket.Produktark.Models
                 cb.EndMarkedContentSequence();
 
 
-                System.Diagnostics.Debug.Write(writer.CurrentPageNumber);
-                System.Diagnostics.Debug.Write(doc.PageNumber);
-                //writer.Close();
-                //writer.Flush();
                 doc.CloseDocument();
                 output.Flush();
                 output.Position = 0; 
