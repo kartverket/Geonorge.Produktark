@@ -17,12 +17,19 @@ namespace Kartverket.Produktark.Controllers
     {
         private static readonly ILog Logger = LogProvider.For<ProductSheetsController>();
 
-        private ProductSheetContext db = new ProductSheetContext();
+        private readonly ProductSheetContext _dbContext;
+        private IProductSheetService _productSheetService;
+
+        public ProductSheetsController(ProductSheetContext dbContext, IProductSheetService productSheetService)
+        {
+            _dbContext = dbContext;
+            _productSheetService = productSheetService;
+        }
 
         // GET: ProductSheets
         public ActionResult Index()
         {
-            return View(db.ProductSheet.ToList());
+            return View(_dbContext.ProductSheet.ToList());
         }
 
         // GET: ProductSheets/Details/5
@@ -32,7 +39,7 @@ namespace Kartverket.Produktark.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductSheet productSheet = db.ProductSheet.Find(id);
+            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
             {
                 return HttpNotFound();
@@ -46,7 +53,7 @@ namespace Kartverket.Produktark.Controllers
             ProductSheet model = null;
             if (!string.IsNullOrWhiteSpace(uuid))
             {
-                model = new ProductSheetService().CreateProductSheetFromMetadata(uuid);
+                model = _productSheetService.CreateProductSheetFromMetadata(uuid);
             }
             return View(model);
         }
@@ -59,8 +66,8 @@ namespace Kartverket.Produktark.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ProductSheet.Add(productSheet);
-                db.SaveChanges();
+                _dbContext.ProductSheet.Add(productSheet);
+                _dbContext.SaveChanges();
                 return RedirectToAction("CreatePdf", new { id = productSheet.Id });
             }
 
@@ -74,7 +81,7 @@ namespace Kartverket.Produktark.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductSheet productSheet = db.ProductSheet.Find(id);
+            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
             {
                 return HttpNotFound();
@@ -88,8 +95,8 @@ namespace Kartverket.Produktark.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(productSheet).State = EntityState.Modified;
-                db.SaveChanges();
+                _dbContext.Entry(productSheet).State = EntityState.Modified;
+                _dbContext.SaveChanges();
                 return RedirectToAction("CreatePdf", new { id = productSheet.Id });
             }
             return View(productSheet);
@@ -104,7 +111,7 @@ namespace Kartverket.Produktark.Controllers
             var imagePath = Server.MapPath("~/Images");
 
 
-            ProductSheet productSheet = db.ProductSheet.Find(id);
+            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
             {
                 return HttpNotFound();
@@ -124,7 +131,7 @@ namespace Kartverket.Produktark.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _dbContext.Dispose();
             }
             base.Dispose(disposing);
         }

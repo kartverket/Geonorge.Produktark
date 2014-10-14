@@ -6,7 +6,7 @@ using www.opengis.net;
 
 namespace Kartverket.Produktark.Models
 {
-    public class ProductSheetService
+    public class ProductSheetService : IProductSheetService
     {
         private readonly GeoNorge _geonorge;
 
