@@ -57,6 +57,7 @@ namespace Kartverket.Produktark.Models
                 AddLinks();
 
                 WriteToColumns();
+                
 
             }
 
@@ -67,9 +68,23 @@ namespace Kartverket.Produktark.Models
 
             finally
             {
-                doc.Close();
-                output.Flush(); 
+
+                PdfStructureTreeRoot root = writer.StructureTreeRoot;
+                PdfStructureElement div = new PdfStructureElement(root, new PdfName("Div"));
+                PdfDictionary dict;
+                cb.BeginMarkedContentSequence(div);
+                cb.EndMarkedContentSequence();
+
+
+                System.Diagnostics.Debug.Write(writer.CurrentPageNumber);
+                System.Diagnostics.Debug.Write(doc.PageNumber);
+                //writer.Close();
+                //writer.Flush();
+                doc.CloseDocument();
+                output.Flush();
                 output.Position = 0; 
+                
+                
             }
             return output;
         }
@@ -145,6 +160,11 @@ namespace Kartverket.Produktark.Models
 
             writer = PdfWriter.GetInstance(doc, output);
             writer.CloseStream = false;
+            writer.PdfVersion = PdfWriter.VERSION_1_7;
+            //Tagged
+            writer.SetTagged();
+            writer.UserProperties = true;
+
 
             // must be initialized before document is opened.
             writer.PageEvent = new PdfHeaderFooter(imagePath, productsheet);
@@ -154,6 +174,8 @@ namespace Kartverket.Produktark.Models
             doc.AddLanguage("Norwegian");
 
             cb = writer.DirectContent;
+
+
             ct = new ColumnText(cb);
             cb.BeginText();
             cb.SetFontAndSize(bf, 22);
@@ -464,6 +486,7 @@ namespace Kartverket.Produktark.Models
             ct.AddElement(writeTblHeader("BESKRIVELSE"));
             Paragraph descriptionHeading = new Paragraph();
             var imageMap = Image.GetInstance(imagePath + "/logo_karteksempel.png");
+            imageMap.Alt = "Bilde av karteksempel";
             imageMap.ScalePercent(50);
             imageMap.SpacingBefore = 4;
             ct.AddElement(imageMap);
