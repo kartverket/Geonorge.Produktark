@@ -10,9 +10,9 @@ namespace Kartverket.Produktark.Models
     {
         private readonly GeoNorge _geonorge;
 
-        public ProductSheetService()
+        public ProductSheetService(GeoNorge geoNorge)
         {
-            _geonorge = new GeoNorge();
+            _geonorge = geoNorge;
         }
 
         public ProductSheet CreateProductSheetFromMetadata(string uuid)
