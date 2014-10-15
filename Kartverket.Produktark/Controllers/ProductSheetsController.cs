@@ -112,7 +112,7 @@ namespace Kartverket.Produktark.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var imagePath = Server.MapPath("~/Images");
+            var imagePath = Server.MapPath("~/Logos");
 
 
             ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
