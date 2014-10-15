@@ -71,7 +71,6 @@ namespace Kartverket.Produktark.Models
 
                 PdfStructureTreeRoot root = writer.StructureTreeRoot;
                 PdfStructureElement div = new PdfStructureElement(root, new PdfName("Div"));
-                PdfDictionary dict;
                 cb.BeginMarkedContentSequence(div);
                 cb.EndMarkedContentSequence();
 
