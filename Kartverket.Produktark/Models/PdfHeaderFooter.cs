@@ -16,11 +16,14 @@ namespace Kartverket.Produktark.Models
 
         private string _imagePath;
         private ProductSheet _productsheet;
+        private string _imagePathLogo;
 
-        public PdfHeaderFooter(string imagePath, ProductSheet productsheet)
+        public PdfHeaderFooter(ProductSheet productsheet,string imagePath, string imagePathLogo )
         {
-            this._imagePath = imagePath;
             this._productsheet = productsheet;
+            this._imagePath = imagePath;
+            this._imagePathLogo = imagePathLogo;
+            
         }
 
         #region Properties
@@ -58,16 +61,17 @@ namespace Kartverket.Produktark.Models
             //header
 
             Rectangle pageSize = document.PageSize;
-
+            if (_imagePathLogo!=""){
             Image imageOrganization;
-            imageOrganization = Image.GetInstance(_imagePath + "/Skog_logo_liten_None.jpg");
+            imageOrganization = Image.GetInstance(_imagePathLogo);
             imageOrganization.Alt = "Etatens logo";
             imageOrganization.ScaleToFit(41f, 41f);
 
             imageOrganization.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
             document.Add(imageOrganization);
+            }
 
-            var image_logo = Image.GetInstance(_imagePath + "/logo_norgedigitalt.png");
+            var image_logo = Image.GetInstance(_imagePath + "logo_norgedigitalt.png");
             image_logo.Alt = "Norge Digitalt";
             image_logo.ScalePercent(50);
             image_logo.SetAbsolutePosition(pageSize.GetRight(50) - 35, pageSize.GetTop(40));

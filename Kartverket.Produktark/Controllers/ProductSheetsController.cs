@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using GeoNorgeAPI;
 using Kartverket.Produktark.Logging;
 using Kartverket.Produktark.Models;
+using System.Security.Claims;
 
 namespace Kartverket.Produktark.Controllers
 {
@@ -112,8 +113,8 @@ namespace Kartverket.Produktark.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var imagePath = Server.MapPath("~/Logos");
-
+            var imagePath = Server.MapPath("~/Images/");
+            var imagePathLogo = Server.MapPath("~/Logos/");
 
             ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
@@ -121,9 +122,14 @@ namespace Kartverket.Produktark.Controllers
                 return HttpNotFound();
             }
 
-            Stream fileStream = new PdfGenerator(productSheet, imagePath).CreatePdf();
+            string logoPath="";
+            Logo logo =_productSheetService.FindLogoForOrganization(ClaimsPrincipal.Current.Organization());
+            if (logo != null)
+                logoPath = imagePathLogo + logo.FileName;
+
+            Stream fileStream = new PdfGenerator(productSheet, imagePath, logoPath).CreatePdf();
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
-            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid != null ? productSheet.Uuid : productSheet.Id+ ".pdf");
+            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid != null ? productSheet.Uuid : productSheet.Id + ".pdf");
 
             Logger.Info(string.Format("Creating PDF for {0} [{1}]", productSheet.Title, productSheet.Uuid));
 

@@ -18,6 +18,7 @@ namespace Kartverket.Produktark.Models
         private static readonly ILog Logger = LogProvider.For<PdfGenerator>();
         ProductSheet productsheet; 
         string imagePath;
+        string logoPath;
         Document doc;
         BaseFont bf;
         Font font1;
@@ -30,10 +31,11 @@ namespace Kartverket.Produktark.Models
         PdfContentByte cb;
         ColumnText ct;
 
-        public PdfGenerator(ProductSheet productSheet, string imagePath)
+        public PdfGenerator(ProductSheet productSheet, string imagePath, string logoPath)
         {
             this.productsheet = productSheet;
             this.imagePath = imagePath;
+            this.logoPath = logoPath;
         }
 
 
@@ -162,7 +164,7 @@ namespace Kartverket.Produktark.Models
 
 
             // must be initialized before document is opened.
-            writer.PageEvent = new PdfHeaderFooter(imagePath, productsheet);
+            writer.PageEvent = new PdfHeaderFooter(productsheet, imagePath, logoPath);
 
             doc.Open();
             doc.AddTitle(productsheet.Title);

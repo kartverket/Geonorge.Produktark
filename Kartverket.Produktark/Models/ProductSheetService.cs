@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using GeoNorgeAPI;
 using www.opengis.net;
+using System.Data.Entity.Infrastructure;
 
 namespace Kartverket.Produktark.Models
 {
     public class ProductSheetService : IProductSheetService
     {
         private readonly GeoNorge _geonorge;
+        private readonly ProductSheetContext _dbContext;
 
-        public ProductSheetService(GeoNorge geoNorge)
+        public ProductSheetService(GeoNorge geoNorge, ProductSheetContext dbContext)
         {
             _geonorge = geoNorge;
+            _dbContext = dbContext;
         }
 
         public ProductSheet CreateProductSheetFromMetadata(string uuid)
@@ -62,6 +65,12 @@ namespace Kartverket.Produktark.Models
                 Name = contact.Name,
                 Organization = contact.Organization
             };
+        }
+
+
+        public Logo FindLogoForOrganization(string organization)
+        {
+            return _dbContext.Logo.FirstOrDefault(l => l.Organization == organization); ;
         }
     }
 }
