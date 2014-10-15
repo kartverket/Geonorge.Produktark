@@ -31,7 +31,7 @@ namespace Kartverket.Produktark.Controllers
         // GET: ProductSheets
         public ActionResult Index()
         {
-            return View(_dbContext.ProductSheet.ToList());
+            return View(_productSheetService.FindProductSheetsForOrganization(ClaimsPrincipal.Current.Organization()));
         }
 
         // GET: ProductSheets/Details/5

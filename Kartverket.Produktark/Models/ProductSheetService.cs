@@ -72,5 +72,11 @@ namespace Kartverket.Produktark.Models
         {
             return _dbContext.Logo.FirstOrDefault(l => l.Organization == organization); ;
         }
+
+        public List<ProductSheet> FindProductSheetsForOrganization(string organization)
+        {
+            return _dbContext.ProductSheet.Where(ps => ps.ContactMetadata.Organization == organization).ToList();
+        }
+
     }
 }
