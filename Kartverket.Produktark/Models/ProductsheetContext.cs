@@ -12,5 +12,11 @@ namespace Kartverket.Produktark.Models
         }
 
         public DbSet<ProductSheet> ProductSheet { get; set; }
+        public DbSet<Logo> Logo { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Logo>().ToTable("Logos");
+        }
     }
 }

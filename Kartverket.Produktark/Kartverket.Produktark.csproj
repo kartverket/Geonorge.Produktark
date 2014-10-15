@@ -210,9 +210,14 @@
     <Compile Include="Migrations\201410091221411_AddAdditionalFields.Designer.cs">
       <DependentUpon>201410091221411_AddAdditionalFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410150811223_Logo.cs" />
+    <Compile Include="Migrations\201410150811223_Logo.Designer.cs">
+      <DependentUpon>201410150811223_Logo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
+    <Compile Include="Models\Logo.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
     <Compile Include="Models\ProductSheetContext.cs" />
@@ -296,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410091221411_AddAdditionalFields.resx">
       <DependentUpon>201410091221411_AddAdditionalFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410150811223_Logo.resx">
+      <DependentUpon>201410150811223_Logo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
