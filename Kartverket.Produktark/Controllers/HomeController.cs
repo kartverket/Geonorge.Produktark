@@ -10,7 +10,7 @@ namespace Kartverket.Produktark.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "ProductSheets");
         }
 
         public ActionResult About()
