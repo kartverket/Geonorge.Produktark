@@ -21,6 +21,7 @@ namespace Kartverket.Produktark.Controllers
 
         private readonly ProductSheetContext _dbContext;
         private IProductSheetService _productSheetService;
+        
 
         public ProductSheetsController(ProductSheetContext dbContext, IProductSheetService productSheetService)
         {
@@ -31,7 +32,11 @@ namespace Kartverket.Produktark.Controllers
         // GET: ProductSheets
         public ActionResult Index()
         {
+            if (IsAdmin())
+                return View(_dbContext.ProductSheet.ToList());
+            else
             return View(_productSheetService.FindProductSheetsForOrganization(ClaimsPrincipal.Current.Organization()));
+           
         }
 
         // GET: ProductSheets/Details/5
@@ -150,6 +155,18 @@ namespace Kartverket.Produktark.Controllers
         {
             filename=filename.Replace(" ", "_");
             return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
+
+
+        bool IsAdmin() {
+
+            foreach (var role in ClaimsPrincipal.Current.Roles())
+            {
+                 if(role == "nd.metadata_admin"){
+                     return true;
+                 }
+            }
+            return false;
         }
 
     }
