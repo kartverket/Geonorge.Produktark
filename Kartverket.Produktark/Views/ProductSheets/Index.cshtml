@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Uuid)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
@@ -25,9 +22,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Uuid)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
@@ -36,8 +31,6 @@
         </td>
         <td>
             @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Detaljer", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Slett", "Delete", new { id=item.Id })    |
             @Html.ActionLink("Generer pdf", "CreatePdf", new { id = item.Id })
         </td>
     </tr>

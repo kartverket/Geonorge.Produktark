@@ -8,7 +8,9 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
+<div>
+    @Html.ActionLink("Tilbake til liste", "Index")
+</div>
 
 @using (Html.BeginForm("Create", "ProductSheets", FormMethod.Post, new { @class = "form form-horizontal" })) 
 {
