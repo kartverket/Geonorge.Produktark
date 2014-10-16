@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Kartverket.Produktark.Models.ProductSheet>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Mine produktark";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Lag ny", "Create")
