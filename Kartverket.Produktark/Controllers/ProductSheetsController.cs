@@ -129,7 +129,7 @@ namespace Kartverket.Produktark.Controllers
 
             Stream fileStream = new PdfGenerator(productSheet, imagePath, logoPath).CreatePdf();
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
-            fileStreamResult.FileDownloadName = Server.UrlEncode("Produktark-" + productSheet.Uuid != null ? productSheet.Uuid : productSheet.Id + ".pdf");
+            fileStreamResult.FileDownloadName = GetSafeFilename(productSheet.Title + ".pdf");
 
             Logger.Info(string.Format("Creating PDF for {0} [{1}]", productSheet.Title, productSheet.Uuid));
 
@@ -145,5 +145,12 @@ namespace Kartverket.Produktark.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public string GetSafeFilename(string filename)
+        {
+            filename=filename.Replace(" ", "_");
+            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
+
     }
 }
