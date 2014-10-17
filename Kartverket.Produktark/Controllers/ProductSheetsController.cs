@@ -57,6 +57,11 @@ namespace Kartverket.Produktark.Controllers
        
         public ActionResult Create(string uuid)
         {
+            //Check if Productsheet already exists and redirect to it
+            ProductSheet UuidExists = _dbContext.ProductSheet.FirstOrDefault(ps => ps.Uuid == uuid);
+            if (UuidExists != null && !string.IsNullOrWhiteSpace(uuid))
+                return RedirectToAction("Edit", new { id = UuidExists.Id });
+
             ProductSheet model = null;
             if (!string.IsNullOrWhiteSpace(uuid))
             {
