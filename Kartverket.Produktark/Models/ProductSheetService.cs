@@ -18,38 +18,42 @@ namespace Kartverket.Produktark.Models
             _dbContext = dbContext;
         }
 
-        public ProductSheet CreateProductSheetFromMetadata(string uuid)
-        {
+        public ProductSheet UpdateProductSheetFromMetadata(string uuid, ProductSheet productSheet) {
             MD_Metadata_Type metadata = _geonorge.GetRecordByUuid(uuid);
             if (metadata == null)
                 throw new InvalidOperationException("Metadata not found for uuid: " + uuid);
 
             var simpleMetadata = new SimpleMetadata(metadata);
 
-            return new ProductSheet
-            {
-                Uuid = simpleMetadata.Uuid,
-                Title = simpleMetadata.Title,
-                Description = simpleMetadata.Abstract,
-                SupplementalDescription = simpleMetadata.SupplementalDescription,
-                Purpose = simpleMetadata.Purpose,
-                SpecificUsage = simpleMetadata.SpecificUsage,
-                UseLimitations = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseLimitations : null,
-                ContactMetadata = CreateContact(simpleMetadata.ContactMetadata),
-                ContactPublisher = CreateContact(simpleMetadata.ContactPublisher),
-                ContactOwner = CreateContact(simpleMetadata.ContactOwner),
-                ResolutionScale = simpleMetadata.ResolutionScale,
-                KeywordsPlace = CreateKeywords(SimpleKeyword.Filter(simpleMetadata.Keywords, SimpleKeyword.TYPE_PLACE, null)),
-                ProcessHistory = simpleMetadata.ProcessHistory,
-                MaintenanceFrequency = simpleMetadata.MaintenanceFrequency,
-                Status = simpleMetadata.Status,
-                DistributionFormatName = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Name : null,
-                DistributionFormatVersion = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Version : null,
-                AccessConstraints = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.AccessConstraints : null,
-                LegendDescriptionUrl = simpleMetadata.LegendDescriptionUrl,
-                ProductPageUrl = simpleMetadata.ProductPageUrl,
-                ProductSpecificationUrl = simpleMetadata.ProductSpecificationUrl
-            };
+           
+                productSheet.Uuid = simpleMetadata.Uuid;
+                productSheet.Title = simpleMetadata.Title;
+                productSheet.Description = simpleMetadata.Abstract;
+                productSheet.SupplementalDescription = simpleMetadata.SupplementalDescription;
+                productSheet.Purpose = simpleMetadata.Purpose;
+                productSheet.SpecificUsage = simpleMetadata.SpecificUsage;
+                productSheet.UseLimitations = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseLimitations : null;
+                productSheet.ContactMetadata = CreateContact(simpleMetadata.ContactMetadata);
+                productSheet.ContactPublisher = CreateContact(simpleMetadata.ContactPublisher);
+                productSheet.ContactOwner = CreateContact(simpleMetadata.ContactOwner);
+                productSheet.ResolutionScale = simpleMetadata.ResolutionScale;
+                productSheet.KeywordsPlace = CreateKeywords(SimpleKeyword.Filter(simpleMetadata.Keywords, SimpleKeyword.TYPE_PLACE, null));
+                productSheet.ProcessHistory = simpleMetadata.ProcessHistory;
+                productSheet.MaintenanceFrequency = simpleMetadata.MaintenanceFrequency;
+                productSheet.Status = simpleMetadata.Status;
+                productSheet.DistributionFormatName = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Name : null;
+                productSheet.DistributionFormatVersion = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Version : null;
+                productSheet.AccessConstraints = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.AccessConstraints : null;
+                productSheet.LegendDescriptionUrl = simpleMetadata.LegendDescriptionUrl;
+                productSheet.ProductPageUrl = simpleMetadata.ProductPageUrl;
+                productSheet.ProductSpecificationUrl = simpleMetadata.ProductSpecificationUrl;
+
+            return productSheet;
+
+        }
+        public ProductSheet CreateProductSheetFromMetadata(string uuid)
+        {
+            return UpdateProductSheetFromMetadata(uuid, new ProductSheet());
         }
 
         private string CreateKeywords(IEnumerable<SimpleKeyword> keywords)

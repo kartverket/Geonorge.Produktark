@@ -84,12 +84,13 @@ namespace Kartverket.Produktark.Controllers
             return View(productSheet);
         }
 
+
         // GET: ProductSheets/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
             }
             ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
@@ -101,15 +102,48 @@ namespace Kartverket.Produktark.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [OutputCache(Duration = 0)]
         public ActionResult Edit(ProductSheet productSheet)
         {
-            if (ModelState.IsValid)
+
+            if (!string.IsNullOrWhiteSpace(Request["hentNyeMetaData"]))
             {
-                _dbContext.Entry(productSheet).State = EntityState.Modified;
-                _dbContext.SaveChanges();
-                return RedirectToAction("CreatePdf", new { id = productSheet.Id });
+                ProductSheet model = _dbContext.ProductSheet.Find(productSheet.Id);
+                if (model == null)
+                {
+                    return HttpNotFound();
+                }
+
+                model = _productSheetService.UpdateProductSheetFromMetadata(productSheet.Uuid, model);
+
+                model.PrecisionInMeters = productSheet.PrecisionInMeters;
+                model.CoverageArea = productSheet.CoverageArea;
+                model.Projections = productSheet.Projections;
+                model.ServiceDetails = productSheet.ServiceDetails;
+                model.ListOfFeatureTypes = productSheet.ListOfFeatureTypes;
+                model.ListOfAttributes = productSheet.ListOfAttributes;
+
+
+                if (ModelState.IsValid)
+                {
+                    _dbContext.Entry(model).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+                }
+
+                return RedirectToAction("Edit", new { id = model.Id });
+                
             }
-            return View(productSheet);
+
+            else {
+
+                if (ModelState.IsValid)
+                {
+                    _dbContext.Entry(productSheet).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("CreatePdf", new { id = productSheet.Id });
+                }
+             return View(productSheet);
+            }
         }
 
         public ActionResult CreatePdf(int? id)
