@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.ContactMetadata.Organization)
         </th>
         <th></th>
     </tr>
@@ -27,7 +27,7 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.ContactMetadata.Organization)
         </td>
         <td>
             @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
