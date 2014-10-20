@@ -33,9 +33,9 @@ namespace Kartverket.Produktark.Models
                 productSheet.Purpose = simpleMetadata.Purpose;
                 productSheet.SpecificUsage = simpleMetadata.SpecificUsage;
                 productSheet.UseLimitations = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseLimitations : null;
-                productSheet.ContactMetadata = CreateContact(simpleMetadata.ContactMetadata);
-                productSheet.ContactPublisher = CreateContact(simpleMetadata.ContactPublisher);
-                productSheet.ContactOwner = CreateContact(simpleMetadata.ContactOwner);
+                productSheet.ContactMetadata = simpleMetadata.ContactMetadata != null ? CreateContact(simpleMetadata.ContactMetadata) : null;
+                productSheet.ContactPublisher = simpleMetadata.ContactPublisher != null ? CreateContact(simpleMetadata.ContactPublisher) : null;
+                productSheet.ContactOwner = simpleMetadata.ContactOwner != null ? CreateContact(simpleMetadata.ContactOwner) : null;
                 productSheet.ResolutionScale = simpleMetadata.ResolutionScale;
                 productSheet.KeywordsPlace = CreateKeywords(SimpleKeyword.Filter(simpleMetadata.Keywords, SimpleKeyword.TYPE_PLACE, null));
                 productSheet.ProcessHistory = simpleMetadata.ProcessHistory;
