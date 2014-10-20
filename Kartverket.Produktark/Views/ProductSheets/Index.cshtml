@@ -30,8 +30,8 @@
             @Html.DisplayFor(modelItem => item.ContactMetadata.Organization)
         </td>
         <td>
-            @Html.ActionLink("Rediger", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Generer pdf", "CreatePdf", new { id = item.Id })
+            <a href="@Url.Action("Edit")?id=@item.Id" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span> Rediger</a>
+            <a href="@Url.Action("CreatePdf")?id=@item.Id" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-download"></span> Opprett pdf</a>
         </td>
     </tr>
 }

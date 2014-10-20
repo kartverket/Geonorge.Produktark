@@ -51,7 +51,7 @@ namespace Kartverket.Produktark.Models
         public string ProductSpecificationUrl { get; set; }
         
         // additional fields
-        [DisplayName("Stedfestingsnøyaktighet(meter)")]
+        [DisplayName("Stedfestingsnøyaktighet (meter)")]
         public string PrecisionInMeters { get; set; }
         [DisplayName("Dekningsoversikt")]
         public string CoverageArea { get; set; }
