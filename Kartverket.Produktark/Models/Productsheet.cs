@@ -63,6 +63,83 @@ namespace Kartverket.Produktark.Models
         public string ListOfFeatureTypes { get; set; }
         [DisplayName("Egenskapsliste")]
         public string ListOfAttributes { get; set; }
+
+        public string GetMaintenanceFrequencyTranslated()
+        {
+            string returnTxt = MaintenanceFrequency;
+            switch (MaintenanceFrequency)
+            {
+                case "continual":
+                    returnTxt = "Kontinuerlig";
+                    break;
+                case "daily":
+                    returnTxt = "Daglig";
+                    break;
+                case "weekly":
+                    returnTxt = "Ukentlig";
+                    break;
+                case "fortnightly":
+                    returnTxt = "Annenhver uke";
+                    break;
+                case "monthly":
+                    returnTxt = "Månedlig";
+                    break;
+                case "quarterly":
+                    returnTxt = "Hvert kvartal";
+                    break;
+                case "biannually":
+                    returnTxt = "Hvert halvår";
+                    break;
+                case "annually":
+                    returnTxt = "Årlig";
+                    break;
+                case "asNeeded":
+                    returnTxt = "Etter behov";
+                    break;
+                case "irregular":
+                    returnTxt = "Ujevnt";
+                    break;
+                case "notPlanned":
+                    returnTxt = "Ikke planlagt";
+                    break;
+                case "unknown":
+                    returnTxt = "Ukjent";
+                    break;
+            }
+            return returnTxt;
+        }
+
+        public string GetStatusTranslated()
+        {
+            string returnTxt = Status;
+            switch (Status)
+            {
+                case "completed":
+                    returnTxt = "Fullført";
+                    break;
+                case "historicalArchive":
+                    returnTxt = "Arkivert";
+                    break;
+                case "obsolete":
+                    returnTxt = "Utdatert";
+                    break;
+                case "onGoing":
+                    returnTxt = "Kontinuerlig oppdatert";
+                    break;
+                case "planned":
+                    returnTxt = "Planlagt";
+                    break;
+                case "required":
+                    returnTxt = "Må oppdateres";
+                    break;
+                case "underDevelopment":
+                    returnTxt = "Under arbeid";
+                    break;
+            }
+            return returnTxt;
+        }
+
+
     }
 
     public class Contact
@@ -74,4 +151,6 @@ namespace Kartverket.Produktark.Models
         [DisplayName("Organisasjon")]
         public string Organization { get; set; }
     }
+
+
 }

@@ -331,7 +331,7 @@ namespace Kartverket.Produktark.Models
 
             if (!string.IsNullOrWhiteSpace(productsheet.MaintenanceFrequency))
             {
-                Phrase maintenanceFrequency = new Phrase(getMaintenanceFrequencyValue(productsheet.MaintenanceFrequency), font3);
+                Phrase maintenanceFrequency = new Phrase(productsheet.GetMaintenanceFrequencyTranslated(), font3);
                 ct.AddElement(maintenanceFrequency);
             }
 
@@ -339,7 +339,7 @@ namespace Kartverket.Produktark.Models
             {
                 Phrase statusHeading = new Phrase("Status", font3Bold);
                 ct.AddElement(statusHeading);
-                Phrase statusValue = new Phrase(getStatusValue(productsheet.Status), font3);
+                Phrase statusValue = new Phrase(productsheet.GetStatusTranslated(), font3);
                 ct.AddElement(statusValue);
             }
 
@@ -540,78 +540,5 @@ namespace Kartverket.Produktark.Models
 
         }
 
-        string getMaintenanceFrequencyValue(string mf)
-        {
-            string returnTxt = mf;
-            switch(mf){
-                case "continual":
-                    returnTxt = "Kontinuerlig";
-                    break;
-                case "daily":
-                    returnTxt = "Daglig";
-                    break;
-                case "weekly":
-                    returnTxt = "Ukentlig";
-                    break;
-                case "fortnightly":
-                    returnTxt = "Annenhver uke";
-                    break;
-                case "monthly":
-                    returnTxt = "Månedlig";
-                    break;
-                case "quarterly":
-                    returnTxt = "Hvert kvartal";
-                    break;
-                case "biannually":
-                    returnTxt = "Hvert halvår";
-                    break;
-                case "annually":
-                    returnTxt = "Årlig";
-                    break;
-                case "asNeeded":
-                    returnTxt = "Etter behov";
-                    break;
-                case "irregular":
-                    returnTxt = "Ujevnt";
-                    break;
-                case "notPlanned":
-                    returnTxt = "Ikke planlagt";
-                    break;
-                case "unknown":
-                    returnTxt = "Ukjent";
-                    break;
-                }
-            return returnTxt;
-        }
-
-        string getStatusValue(string status)
-        {
-            string returnTxt = status;
-            switch (status)
-            {
-                case "completed":
-                    returnTxt = "Fullført";
-                    break;
-                case "historicalArchive":
-                    returnTxt = "Arkivert";
-                    break;
-                case "obsolete":
-                    returnTxt = "Utdatert";
-                    break;
-                case "onGoing":
-                    returnTxt = "Kontinuerlig oppdatert";
-                    break;
-                case "planned":
-                    returnTxt = "Planlagt";
-                    break;
-                case "required":
-                    returnTxt = "Må oppdateres";
-                    break;
-                case "underDevelopment":
-                    returnTxt = "Under arbeid";
-                    break;
-            }
-            return returnTxt;
-        }
     }
 }

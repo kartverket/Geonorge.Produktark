@@ -57,6 +57,7 @@ namespace Kartverket.Produktark.Controllers
        
         public ActionResult Create(string uuid)
         {
+            Session["alreadyCreatedId"] = null;
             //Check if Productsheet already exists and redirect to it
             ProductSheet UuidExists = _dbContext.ProductSheet.FirstOrDefault(ps => ps.Uuid == uuid);
             if (UuidExists != null && !string.IsNullOrWhiteSpace(uuid))
@@ -66,6 +67,7 @@ namespace Kartverket.Produktark.Controllers
             if (!string.IsNullOrWhiteSpace(uuid))
             {
                 model = _productSheetService.CreateProductSheetFromMetadata(uuid);
+                SetTranslations(model);
             }
             else
                 model = new ProductSheet();
@@ -79,14 +81,25 @@ namespace Kartverket.Produktark.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductSheet productSheet)
         {
+            
             if (ModelState.IsValid)
             {
-                _dbContext.ProductSheet.Add(productSheet);
+
+                if (Session["alreadyCreatedId"] != null) 
+                {
+                    productSheet.Id = (int)Session["alreadyCreatedId"];
+                    _dbContext.Entry(productSheet).State = EntityState.Modified;
+                }
+                else
+                {
+                    _dbContext.ProductSheet.Add(productSheet);
+                }
+                
                 _dbContext.SaveChanges();
+                Session["alreadyCreatedId"] = productSheet.Id;
                 return RedirectToAction("CreatePdf", new { id = productSheet.Id });
             }
-
-            return View(productSheet);
+            return View("Edit", productSheet);
         }
 
 
@@ -97,11 +110,14 @@ namespace Kartverket.Produktark.Controllers
             {
                 return RedirectToAction("Index");
             }
+
             ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
             if (productSheet == null)
             {
                 return HttpNotFound();
             }
+            SetTranslations(productSheet);
+
             return View(productSheet);
         }
 
@@ -110,6 +126,7 @@ namespace Kartverket.Produktark.Controllers
         [OutputCache(Duration = 0)]
         public ActionResult Edit(ProductSheet productSheet)
         {
+
 
             if (!string.IsNullOrWhiteSpace(Request["hentNyeMetaData"]))
             {
@@ -206,6 +223,14 @@ namespace Kartverket.Produktark.Controllers
                  }
             }
             return false;
+        }
+
+        ProductSheet SetTranslations(ProductSheet ps) {
+
+            ps.MaintenanceFrequency=ps.GetMaintenanceFrequencyTranslated();
+            ps.Status = ps.GetStatusTranslated();
+
+            return ps;
         }
 
     }
