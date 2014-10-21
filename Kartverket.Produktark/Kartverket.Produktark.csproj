@@ -279,12 +279,12 @@
     <Content Include="Views\ProductSheets\_Metadata.cshtml" />
     <Content Include="Views\ProductSheets\_AdditionalDetails.cshtml" />
     <Content Include="Views\ProductSheets\_Form.cshtml" />
-    <None Include="Web.Dev.config">
+    <Content Include="Web.Dev.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Test.config">
+    </Content>
+    <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
