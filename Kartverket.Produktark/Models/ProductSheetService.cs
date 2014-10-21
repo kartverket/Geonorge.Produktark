@@ -47,6 +47,11 @@ namespace Kartverket.Produktark.Models
                 productSheet.LegendDescriptionUrl = simpleMetadata.LegendDescriptionUrl;
                 productSheet.ProductPageUrl = simpleMetadata.ProductPageUrl;
                 productSheet.ProductSpecificationUrl = simpleMetadata.ProductSpecificationUrl;
+                foreach (var thumbnail in simpleMetadata.Thumbnails){
+                    productSheet.Thumbnail=thumbnail.URL;
+                    if (thumbnail.Type == "large_thumbnail")
+                        break;
+                }
 
             return productSheet;
 

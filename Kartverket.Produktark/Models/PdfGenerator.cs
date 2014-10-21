@@ -481,13 +481,24 @@ namespace Kartverket.Produktark.Models
         private void AddDescription()
         {
             ct.AddElement(writeTblHeader("BESKRIVELSE"));
-            Paragraph descriptionHeading = new Paragraph();
-            var imageMap = Image.GetInstance(imagePath + "/logo_karteksempel.png");
-            imageMap.Alt = "Bilde av karteksempel";
-            imageMap.ScalePercent(50);
-            imageMap.SpacingBefore = 4;
-            ct.AddElement(imageMap);
-            ct.AddElement(descriptionHeading);
+
+            if (!string.IsNullOrWhiteSpace(productsheet.Thumbnail)){
+                Paragraph descriptionHeading = new Paragraph();
+                try
+                {
+                    var imageMap = Image.GetInstance(new Uri(productsheet.Thumbnail), true);
+                    imageMap.Alt = "Bilde av karteksempel";
+                    imageMap.ScaleToFit(140f, 100f);
+                    imageMap.SpacingBefore = 4;
+                    ct.AddElement(imageMap);
+                    ct.AddElement(descriptionHeading);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.Message);
+                }
+
+            }
 
             if (!string.IsNullOrWhiteSpace(productsheet.Description))
             {

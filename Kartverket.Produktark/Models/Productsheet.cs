@@ -63,6 +63,8 @@ namespace Kartverket.Produktark.Models
         public string ListOfFeatureTypes { get; set; }
         [DisplayName("Egenskapsliste")]
         public string ListOfAttributes { get; set; }
+        [DisplayName("Karteksempel fra datasett")]
+        public string Thumbnail { get; set; }
 
         public string GetMaintenanceFrequencyTranslated()
         {

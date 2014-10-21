@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201410150811223_Logo.Designer.cs">
       <DependentUpon>201410150811223_Logo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410211313570_Thumbnail.cs" />
+    <Compile Include="Migrations\201410211313570_Thumbnail.Designer.cs">
+      <DependentUpon>201410211313570_Thumbnail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -310,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410150811223_Logo.resx">
       <DependentUpon>201410150811223_Logo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410211313570_Thumbnail.resx">
+      <DependentUpon>201410211313570_Thumbnail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
