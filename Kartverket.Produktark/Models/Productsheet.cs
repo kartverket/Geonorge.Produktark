@@ -63,7 +63,7 @@ namespace Kartverket.Produktark.Models
         public string ListOfFeatureTypes { get; set; }
         [DisplayName("Egenskapsliste")]
         public string ListOfAttributes { get; set; }
-        [DisplayName("Karteksempel fra datasett")]
+        [DisplayName("Karteksempel fra datasett (URL)")]
         public string Thumbnail { get; set; }
 
         public string GetMaintenanceFrequencyTranslated()
@@ -136,6 +136,36 @@ namespace Kartverket.Produktark.Models
                     break;
                 case "underDevelopment":
                     returnTxt = "Under arbeid";
+                    break;
+            }
+            return returnTxt;
+        }
+
+        public string GetAccessConstraintsTranslated()
+        {
+            string returnTxt = AccessConstraints;
+            switch (AccessConstraints)
+            {
+                case "otherRestrictions":
+                    returnTxt = "Andre restriksjoner";
+                    break;
+                case "restricted":
+                    returnTxt = "Beskyttet";
+                    break;
+                case "copyright":
+                    returnTxt = "Kopibeskyttet";
+                    break;
+                case "license":
+                    returnTxt = "Lisens";
+                    break;
+                case "patent":
+                    returnTxt = "Patentert";
+                    break;
+                case "patentPending":
+                    returnTxt = "Påvente av patent";
+                    break;
+                case "trademark":
+                    returnTxt = "Registrert varemerke";
                     break;
             }
             return returnTxt;

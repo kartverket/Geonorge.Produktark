@@ -49,6 +49,10 @@ namespace Kartverket.Produktark.Models
                 productSheet.ProductSpecificationUrl = simpleMetadata.ProductSpecificationUrl;
                 foreach (var thumbnail in simpleMetadata.Thumbnails){
                     productSheet.Thumbnail=thumbnail.URL;
+                    if (!thumbnail.URL.StartsWith("http"))
+                    {
+                        productSheet.Thumbnail = "https://www.geonorge.no/geonetwork/srv/nor/resources.get?uuid=" + simpleMetadata.Uuid + "&access=public&fname=" + thumbnail.URL;
+                    }
                     if (thumbnail.Type == "large_thumbnail")
                         break;
                 }

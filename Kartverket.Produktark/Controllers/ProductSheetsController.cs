@@ -229,6 +229,7 @@ namespace Kartverket.Produktark.Controllers
 
             ps.MaintenanceFrequency=ps.GetMaintenanceFrequencyTranslated();
             ps.Status = ps.GetStatusTranslated();
+            ps.AccessConstraints = ps.GetAccessConstraintsTranslated();
 
             return ps;
         }

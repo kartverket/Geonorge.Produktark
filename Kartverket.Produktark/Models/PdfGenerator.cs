@@ -311,7 +311,7 @@ namespace Kartverket.Produktark.Models
             {
                 Phrase accessConstraintsHeading = new Phrase("\n" + "Tilgangsrestriksjoner", font3Bold);
                 ct.AddElement(accessConstraintsHeading);
-                Phrase accessConstraints = new Phrase(productsheet.AccessConstraints, font3);
+                Phrase accessConstraints = new Phrase(productsheet.GetAccessConstraintsTranslated(), font3);
                 ct.AddElement(accessConstraints);
             }
 
