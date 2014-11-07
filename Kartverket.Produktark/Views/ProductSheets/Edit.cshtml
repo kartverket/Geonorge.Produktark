@@ -4,7 +4,7 @@
     ViewBag.Title = "Rediger produktark for " + Model.Title;
     //Link to metadataeditor
     String domain = "http://" + Request.Url.Host;
-    domain.Replace("produktark","editor");
+    domain = domain.Replace("produktark", "editor");
     int port = Request.Url.Port;
     string urlMetadataEditor = domain + ":" + port + "/Metadata/Edit?uuid=" + Model.Uuid;
 }
