@@ -2,12 +2,18 @@
 
 @{
     ViewBag.Title = "Rediger produktark for " + Model.Title;
+    //Link to metadataeditor
+    String domain = "http://" + Request.Url.Host;
+    domain.Replace("produktark","editor");
+    int port = Request.Url.Port;
+    string urlMetadataEditor = domain + ":" + port + "/Metadata/Edit?uuid=" + Model.Uuid;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <div>
-    @Html.ActionLink("Vis alle produktark", "Index")
+    [@Html.ActionLink("Vis alle produktark", "Index")]
+    [<a href="@urlMetadataEditor">Til metadataeditor</a>]
 </div>
 
 @using (Html.BeginForm("Edit", "ProductSheets", FormMethod.Post, new { @class = "form form-horizontal" }))
