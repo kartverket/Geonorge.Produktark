@@ -8,7 +8,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GeoNorgeAPI;
-using Kartverket.Produktark.Logging;
 using Kartverket.Produktark.Models;
 using System.Security.Claims;
 
@@ -17,7 +16,7 @@ namespace Kartverket.Produktark.Controllers
     [Authorize]
     public class ProductSheetsController : Controller
     {
-        private static readonly ILog Logger = LogProvider.For<ProductSheetsController>();
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ProductSheetContext _dbContext;
         private IProductSheetService _productSheetService;
@@ -192,7 +191,7 @@ namespace Kartverket.Produktark.Controllers
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");
             fileStreamResult.FileDownloadName = GetSafeFilename(productSheet.Title + ".pdf");
 
-            Logger.Info(string.Format("Creating PDF for {0} [{1}]", productSheet.Title, productSheet.Uuid));
+            Log.Info(string.Format("Creating PDF for {0} [{1}]", productSheet.Title, productSheet.Uuid));
 
             return fileStreamResult;
         }

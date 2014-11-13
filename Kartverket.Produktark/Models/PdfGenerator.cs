@@ -6,7 +6,6 @@ using System.Web;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.events;
-using Kartverket.Produktark.Logging;
 using System.Text.RegularExpressions;
 
 
@@ -15,7 +14,7 @@ namespace Kartverket.Produktark.Models
     public class PdfGenerator
     {
 
-        private static readonly ILog Logger = LogProvider.For<PdfGenerator>();
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         ProductSheet productsheet; 
         string imagePath;
         string logoPath;
@@ -42,8 +41,7 @@ namespace Kartverket.Produktark.Models
         public Stream CreatePdf()
         {
 
-            try
-            {
+           
                 Startup();
 
                 AddDescription();
@@ -61,16 +59,6 @@ namespace Kartverket.Produktark.Models
                 WriteToColumns();
                 
 
-            }
-
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-            }
-
-            finally
-            {
-
                 PdfStructureTreeRoot root = writer.StructureTreeRoot;
                 PdfStructureElement div = new PdfStructureElement(root, new PdfName("Div"));
                 cb.BeginMarkedContentSequence(div);
@@ -82,7 +70,6 @@ namespace Kartverket.Produktark.Models
                 output.Position = 0; 
                 
                 
-            }
             return output;
         }
 
@@ -495,7 +482,7 @@ namespace Kartverket.Produktark.Models
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex.Message);
+                    Log.Error(ex.Message, ex);
                 }
 
             }
