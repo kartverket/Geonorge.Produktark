@@ -66,7 +66,7 @@ namespace Kartverket.Produktark.Controllers
             if (!string.IsNullOrWhiteSpace(uuid))
             {
                 model = _productSheetService.CreateProductSheetFromMetadata(uuid);
-                SetTranslations(model);
+                model.SetTranslations();
             }
             else
                 model = new ProductSheet();
@@ -115,7 +115,7 @@ namespace Kartverket.Produktark.Controllers
             {
                 return HttpNotFound();
             }
-            SetTranslations(productSheet);
+            productSheet.SetTranslations();
 
             return View(productSheet);
         }
@@ -224,14 +224,6 @@ namespace Kartverket.Produktark.Controllers
             return false;
         }
 
-        ProductSheet SetTranslations(ProductSheet ps) {
-
-            ps.MaintenanceFrequency=ps.GetMaintenanceFrequencyTranslated();
-            ps.Status = ps.GetStatusTranslated();
-            ps.AccessConstraints = ps.GetAccessConstraintsTranslated();
-
-            return ps;
-        }
 
     }
 }

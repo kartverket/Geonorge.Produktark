@@ -172,6 +172,13 @@ namespace Kartverket.Produktark.Models
         }
 
 
+        public void SetTranslations()
+        {
+            MaintenanceFrequency = GetMaintenanceFrequencyTranslated();
+            Status = GetStatusTranslated();
+            AccessConstraints = GetAccessConstraintsTranslated();
+        }
+
     }
 
     public class Contact
