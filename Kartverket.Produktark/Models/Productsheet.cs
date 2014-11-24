@@ -20,7 +20,7 @@ namespace Kartverket.Produktark.Models
         public string SupplementalDescription { get; set; }
         [DisplayName("Formål")]
         public string Purpose { get; set; }
-        [DisplayName("Bruksbegrensninger")]
+        [DisplayName("Bruksområde")]
         public string SpecificUsage { get; set; }
         [DisplayName("Brukerrestriksjoner")]
         public string UseLimitations { get; set; }
