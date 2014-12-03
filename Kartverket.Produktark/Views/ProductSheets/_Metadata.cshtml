@@ -1,6 +1,6 @@
 ﻿@model Kartverket.Produktark.Models.ProductSheet
 
-<div class="form-group">
+<div class="form-group required has-feedback">
     @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
@@ -8,13 +8,14 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group required has-feedback">
     @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.TextAreaFor(model => model.Description, 5, 100, new { @class = "form-control" } )
+        @Html.TextAreaFor(model => model.Description, 5, 100, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
     </div>
 </div>
+
 
 <div class="form-group">
     @Html.LabelFor(model => model.SupplementalDescription, new { @class = "control-label col-md-2" })
@@ -24,7 +25,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group required has-feedback">
     @Html.LabelFor(model => model.Purpose, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.TextAreaFor(model => model.Purpose, 5, 100, new { @class = "form-control" })
@@ -145,16 +146,18 @@
             @Html.TextBoxFor(model => model.ContactMetadata.Name, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactMetadata.Email, new { @class = "control-label col-md-2" })
         <div class="col-sm-10">
             @Html.TextBoxFor(model => model.ContactMetadata.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactMetadata.Email, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactMetadata.Organization, new { @class = "control-label col-md-2" })
         <div class="col-sm-9">
             @Html.TextBoxFor(model => model.ContactMetadata.Organization, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactMetadata.Organization, "", new { @class = "text-danger" })
         </div>
     </div>
 </fieldset>
@@ -167,16 +170,18 @@
             @Html.TextBoxFor(model => model.ContactPublisher.Name, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactPublisher.Email, new { @class = "control-label col-md-2" })
         <div class="col-sm-10">
             @Html.TextBoxFor(model => model.ContactPublisher.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactPublisher.Email, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactPublisher.Organization, new { @class = "control-label col-md-2" })
         <div class="col-sm-9">
             @Html.TextBoxFor(model => model.ContactPublisher.Organization, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactPublisher.Organization, "", new { @class = "text-danger" })
         </div>
     </div>
 </fieldset>
@@ -189,16 +194,18 @@
             @Html.TextBoxFor(model => model.ContactOwner.Name, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactOwner.Email, new { @class = "control-label col-md-2" })
         <div class="col-sm-10">
             @Html.TextBoxFor(model => model.ContactOwner.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactOwner.Email, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group required has-feedback">
         @Html.LabelFor(model => model.ContactOwner.Organization, new { @class = "control-label col-md-2" })
         <div class="col-sm-9">
             @Html.TextBoxFor(model => model.ContactOwner.Organization, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactOwner.Organization, "", new { @class = "text-danger" })
         </div>
     </div>
 </fieldset>

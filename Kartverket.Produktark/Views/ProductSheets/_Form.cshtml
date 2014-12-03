@@ -6,6 +6,8 @@
 </div>
     }
 }
+
+@Html.ValidationSummary(false, "Skjemaet er ikke korrekt utfylt. Vennligst rett opp følgende feil og mangler:", new { @class = "alert alert-danger" })
 <ul class="nav nav-tabs" style="clear:both">
     <li class="active"><a href="#metadata" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Informasjon hentet fra metadata</a></li>
     <li><a href="#details" data-toggle="tab"><span class="glyphicon glyphicon-home"></span> Flere detaljer om produktet</a></li>

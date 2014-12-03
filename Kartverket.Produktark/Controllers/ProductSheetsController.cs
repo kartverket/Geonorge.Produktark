@@ -126,7 +126,6 @@ namespace Kartverket.Produktark.Controllers
         public ActionResult Edit(ProductSheet productSheet)
         {
 
-
             if (!string.IsNullOrWhiteSpace(Request["hentNyeMetaData"]))
             {
                 ProductSheet model = _dbContext.ProductSheet.Find(productSheet.Id);
@@ -156,6 +155,7 @@ namespace Kartverket.Produktark.Controllers
             }
 
             else {
+
 
                 if (ModelState.IsValid)
                 {

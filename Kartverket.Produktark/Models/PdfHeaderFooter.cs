@@ -84,6 +84,7 @@ namespace Kartverket.Produktark.Models
 
             cb.BeginText();
             cb.SetFontAndSize(bf, 8);
+            if (_productsheet.Title != null)
             cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT, _productsheet.Title, pageSize.GetRight(35), pageSize.GetTop(60), 0);
             cb.EndText();
 

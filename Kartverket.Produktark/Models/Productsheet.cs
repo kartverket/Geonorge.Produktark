@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -12,12 +13,15 @@ namespace Kartverket.Produktark.Models
         
         // from metadata
         public string Uuid { get; set; }
+        [Required(ErrorMessage="Tittel er påkrevd")]
         [DisplayName("Tittel")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "Sammendrag er påkrevd")]
         [DisplayName("Sammendrag")]
         public string Description { get; set; }
         [DisplayName("Supplerende beskrivelse")]
         public string SupplementalDescription { get; set; }
+        [Required(ErrorMessage = "Formål er påkrevd")]
         [DisplayName("Formål")]
         public string Purpose { get; set; }
         [DisplayName("Bruksområde")]
@@ -185,8 +189,10 @@ namespace Kartverket.Produktark.Models
     {
         [DisplayName("Navn")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Epost er påkrevd")]
         [DisplayName("Epost")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Organisasjon er påkrevd")]
         [DisplayName("Organisasjon")]
         public string Organization { get; set; }
     }

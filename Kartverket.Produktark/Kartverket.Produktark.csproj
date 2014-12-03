@@ -235,6 +235,18 @@
     <Compile Include="Migrations\201410211313570_Thumbnail.Designer.cs">
       <DependentUpon>201410211313570_Thumbnail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412030835369_titleRequired.cs" />
+    <Compile Include="Migrations\201412030835369_titleRequired.Designer.cs">
+      <DependentUpon>201412030835369_titleRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412030840085_RequiredFields.cs" />
+    <Compile Include="Migrations\201412030840085_RequiredFields.Designer.cs">
+      <DependentUpon>201412030840085_RequiredFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412030845392_RequiredFields1.cs" />
+    <Compile Include="Migrations\201412030845392_RequiredFields1.Designer.cs">
+      <DependentUpon>201412030845392_RequiredFields1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -341,6 +353,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410211313570_Thumbnail.resx">
       <DependentUpon>201410211313570_Thumbnail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412030835369_titleRequired.resx">
+      <DependentUpon>201412030835369_titleRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412030840085_RequiredFields.resx">
+      <DependentUpon>201412030840085_RequiredFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412030845392_RequiredFields1.resx">
+      <DependentUpon>201412030845392_RequiredFields1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
