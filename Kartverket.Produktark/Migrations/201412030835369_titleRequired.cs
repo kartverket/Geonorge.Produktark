@@ -7,6 +7,7 @@ namespace Kartverket.Produktark.Migrations
     {
         public override void Up()
         {
+            Sql("UPDATE dbo.ProductSheets SET Title = '' WHERE Title IS NULL"); 
             AlterColumn("dbo.ProductSheets", "Title", c => c.String(nullable: false));
         }
         
