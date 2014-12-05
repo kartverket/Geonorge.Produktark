@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
 @using Kartverket.Produktark.Models
+@using Kartverket.Produktark.Helpers
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +9,13 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
 </head>
-<body>
-    <div class="options-wrapper">
-        <div class="container">
-            <p class="top-header">Norges geografiske infrastruktur - Norge Digitalt</p>
-        </div>
+<body class="geonorge-container prototype  geonorge">
+    <div id="logo-on-sm">
+        <img src="/Content/img/kvlogo_col.png" alt="Kartverkets logo" />
     </div>
-    <div class="navbar navbar-default" role="navigation">
+
+    @Html.Partial("_NavbarPartial")
+    @*<div class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,45 +33,50 @@
                     <li><a href="~/ProductSheets/Index">Produktarkgenerator</a></li>
                 </ul>
 
-                
+
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a target="_blank" href="http://www.geonorge.no">Geonorge forside</a></li>
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="body-content">
-        <div class="container">
-            @if (TempData["error"] != null)
-            {
-                <div class="alert alert-danger"><p>@TempData["error"]</p></div>
-            }
+    </div>*@
+        <div class="body-content">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li><a href="@Html.GeonorgeUrl()">Geonorge</a></li>
+                    <li><a href="/">Produktark</a></li>
+                    @RenderSection("breadcrumb", false)
+                </ol>
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger"><p>@TempData["error"]</p></div>
+                }
 
-            @RenderBody()
+                @RenderBody()
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <footer>
-            <!--
-            @if (User.Identity.IsAuthenticated)
-            {
-                <p>organization= @ClaimsPrincipal.Current.Organization()</p>
-                <p>roles = @ClaimsPrincipal.Current.Roles()[0]</p>
-                <p>name= @ClaimsPrincipal.Current.Name()</p>
-                <p>email= @ClaimsPrincipal.Current.Email()</p>
-                <p>uid= @ClaimsPrincipal.Current.Uid()</p>
-                <p>username= @ClaimsPrincipal.Current.Username()</p>
-            }
-            -->
-           
-            <p>&copy; @DateTime.Now.Year - Kartverket</p>
+        <div class="container">
+            <footer>
+                <!--
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>organization= @ClaimsPrincipal.Current.Organization()</p>
+                    <p>roles = @ClaimsPrincipal.Current.Roles()[0]</p>
+                    <p>name= @ClaimsPrincipal.Current.Name()</p>
+                    <p>email= @ClaimsPrincipal.Current.Email()</p>
+                    <p>uid= @ClaimsPrincipal.Current.Uid()</p>
+                    <p>username= @ClaimsPrincipal.Current.Username()</p>
+                }
+                -->
 
-        </footer>
-    </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+                <p>&copy; @DateTime.Now.Year - Kartverket - versjon: @Html.ApplicationVersionNumber()</p>
 
-</body>
-</html>
+            </footer>
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+    </body>
+    </html>
