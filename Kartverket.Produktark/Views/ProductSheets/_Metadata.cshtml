@@ -44,7 +44,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.UseLimitations, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.TextAreaFor(model => model.UseLimitations, 5, 100, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.TextAreaFor(model => model.UseLimitations, 5, 100, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.UseLimitations, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -63,7 +63,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.ProcessHistory, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.TextAreaFor(model => model.ProcessHistory, 5, 100, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.TextAreaFor(model => model.ProcessHistory, 5, 100, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ProcessHistory, "", new { @class = "text-danger" })
     </div>
 </div>
