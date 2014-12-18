@@ -6,11 +6,15 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Kartverket.Produktark.Models;
+using log4net;
+using System;
 
 namespace Kartverket.Produktark
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MvcApplication));
+
         protected void Application_Start()
         {
             DependencyConfig.Configure(new ContainerBuilder());
@@ -28,5 +32,15 @@ namespace Kartverket.Produktark
 
             log4net.Config.XmlConfigurator.Configure();
         }
+
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+
+            log.Error("App_Error", ex);
+        }
+
+
     }
 }
