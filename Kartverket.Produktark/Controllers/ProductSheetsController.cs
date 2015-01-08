@@ -183,9 +183,10 @@ namespace Kartverket.Produktark.Controllers
             }
 
             string logoPath="";
-            Logo logo =_productSheetService.FindLogoForOrganization(ClaimsPrincipal.Current.Organization());
+            //Logo logo =_productSheetService.FindLogoForOrganization(ClaimsPrincipal.Current.Organization());
+            string logo = _productSheetService.GetLogoForOrganization(productSheet.ContactOwner.Organization);
             if (logo != null)
-                logoPath = imagePathLogo + logo.FileName;
+                logoPath = logo;
 
             Stream fileStream = new PdfGenerator(productSheet, imagePath, logoPath).CreatePdf();
             var fileStreamResult = new FileStreamResult(fileStream, "application/pdf");

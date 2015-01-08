@@ -8,6 +8,8 @@ namespace Kartverket.Produktark.Models
 
         Logo FindLogoForOrganization(string organization);
 
+        string GetLogoForOrganization(string organization);
+
         List<ProductSheet> FindProductSheetsForOrganization(string organization);
     }
 
