@@ -5,7 +5,10 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Integration.Mvc;
 using GeoNorgeAPI;
+using Kartverket.Geonorge.Utilities;
+using Kartverket.Geonorge.Utilities.Organization;
 using Kartverket.Produktark.Models;
+using Autofac.Core.Activators.Reflection;
 
 namespace Kartverket.Produktark
 {
@@ -27,6 +30,13 @@ namespace Kartverket.Produktark
                     new NamedParameter("geonetworkPassword", ""),
                     new NamedParameter("geonetworkEndpoint", WebConfigurationManager.AppSettings["GeoNetworkUrl"])
                 });
+
+            builder.RegisterType<HttpClientFactory>().As<IHttpClientFactory>();
+            builder.RegisterType<OrganizationService>().As<IOrganizationService>().WithParameters(new List<Parameter>
+            {
+                new NamedParameter("registryUrl", WebConfigurationManager.AppSettings["RegistryUrl"]),
+                new AutowiringParameter()
+            });
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

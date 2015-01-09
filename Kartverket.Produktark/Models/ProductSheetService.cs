@@ -4,6 +4,8 @@ using System.Linq;
 using GeoNorgeAPI;
 using www.opengis.net;
 using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
+using Kartverket.Geonorge.Utilities.Organization;
 
 namespace Kartverket.Produktark.Models
 {
@@ -11,11 +13,13 @@ namespace Kartverket.Produktark.Models
     {
         private readonly GeoNorge _geonorge;
         private readonly ProductSheetContext _dbContext;
+        private readonly IOrganizationService _organizationService;
 
-        public ProductSheetService(GeoNorge geoNorge, ProductSheetContext dbContext)
+        public ProductSheetService(GeoNorge geoNorge, ProductSheetContext dbContext, IOrganizationService organizationService)
         {
             _geonorge = geoNorge;
             _dbContext = dbContext;
+            _organizationService = organizationService;
         }
 
         public ProductSheet UpdateProductSheetFromMetadata(string uuid, ProductSheet productSheet) {
@@ -57,6 +61,9 @@ namespace Kartverket.Produktark.Models
                         break;
                 }
 
+
+
+
             return productSheet;
 
         }
@@ -84,6 +91,21 @@ namespace Kartverket.Produktark.Models
         public Logo FindLogoForOrganization(string organization)
         {
             return _dbContext.Logo.FirstOrDefault(l => l.Organization == organization); ;
+        }
+
+        public string GetLogoForOrganization(string organization)
+        {
+            if (organization != null)
+            {
+                Task<Organization> getOrganizationTask = _organizationService.GetOrganizationByName(organization);
+                Organization organizationInfo = getOrganizationTask.Result;
+                if (organizationInfo != null)
+                {
+                    return organizationInfo.LogoLargeUrl;
+                }
+            }
+
+            return null;
         }
 
         public List<ProductSheet> FindProductSheetsForOrganization(string organization)
