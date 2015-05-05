@@ -213,6 +213,7 @@
     <Compile Include="App_Start\DependencyConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductSheetsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -259,6 +260,7 @@
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
     <Compile Include="Models\Logo.cs" />
+    <Compile Include="Models\NotFoundModel.cs" />
     <Compile Include="Models\PdfGenerator.cs" />
     <Compile Include="Models\PdfHeaderFooter.cs" />
     <Compile Include="Models\ProductSheetContext.cs" />
@@ -345,6 +347,7 @@
     </Content>
     <Content Include="Views\Shared\_NavbarPartial.cshtml" />
     <Content Include="Views\Shared\_Analytics.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

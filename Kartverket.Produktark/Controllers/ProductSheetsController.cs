@@ -13,6 +13,7 @@ using System.Security.Claims;
 
 namespace Kartverket.Produktark.Controllers
 {
+    [HandleError]
     [Authorize]
     public class ProductSheetsController : Controller
     {
@@ -225,6 +226,10 @@ namespace Kartverket.Produktark.Controllers
             return false;
         }
 
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Log.Error("Error", filterContext.Exception);
+        }
 
     }
 }
