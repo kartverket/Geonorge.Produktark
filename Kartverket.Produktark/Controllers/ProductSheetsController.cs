@@ -198,6 +198,40 @@ namespace Kartverket.Produktark.Controllers
             return fileStreamResult;
         }
 
+        // GET: /ProductSheet/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
+            if (productSheet == null)
+            {
+                return HttpNotFound();
+            }
+            return View(productSheet);
+        }
+
+        // POST: /ProductSheet/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
+            if (ClaimsPrincipal.Current.Organization() == productSheet.ContactMetadata.Organization || IsAdmin()) 
+            { 
+            _dbContext.ProductSheet.Remove(productSheet);
+            _dbContext.SaveChanges();
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return RedirectToAction("Index");
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
