@@ -117,6 +117,7 @@ namespace Kartverket.Produktark.Controllers
                 return HttpNotFound();
             }
             productSheet.SetTranslations();
+            ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", productSheet.MaintenanceFrequency);
 
             return View(productSheet);
         }
@@ -261,6 +262,34 @@ namespace Kartverket.Produktark.Controllers
         protected override void OnException(ExceptionContext filterContext)
         {
             Log.Error("Error", filterContext.Exception);
+        }
+
+        public Dictionary<string, string> GetCodeList(string systemid)
+        {
+            Dictionary<string, string> CodeValues = new Dictionary<string, string>();
+            string url = System.Web.Configuration.WebConfigurationManager.AppSettings["RegistryUrl"] + "api/kodelister/" + systemid;
+            System.Net.WebClient c = new System.Net.WebClient();
+            c.Encoding = System.Text.Encoding.UTF8;
+            var data = c.DownloadString(url);
+            var response = Newtonsoft.Json.Linq.JObject.Parse(data);
+
+            var codeList = response["containeditems"];
+
+            foreach (var code in codeList)
+            {
+                var codevalue = code["codevalue"].ToString();
+                if (string.IsNullOrWhiteSpace(codevalue))
+                    codevalue = code["label"].ToString();
+
+                if (!CodeValues.ContainsKey(codevalue))
+                {
+                    CodeValues.Add(codevalue, code["label"].ToString());
+                }
+            }
+
+            CodeValues = CodeValues.OrderBy(o => o.Value).ToDictionary(o => o.Key, o => o.Value);
+
+            return CodeValues;
         }
 
     }
