@@ -53,14 +53,14 @@ namespace Kartverket.Produktark.Models
         public string ProductPageUrl { get; set; }
         [DisplayName("Produktspesifikasjon(URL)")]
         public string ProductSpecificationUrl { get; set; }
-        
-        // additional fields
-        [DisplayName("Stedfestingsnøyaktighet (meter)")]
-        public string PrecisionInMeters { get; set; }
         [DisplayName("Dekningsoversikt")]
         public string CoverageArea { get; set; }
         [DisplayName("Projeksjoner")]
         public string Projections { get; set; }
+        
+        // additional fields
+        [DisplayName("Stedfestingsnøyaktighet (meter)")]
+        public string PrecisionInMeters { get; set; }
         [DisplayName("Tjeneste")]
         public string ServiceDetails { get; set; }
         [DisplayName("Objekttypeliste")]

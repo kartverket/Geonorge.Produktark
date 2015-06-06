@@ -290,8 +290,22 @@ namespace Kartverket.Produktark.Models
             {
                 Phrase projectionsHeading = new Phrase("\n" + "Projeksjoner", font3Bold);
                 ct.AddElement(projectionsHeading);
-                Phrase projections = new Phrase(productsheet.Projections, font3);
-                ct.AddElement(projections);
+                //Phrase projections = new Phrase(productsheet.Projections, font3);
+                //ct.AddElement(projections);
+
+                List listOfProjections = new List(List.UNORDERED);
+                listOfProjections.SetListSymbol("\u2022");
+                listOfProjections.IndentationLeft = 5;
+
+                var Projections = Regex.Split(productsheet.Projections, "\r\n");
+                foreach (string projection in Projections)
+                {
+                    ListItem liProjection = new ListItem(projection, font3);
+                    listOfProjections.Add(liProjection);
+                }
+
+                ct.AddElement(listOfProjections);
+
             }
 
             if (!string.IsNullOrWhiteSpace(productsheet.AccessConstraints))
@@ -359,10 +373,17 @@ namespace Kartverket.Produktark.Models
 
             if (!string.IsNullOrWhiteSpace(productsheet.CoverageArea))
             {
-                Phrase coverageAreaHeading = new Phrase("Dekningsoversikt", font3Bold);
-                ct.AddElement(coverageAreaHeading);
-                Phrase coverageArea = new Phrase(productsheet.CoverageArea, font3);
-                ct.AddElement(coverageArea);
+                //Phrase coverageAreaHeading = new Phrase("Dekningsoversikt", font3Bold);
+                //ct.AddElement(coverageAreaHeading);
+                //Phrase coverageArea = new Phrase(productsheet.CoverageArea, font3);
+                //ct.AddElement(coverageArea);
+
+                Phrase coverageAreaUrlPhrase = new Phrase();
+                Anchor coverageAreaUrl = new Anchor("Dekningsoversikt", fontLink);
+                coverageAreaUrl.Reference = productsheet.CoverageArea;
+                coverageAreaUrlPhrase.Add(coverageAreaUrl);
+                ct.AddElement(coverageAreaUrlPhrase);
+
             }
 
             ct.AddElement(writeTblFooter(""));

@@ -60,8 +60,9 @@ namespace Kartverket.Produktark.Models
                     if (thumbnail.Type == "large_thumbnail")
                         break;
                 }
+                productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl) : "";
 
-
+                productSheet.Projections = simpleMetadata.ReferenceSystems != null ? getProjections(simpleMetadata.ReferenceSystems) : "";
 
 
             return productSheet;
@@ -111,6 +112,80 @@ namespace Kartverket.Produktark.Models
         public List<ProductSheet> FindProductSheetsForOrganization(string organization)
         {
             return _dbContext.ProductSheet.Where(ps => ps.ContactMetadata.Organization == organization).ToList();
+        }
+
+        public string GetCoverageLink(string coverageUrl)
+        {
+
+            string CoverageLink = "";
+            var coverageStr = coverageUrl;
+            var startPos = 5;
+            var endPosType = coverageStr.IndexOf("@PATH");
+            var typeStr = coverageStr.Substring(startPos, endPosType - startPos);
+
+            var endPath = coverageStr.IndexOf("@LAYER");
+            var pathStr = coverageStr.Substring(endPosType + startPos + 1, endPath - (endPosType + startPos + 1));
+
+            var startLayer = endPath + 7;
+            var endLayer = coverageStr.Length - startLayer;
+            var layerStr = coverageStr.Substring(startLayer, endLayer);
+
+            if (typeStr == "WMS")
+            {
+                CoverageLink = "http://norgeskart.no/geoportal/#5/355422/6668909/l/wms/[" + pathStr + "]/+" + layerStr;
+            }
+
+            else if (typeStr == "WFS")
+            {
+                CoverageLink = "http://norgeskart.no/geoportal/#11/255216/6653881/l/wfs/[" + pathStr + "]/+" + layerStr;
+            }
+
+            else if (typeStr == "GeoJSON")
+            {
+                CoverageLink = "http://norgeskart.no/geoportal/staging/#4/355422/6668909/l/geojson/[" + pathStr + "]/+" + layerStr;
+            }
+
+            return CoverageLink;
+
+        }
+
+        public string getProjections(List<SimpleReferenceSystem> refsys)
+        {
+            string projections = "";
+
+            for (int r = 0; r < refsys.Count; r++)
+            {
+              projections = projections + GetReferenceSystemName(refsys[r].CoordinateSystem);
+              if (r != refsys.Count - 1)
+                  projections = projections + "\r\n";
+            }
+
+            return projections;
+        }
+
+
+
+        public string GetReferenceSystemName(string coordinateSystem)
+        {       
+            System.Net.WebClient c = new System.Net.WebClient();
+            c.Encoding = System.Text.Encoding.UTF8;
+            var data = c.DownloadString(System.Web.Configuration.WebConfigurationManager.AppSettings["RegistryUrl"] + "api/register/epsg-koder");
+            var response = Newtonsoft.Json.Linq.JObject.Parse(data);
+
+            var refs = response["containeditems"];
+
+            foreach (var refsys in refs)
+            {
+
+                var documentreference = refsys["documentreference"].ToString();
+                if (documentreference == coordinateSystem)
+                {
+                    coordinateSystem = refsys["label"].ToString();
+                    break;
+                }
+            }
+
+            return coordinateSystem;
         }
 
     }

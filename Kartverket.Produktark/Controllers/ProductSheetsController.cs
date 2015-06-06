@@ -138,8 +138,6 @@ namespace Kartverket.Produktark.Controllers
                 model = _productSheetService.UpdateProductSheetFromMetadata(productSheet.Uuid, model);
 
                 model.PrecisionInMeters = productSheet.PrecisionInMeters;
-                model.CoverageArea = productSheet.CoverageArea;
-                model.Projections = productSheet.Projections;
                 model.ServiceDetails = productSheet.ServiceDetails;
                 model.ListOfFeatureTypes = productSheet.ListOfFeatureTypes;
                 model.ListOfAttributes = productSheet.ListOfAttributes;
