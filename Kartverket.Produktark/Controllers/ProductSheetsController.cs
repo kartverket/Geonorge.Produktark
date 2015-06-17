@@ -72,6 +72,8 @@ namespace Kartverket.Produktark.Controllers
             else
                 model = new ProductSheet();
 
+            ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", model.MaintenanceFrequency);
+
             return View(model);
         }
 
