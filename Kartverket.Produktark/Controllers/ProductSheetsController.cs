@@ -120,7 +120,7 @@ namespace Kartverket.Produktark.Controllers
             }
             productSheet.SetTranslations();
             ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", productSheet.MaintenanceFrequency);
-
+            ViewBag.Organization = ClaimsPrincipal.Current.Organization();
             return View(productSheet);
         }
 
