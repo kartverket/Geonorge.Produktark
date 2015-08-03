@@ -181,7 +181,7 @@ namespace Kartverket.Produktark.Models
 
             ListItem metaData = new ListItem();
             Anchor metaDatalink = new Anchor("Link til metadata i Geonorge", fontLink);
-            metaDatalink.Reference = "https://www.geonorge.no/geonetwork/?uuid=" + productsheet.Uuid;
+            metaDatalink.Reference = "https://kartkatalog.geonorge.no/metadata/uuid/" + productsheet.Uuid;
             metaData.Add(metaDatalink);
             links.Add(metaData);
 
