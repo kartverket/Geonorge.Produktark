@@ -6,6 +6,7 @@ using www.opengis.net;
 using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 using Kartverket.Geonorge.Utilities.Organization;
+using System.Device.Location;
 
 namespace Kartverket.Produktark.Models
 {
@@ -60,7 +61,7 @@ namespace Kartverket.Produktark.Models
                     if (thumbnail.Type == "large_thumbnail")
                         break;
                 }
-                productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl) : "";
+                productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl, uuid) : "";
 
                 productSheet.Projections = simpleMetadata.ReferenceSystems != null ? getProjections(simpleMetadata.ReferenceSystems) : "";
 
@@ -114,8 +115,14 @@ namespace Kartverket.Produktark.Models
             return _dbContext.ProductSheet.Where(ps => ps.ContactMetadata.Organization == organization).ToList();
         }
 
-        public string GetCoverageLink(string coverageUrl)
+        public string GetCoverageLink(string coverageUrl, string uuid)
         {
+
+            MD_Metadata_Type metadata = _geonorge.GetRecordByUuid(uuid);
+            if (metadata == null)
+                throw new InvalidOperationException("Metadata not found for uuid: " + uuid);
+
+            var simpleMetadata = new SimpleMetadata(metadata);
 
             string CoverageLink = "";
             var coverageStr = coverageUrl;
@@ -130,24 +137,102 @@ namespace Kartverket.Produktark.Models
             var endLayer = coverageStr.Length - startLayer;
             var layerStr = coverageStr.Substring(startLayer, endLayer);
 
+
+            int zoomLevel = simpleMetadata.BoundingBox.WestBoundLongitude != null ? ZoomLevel(simpleMetadata.BoundingBox.WestBoundLongitude, simpleMetadata.BoundingBox.SouthBoundLatitude, simpleMetadata.BoundingBox.EastBoundLongitude, simpleMetadata.BoundingBox.NorthBoundLatitude) : 7;
+
             if (typeStr == "WMS")
             {
-                CoverageLink = "http://norgeskart.no/geoportal/#5/355422/6668909/l/wms/[" + pathStr + "]/+" + layerStr;
+                CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/355422/6668909/l/wms/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
             }
 
             else if (typeStr == "WFS")
             {
-                CoverageLink = "http://norgeskart.no/geoportal/#11/255216/6653881/l/wfs/[" + pathStr + "]/+" + layerStr;
+                CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/255216/6653881/l/wfs/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
             }
 
             else if (typeStr == "GeoJSON")
             {
-                CoverageLink = "http://norgeskart.no/geoportal/staging/#4/355422/6668909/l/geojson/[" + pathStr + "]/+" + layerStr;
+                CoverageLink = "http://norgeskart.no/geoportal/staging/#" + zoomLevel + "/355422/6668909/l/geojson/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
             }
 
             return CoverageLink;
 
         }
+
+
+        string RemoveQueryString(string URL)
+        {
+            int startQueryString = URL.IndexOf("?");
+
+            if (startQueryString != -1)
+                URL = URL.Substring(0, startQueryString);
+
+            return URL;
+        }
+
+
+        public int ZoomLevel(string WestBoundLongitude, string SouthBoundLatitude, string EastBoundLongitude, string NorthBoundLatitude)
+        {
+            double zoomLevel = 7;
+
+            if (string.IsNullOrEmpty(WestBoundLongitude) || string.IsNullOrEmpty(SouthBoundLatitude) ||
+                string.IsNullOrEmpty(EastBoundLongitude) || string.IsNullOrEmpty(NorthBoundLatitude))
+                return Convert.ToInt16(zoomLevel);
+
+            GeoCoordinate[] locations = new GeoCoordinate[] 
+            { 
+                new GeoCoordinate(Convert.ToDouble(SouthBoundLatitude), Convert.ToDouble(WestBoundLongitude)), 
+                new GeoCoordinate(Convert.ToDouble(NorthBoundLatitude), Convert.ToDouble(EastBoundLongitude)) 
+            };
+
+            double maxLat = -85;
+            double minLat = 85;
+            double maxLon = -180;
+            double minLon = 180;
+
+            //calculate bounding rectangle
+            for (int i = 0; i < locations.Count(); i++)
+            {
+                if (locations[i].Latitude > maxLat)
+                {
+                    maxLat = locations[i].Latitude;
+                }
+
+                if (locations[i].Latitude < minLat)
+                {
+                    minLat = locations[i].Latitude;
+                }
+
+                if (locations[i].Longitude > maxLon)
+                {
+                    maxLon = locations[i].Longitude;
+                }
+
+                if (locations[i].Longitude < minLon)
+                {
+                    minLon = locations[i].Longitude;
+                }
+            }
+
+            double zoom1 = 0; double zoom2 = 0;
+            double mapWidth = 1359; //Map width in pixels
+            double mapHeight = 940; //Map height in pixels
+            int buffer = 1; //Width in pixels to use to create a buffer around the map. This is to keep pushpins from being cut off on the edge
+            //Determine the best zoom level based on the map scale and bounding coordinate information
+            if (maxLon != minLon && maxLat != minLat)
+            {
+                //best zoom level based on map width
+                zoom1 = Math.Log(360.0 / 256.0 * (mapWidth - 2 * buffer) / (maxLon - minLon)) / Math.Log(2);
+                //best zoom level based on map height
+                zoom2 = Math.Log(180.0 / 256.0 * (mapHeight - 2 * buffer) / (maxLat - minLat)) / Math.Log(2);
+            }
+
+            //use the most zoomed out of the two zoom levels
+            zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
+
+            return Convert.ToInt16(zoomLevel);
+        }
+
 
         public string getProjections(List<SimpleReferenceSystem> refsys)
         {
