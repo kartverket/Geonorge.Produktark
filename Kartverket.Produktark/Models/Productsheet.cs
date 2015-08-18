@@ -21,7 +21,6 @@ namespace Kartverket.Produktark.Models
         public string Description { get; set; }
         [DisplayName("Supplerende beskrivelse")]
         public string SupplementalDescription { get; set; }
-        [Required(ErrorMessage = "Formål er påkrevd")]
         [DisplayName("Formål")]
         public string Purpose { get; set; }
         [DisplayName("Bruksområde")]

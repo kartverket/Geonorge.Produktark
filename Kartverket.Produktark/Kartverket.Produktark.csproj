@@ -257,6 +257,10 @@
     <Compile Include="Migrations\201412030845392_RequiredFields1.Designer.cs">
       <DependentUpon>201412030845392_RequiredFields1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508180728524_PurposeNotRequired.cs" />
+    <Compile Include="Migrations\201508180728524_PurposeNotRequired.Designer.cs">
+      <DependentUpon>201508180728524_PurposeNotRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -385,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412030845392_RequiredFields1.resx">
       <DependentUpon>201412030845392_RequiredFields1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508180728524_PurposeNotRequired.resx">
+      <DependentUpon>201508180728524_PurposeNotRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
