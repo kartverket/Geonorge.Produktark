@@ -180,62 +180,63 @@ namespace Kartverket.Produktark.Models
 
         public int ZoomLevel(string WestBoundLongitude, string SouthBoundLatitude, string EastBoundLongitude, string NorthBoundLatitude)
         {
-            double zoomLevel = 7;
+            //Set Zoom to default
+            double zoomLevel = 8;
 
-            if (string.IsNullOrEmpty(WestBoundLongitude) || string.IsNullOrEmpty(SouthBoundLatitude) ||
-                string.IsNullOrEmpty(EastBoundLongitude) || string.IsNullOrEmpty(NorthBoundLatitude))
-                return Convert.ToInt16(zoomLevel);
+            //if (string.IsNullOrEmpty(WestBoundLongitude) || string.IsNullOrEmpty(SouthBoundLatitude) ||
+            //    string.IsNullOrEmpty(EastBoundLongitude) || string.IsNullOrEmpty(NorthBoundLatitude))
+            //    return Convert.ToInt16(zoomLevel);
 
-            GeoCoordinate[] locations = new GeoCoordinate[] 
-            { 
-                new GeoCoordinate(Convert.ToDouble(SouthBoundLatitude), Convert.ToDouble(WestBoundLongitude)), 
-                new GeoCoordinate(Convert.ToDouble(NorthBoundLatitude), Convert.ToDouble(EastBoundLongitude)) 
-            };
+            //GeoCoordinate[] locations = new GeoCoordinate[] 
+            //{ 
+            //    new GeoCoordinate(Convert.ToDouble(SouthBoundLatitude), Convert.ToDouble(WestBoundLongitude)), 
+            //    new GeoCoordinate(Convert.ToDouble(NorthBoundLatitude), Convert.ToDouble(EastBoundLongitude)) 
+            //};
 
-            double maxLat = -85;
-            double minLat = 85;
-            double maxLon = -180;
-            double minLon = 180;
+            //double maxLat = -85;
+            //double minLat = 85;
+            //double maxLon = -180;
+            //double minLon = 180;
 
-            //calculate bounding rectangle
-            for (int i = 0; i < locations.Count(); i++)
-            {
-                if (locations[i].Latitude > maxLat)
-                {
-                    maxLat = locations[i].Latitude;
-                }
+            ////calculate bounding rectangle
+            //for (int i = 0; i < locations.Count(); i++)
+            //{
+            //    if (locations[i].Latitude > maxLat)
+            //    {
+            //        maxLat = locations[i].Latitude;
+            //    }
 
-                if (locations[i].Latitude < minLat)
-                {
-                    minLat = locations[i].Latitude;
-                }
+            //    if (locations[i].Latitude < minLat)
+            //    {
+            //        minLat = locations[i].Latitude;
+            //    }
 
-                if (locations[i].Longitude > maxLon)
-                {
-                    maxLon = locations[i].Longitude;
-                }
+            //    if (locations[i].Longitude > maxLon)
+            //    {
+            //        maxLon = locations[i].Longitude;
+            //    }
 
-                if (locations[i].Longitude < minLon)
-                {
-                    minLon = locations[i].Longitude;
-                }
-            }
+            //    if (locations[i].Longitude < minLon)
+            //    {
+            //        minLon = locations[i].Longitude;
+            //    }
+            //}
 
-            double zoom1 = 0; double zoom2 = 0;
-            double mapWidth = 1359; //Map width in pixels
-            double mapHeight = 940; //Map height in pixels
-            int buffer = 1; //Width in pixels to use to create a buffer around the map. This is to keep pushpins from being cut off on the edge
-            //Determine the best zoom level based on the map scale and bounding coordinate information
-            if (maxLon != minLon && maxLat != minLat)
-            {
-                //best zoom level based on map width
-                zoom1 = Math.Log(360.0 / 256.0 * (mapWidth - 2 * buffer) / (maxLon - minLon)) / Math.Log(2);
-                //best zoom level based on map height
-                zoom2 = Math.Log(180.0 / 256.0 * (mapHeight - 2 * buffer) / (maxLat - minLat)) / Math.Log(2);
-            }
+            //double zoom1 = 0; double zoom2 = 0;
+            //double mapWidth = 1359; //Map width in pixels
+            //double mapHeight = 940; //Map height in pixels
+            //int buffer = 1; //Width in pixels to use to create a buffer around the map. This is to keep pushpins from being cut off on the edge
+            ////Determine the best zoom level based on the map scale and bounding coordinate information
+            //if (maxLon != minLon && maxLat != minLat)
+            //{
+            //    //best zoom level based on map width
+            //    zoom1 = Math.Log(360.0 / 256.0 * (mapWidth - 2 * buffer) / (maxLon - minLon)) / Math.Log(2);
+            //    //best zoom level based on map height
+            //    zoom2 = Math.Log(180.0 / 256.0 * (mapHeight - 2 * buffer) / (maxLat - minLat)) / Math.Log(2);
+            //}
 
-            //use the most zoomed out of the two zoom levels
-            zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
+            ////use the most zoomed out of the two zoom levels
+            //zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
 
             return Convert.ToInt16(zoomLevel);
         }
