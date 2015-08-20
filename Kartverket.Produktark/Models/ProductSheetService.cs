@@ -124,35 +124,42 @@ namespace Kartverket.Produktark.Models
 
             var simpleMetadata = new SimpleMetadata(metadata);
 
-            string CoverageLink = "";
+            
+
+            string CoverageLink = coverageUrl;
             var coverageStr = coverageUrl;
-            var startPos = 5;
-            var endPosType = coverageStr.IndexOf("@PATH");
-            var typeStr = coverageStr.Substring(startPos, endPosType - startPos);
 
-            var endPath = coverageStr.IndexOf("@LAYER");
-            var pathStr = coverageStr.Substring(endPosType + startPos + 1, endPath - (endPosType + startPos + 1));
-
-            var startLayer = endPath + 7;
-            var endLayer = coverageStr.Length - startLayer;
-            var layerStr = coverageStr.Substring(startLayer, endLayer);
-
-
-            int zoomLevel = simpleMetadata.BoundingBox.WestBoundLongitude != null ? ZoomLevel(simpleMetadata.BoundingBox.WestBoundLongitude, simpleMetadata.BoundingBox.SouthBoundLatitude, simpleMetadata.BoundingBox.EastBoundLongitude, simpleMetadata.BoundingBox.NorthBoundLatitude) : 7;
-
-            if (typeStr == "WMS")
+            if (coverageStr.IndexOf("TYPE:") != -1)
             {
-                CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/355422/6668909/l/wms/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
-            }
+                var startPos = 5;
+                var endPosType = coverageStr.IndexOf("@PATH");
+                var typeStr = coverageStr.Substring(startPos, endPosType - startPos);
 
-            else if (typeStr == "WFS")
-            {
-                CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/255216/6653881/l/wfs/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
-            }
+                var endPath = coverageStr.IndexOf("@LAYER");
+                var pathStr = coverageStr.Substring(endPosType + startPos + 1, endPath - (endPosType + startPos + 1));
 
-            else if (typeStr == "GeoJSON")
-            {
-                CoverageLink = "http://norgeskart.no/geoportal/staging/#" + zoomLevel + "/355422/6668909/l/geojson/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
+                var startLayer = endPath + 7;
+                var endLayer = coverageStr.Length - startLayer;
+                var layerStr = coverageStr.Substring(startLayer, endLayer);
+
+
+                int zoomLevel = simpleMetadata.BoundingBox.WestBoundLongitude != null ? ZoomLevel(simpleMetadata.BoundingBox.WestBoundLongitude, simpleMetadata.BoundingBox.SouthBoundLatitude, simpleMetadata.BoundingBox.EastBoundLongitude, simpleMetadata.BoundingBox.NorthBoundLatitude) : 7;
+
+                if (typeStr == "WMS")
+                {
+                    CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/355422/6668909/l/wms/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
+                }
+
+                else if (typeStr == "WFS")
+                {
+                    CoverageLink = "http://norgeskart.no/geoportal/#" + zoomLevel + "/255216/6653881/l/wfs/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
+                }
+
+                else if (typeStr == "GeoJSON")
+                {
+                    CoverageLink = "http://norgeskart.no/geoportal/staging/#" + zoomLevel + "/355422/6668909/l/geojson/[" + RemoveQueryString(pathStr) + "]/+" + layerStr;
+                }
+
             }
 
             return CoverageLink;
