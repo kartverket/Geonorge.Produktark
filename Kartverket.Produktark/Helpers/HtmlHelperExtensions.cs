@@ -31,7 +31,7 @@ namespace Kartverket.Produktark.Helpers
         {
             return WebConfigurationManager.AppSettings["ObjektkatalogUrl"];
         }
-        public static string KartkatalogUrl(this HtmlHelper helper)
+        public static string KartkatalogenUrl(this HtmlHelper helper)
         {
             return WebConfigurationManager.AppSettings["KartkatalogUrl"];
         }
