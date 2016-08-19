@@ -21,12 +21,11 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Uuid)
-    
+
     @Html.Partial("_Form", Model)
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 
     <script>
         //Prevent submitting form when return pressed
