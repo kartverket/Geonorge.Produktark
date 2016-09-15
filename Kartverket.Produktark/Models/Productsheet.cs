@@ -25,7 +25,7 @@ namespace Kartverket.Produktark.Models
         public string Purpose { get; set; }
         [DisplayName("Bruksområde")]
         public string SpecificUsage { get; set; }
-        [DisplayName("Brukerrestriksjoner")]
+        [DisplayName("Bruksbegrensninger")]
         public string UseLimitations { get; set; }
         public Contact ContactMetadata { get; set; }
         public Contact ContactPublisher { get; set; }

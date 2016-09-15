@@ -15,6 +15,7 @@ namespace Kartverket.Produktark.Models
         private readonly GeoNorge _geonorge;
         private readonly ProductSheetContext _dbContext;
         private readonly IOrganizationService _organizationService;
+        RegisterFetcher register;
 
         public ProductSheetService(GeoNorge geoNorge, ProductSheetContext dbContext, IOrganizationService organizationService)
         {
@@ -24,6 +25,7 @@ namespace Kartverket.Produktark.Models
         }
 
         public ProductSheet UpdateProductSheetFromMetadata(string uuid, ProductSheet productSheet) {
+            register = new RegisterFetcher();
             MD_Metadata_Type metadata = _geonorge.GetRecordByUuid(uuid);
             if (metadata == null)
                 throw new InvalidOperationException("Metadata not found for uuid: " + uuid);
@@ -48,7 +50,7 @@ namespace Kartverket.Produktark.Models
                 productSheet.Status = simpleMetadata.Status;
                 productSheet.DistributionFormatName = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Name : null;
                 productSheet.DistributionFormatVersion = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Version : null;
-                productSheet.AccessConstraints = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.AccessConstraints : null;
+                productSheet.AccessConstraints = simpleMetadata.Constraints != null ? register.GetRestriction(simpleMetadata.Constraints.AccessConstraints, simpleMetadata.Constraints.OtherConstraintsAccess) : null;
                 productSheet.LegendDescriptionUrl = simpleMetadata.LegendDescriptionUrl;
                 productSheet.ProductPageUrl = simpleMetadata.ProductPageUrl;
                 productSheet.ProductSpecificationUrl = simpleMetadata.ProductSpecificationUrl;
