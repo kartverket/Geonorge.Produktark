@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201508180728524_PurposeNotRequired.Designer.cs">
       <DependentUpon>201508180728524_PurposeNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611011117430_AddDistributionFormats.cs" />
+    <Compile Include="Migrations\201611011117430_AddDistributionFormats.Designer.cs">
+      <DependentUpon>201611011117430_AddDistributionFormats.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -510,6 +514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508180728524_PurposeNotRequired.resx">
       <DependentUpon>201508180728524_PurposeNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011117430_AddDistributionFormats.resx">
+      <DependentUpon>201611011117430_AddDistributionFormats.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

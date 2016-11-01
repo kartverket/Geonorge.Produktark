@@ -50,6 +50,7 @@ namespace Kartverket.Produktark.Models
                 productSheet.Status = simpleMetadata.Status;
                 productSheet.DistributionFormatName = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Name : null;
                 productSheet.DistributionFormatVersion = simpleMetadata.DistributionFormat != null ? simpleMetadata.DistributionFormat.Version : null;
+                productSheet.DistributionFormats = GetDistributionFormats(simpleMetadata.DistributionFormats);
                 productSheet.AccessConstraints = simpleMetadata.Constraints != null ? register.GetRestriction(simpleMetadata.Constraints.AccessConstraints, simpleMetadata.Constraints.OtherConstraintsAccess) : null;
                 productSheet.LegendDescriptionUrl = simpleMetadata.LegendDescriptionUrl;
                 productSheet.ProductPageUrl = simpleMetadata.ProductPageUrl;
@@ -71,6 +72,22 @@ namespace Kartverket.Produktark.Models
             return productSheet;
 
         }
+
+        private string GetDistributionFormats(List<SimpleDistributionFormat> distributionFormats)
+        {
+            string formats = null;
+            foreach(var distributionFormat in distributionFormats)
+            {
+                string format = distributionFormat.Name;
+                if (!string.IsNullOrEmpty(distributionFormat.Version))
+                    format = format + ", " + distributionFormat.Version;
+
+                formats = formats + format + Environment.NewLine;
+            }
+
+            return formats;
+        }
+
         public ProductSheet CreateProductSheetFromMetadata(string uuid)
         {
             return UpdateProductSheetFromMetadata(uuid, new ProductSheet());

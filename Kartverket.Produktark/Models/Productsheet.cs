@@ -44,6 +44,8 @@ namespace Kartverket.Produktark.Models
         public string DistributionFormatName { get; set; }
         [DisplayName("Versjon")]
         public string DistributionFormatVersion { get; set; }
+        [DisplayName("Formater")]
+        public string DistributionFormats { get; set; }
         [DisplayName("Tilgangsrestriksjoner")]
         public string AccessConstraints { get; set; }
         [DisplayName("Tegneregler(URL)")]

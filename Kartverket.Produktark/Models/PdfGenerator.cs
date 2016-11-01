@@ -265,25 +265,25 @@ namespace Kartverket.Produktark.Models
         {
             ct.AddElement(writeTblHeader("LEVERANSEBESKRIVELSE"));
 
-            if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatName))
+            if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormats))
             {
                 Phrase distributionFormatHeading = new Phrase("Format (versjon)", font3Bold);
                 ct.AddElement(distributionFormatHeading);
 
-                Paragraph distributionFormat = new Paragraph("", font3);
-                List format = new List(List.UNORDERED);
-                format.SetListSymbol("\u2022");
-                format.IndentationLeft = 5;
-                string formatVersion = productsheet.DistributionFormatName;
-                if (!string.IsNullOrWhiteSpace(productsheet.DistributionFormatVersion))
-                {
-                    formatVersion = formatVersion + ", " + productsheet.DistributionFormatVersion;
-                }
+                var DistributionFormats = Regex.Split(productsheet.DistributionFormats, "\r\n");
 
-                ListItem liFormat = new ListItem(formatVersion, font3);
-                format.Add(liFormat);
-                distributionFormat.Add(format);
-                ct.AddElement(distributionFormat);
+                foreach (string distroFormat in DistributionFormats)
+                {
+                    Paragraph distributionFormat = new Paragraph("", font3);
+                    List format = new List(List.UNORDERED);
+                    format.SetListSymbol("\u2022");
+                    format.IndentationLeft = 5;
+
+                    ListItem liFormat = new ListItem(distroFormat, font3);
+                    format.Add(liFormat);
+                    distributionFormat.Add(format);
+                    ct.AddElement(distributionFormat);
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(productsheet.Projections))
