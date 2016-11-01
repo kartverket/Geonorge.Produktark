@@ -425,15 +425,16 @@ namespace Kartverket.Produktark.Models
 
             Phrase contactPublisher = new Phrase();
 
-            if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Name))
+            if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Email))
             {
                 Chunk contactPublisherHeading = new Chunk("Datateknisk: ", font3Bold);
                 Chunk contactPublisherName = new Chunk(productsheet.ContactPublisher.Name, font3);
                 contactPublisher.Add(contactPublisherHeading);
-                contactPublisher.Add(contactPublisherName);
+                if(!string.IsNullOrEmpty(productsheet.ContactPublisher.Name))
+                    contactPublisher.Add(contactPublisherName);
                 if (!string.IsNullOrWhiteSpace(productsheet.ContactPublisher.Email))
                 {
-                    Chunk contactPublisherEmail = new Chunk(", " + productsheet.ContactPublisher.Email, font3);
+                    Chunk contactPublisherEmail = new Chunk(!string.IsNullOrEmpty(productsheet.ContactPublisher.Name) ? ", " + productsheet.ContactPublisher.Email : productsheet.ContactPublisher.Email, font3);
                     contactPublisher.Add(contactPublisherEmail);
                 }
             }
@@ -442,15 +443,16 @@ namespace Kartverket.Produktark.Models
 
             Phrase contactOwner = new Phrase();
 
-            if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Name))
+            if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Email))
             {
                 Chunk contactOwnerHeading = new Chunk("Fagekspert: ", font3Bold);
                 Chunk contactOwnerName = new Chunk(productsheet.ContactOwner.Name, font3);
                 contactOwner.Add(contactOwnerHeading);
-                contactOwner.Add(contactOwnerName);
+                if (!string.IsNullOrEmpty(productsheet.ContactOwner.Name))
+                    contactOwner.Add(contactOwnerName);
                 if (!string.IsNullOrWhiteSpace(productsheet.ContactOwner.Email))
                 {
-                    Chunk contactOwnerEmail = new Chunk(", " + productsheet.ContactOwner.Email, font3);
+                    Chunk contactOwnerEmail = new Chunk(!string.IsNullOrEmpty(productsheet.ContactOwner.Name) ? ", " + productsheet.ContactOwner.Email : productsheet.ContactOwner.Email, font3);
                     contactOwner.Add(contactOwnerEmail);
                 }
             }
