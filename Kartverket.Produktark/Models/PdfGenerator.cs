@@ -65,7 +65,7 @@ namespace Kartverket.Produktark.Models
                 cb.EndMarkedContentSequence();
 
 
-                doc.CloseDocument();
+                doc.Close();
                 output.Flush();
                 output.Position = 0; 
                 
@@ -133,10 +133,10 @@ namespace Kartverket.Produktark.Models
             doc = new Document();
 
             bf = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\Arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, BaseColor.BLACK);
-            font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, BaseColor.BLACK);
-            font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.NORMAL, BaseColor.BLACK);
-            font3Bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.BLACK);
+            font1 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 22f, Font.NORMAL, Color.BLACK);
+            font2 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 12f, Font.NORMAL, Color.BLACK);
+            font3 = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.NORMAL, Color.BLACK);
+            font3Bold = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, Color.BLACK);
             fontLink = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.UNDERLINE);
             fontLink.SetColor(0, 0, 255);
 
@@ -155,7 +155,7 @@ namespace Kartverket.Produktark.Models
 
             doc.Open();
             doc.AddTitle(productsheet.Title);
-            doc.AddLanguage("Norwegian");
+            //doc.AddLanguage("Norwegian");
 
             cb = writer.DirectContent;
 
@@ -496,7 +496,7 @@ namespace Kartverket.Produktark.Models
                 Paragraph descriptionHeading = new Paragraph();
                 try
                 {
-                    var imageMap = Image.GetInstance(new Uri(productsheet.Thumbnail), true);
+                    var imageMap = Image.GetInstance(new Uri(productsheet.Thumbnail));
                     imageMap.Alt = "Bilde av karteksempel";
                     imageMap.ScaleToFit(140f, 100f);
                     imageMap.SpacingBefore = 4;
@@ -526,7 +526,7 @@ namespace Kartverket.Produktark.Models
 
         PdfPTable writeTblHeader(string txt)
         {
-            Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, BaseColor.WHITE);
+            Font fontHead = FontFactory.GetFont("Arial", BaseFont.CP1252, BaseFont.EMBEDDED, 10f, Font.BOLD, Color.WHITE);
             
             Anchor content = new Anchor(txt, fontHead);
             content.Name = txt;
@@ -537,7 +537,7 @@ namespace Kartverket.Produktark.Models
             PdfPTable table = new PdfPTable(1);
             table.WidthPercentage = 100;
             PdfPCell cell = new PdfPCell(content);
-            cell.BackgroundColor = new BaseColor(0, 150, 0);
+            cell.BackgroundColor = new Color(0, 150, 0);
             cell.Border = 0;
             cell.PaddingTop = 0;
             cell.PaddingBottom = 3;
