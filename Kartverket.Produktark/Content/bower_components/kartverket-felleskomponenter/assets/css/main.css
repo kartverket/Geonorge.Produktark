@@ -1769,11 +1769,6 @@ a {
 .control-text {
   padding-top: 7px; }
 
-.help-text {
-  margin: 5px;
-  padding: 10px;
-  border-radius: 4px; }
-
 aside ul li, .container-footer ul li {
   background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/arrow-right.svg"); }
 
@@ -2019,11 +2014,21 @@ button.btn {
 .custom-icon.custom-icon-handlekurv {
   background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv.svg"); }
 
+.added .custom-icon.custom-icon-handlekurv {
+  background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv-added.svg"); }
+
 .btn .custom-icon.custom-icon-handlekurv {
   background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv-white.svg"); }
 
+.btn.added .custom-icon.custom-icon-handlekurv {
+  background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv-white-added.svg"); }
+
 .disabled .custom-icon.custom-icon-handlekurv {
   background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv-disabled.svg"); }
+
+.disabled.added .custom-icon.custom-icon-handlekurv,
+.btn.disabled.added .custom-icon.custom-icon-handlekurv {
+  background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/handlekurv-disabled-added.svg"); }
 
 /* Last ned */
 .custom-icon.custom-icon-lastned {
@@ -2390,13 +2395,26 @@ button.btn {
       background-position: 100% -36px; }
 
 /* Nedlastingskvittering */
-.download-list a.list-group-item {
-  color: #3867C8; }
+.download-list .list-group-item a {
+  color: #3867C8;
+  text-decoration: none; }
 
 .download-list .list-group-item span {
   padding-right: 10px;
-  border-right: 1px solid #ccc;
   margin-right: 5px; }
+  .download-list .list-group-item span.custom-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px; }
+  .download-list .list-group-item span.download-list-item-name {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 14pt;
+    line-height: 16pt; }
+    .download-list .list-group-item span.download-list-item-name small {
+      display: block;
+      margin: 0;
+      line-height: 1; }
 
 .facet-sok-tittel {
   display: block;
@@ -2551,6 +2569,8 @@ textarea, textarea.form-control {
   background-size: 16px 16px;
   background-position: right 8px center;
   border-radius: 0; }
+  .custom-select .input-group-btn {
+    width: 0; }
 
 .custom-select:hover {
   background-image: url("/Content/bower_components/kartverket-felleskomponenter/assets/images/svg/arrow-down.svg"); }
@@ -2675,6 +2695,18 @@ textarea, textarea.form-control {
     font-family: inherit;
     font-size: 100%; }
 
+.help-text {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 4px; }
+  .help-text.bg-success {
+    border-left: 8px solid #26C045; }
+  .help-text.bg-info {
+    border-left: 8px solid #7da1c4; }
+  .help-text.form-element-help-text {
+    margin: 0px;
+    padding: 6px 10px; }
+
 .no-padding {
   padding: 0; }
 
@@ -2699,6 +2731,12 @@ textarea, textarea.form-control {
 .no-border-radius, .help-text, .panel, .panel-heading,
 .no-border-radius input, .help-text input, .panel input, .panel-heading input {
   border-radius: 0 !important; }
+
+.inline-block {
+  display: inline-block !important; }
+
+.auto-width {
+  width: auto !important; }
 
 .text-left {
   text-align: left !important; }
@@ -3028,16 +3066,17 @@ ul#thumbnailsCoverage {
     position: fixed; }
   #norgeskartmodal .modal-footer {
     position: fixed;
-    bottom: 0px;
+    bottom: 10px;
     width: auto;
-    right: 0;
-    background-color: rgba(220, 220, 220, 0.85);
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7); }
+    right: 103px;
+    background-color: #DEDCD9;
+    border-top: none;
+    padding: 9.5pt; }
 
 #feedback-alert {
   display: none;
   position: fixed;
-  z-index: 2;
+  z-index: 15;
   bottom: 0px;
   width: 100%;
   left: 0px;
@@ -3094,9 +3133,6 @@ input[type="checkbox"].input-validation-error {
   border-radius: 4px 4px 0 0;
   border-style: solid; }
 
-.help-text.bg-success {
-  border-left: 8px solid #26C045; }
-
 .has-error.checkbox-inline label,
 .has-error.checkbox label,
 .has-error.radio-inline label, .has-error.radio,
@@ -3134,7 +3170,7 @@ input[type="checkbox"].input-validation-error {
     line-height: 39pt; }
 
 .loading-animation {
-  z-index: 10;
+  z-index: 15;
   position: fixed;
   background-repeat: no-repeat;
   background-position: 50% 15px;
