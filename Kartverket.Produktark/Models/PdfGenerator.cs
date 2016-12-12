@@ -175,44 +175,34 @@ namespace Kartverket.Produktark.Models
 
             Paragraph linksParagraph = new Paragraph("", font3);
 
-            List links = new List(List.UNORDERED);
-            links.SetListSymbol("\u2022");
-            links.IndentationLeft = 5;
-
-            ListItem metaData = new ListItem();
             Anchor metaDatalink = new Anchor("Link til metadata i Geonorge", fontLink);
             metaDatalink.Reference = "https://kartkatalog.geonorge.no/metadata/uuid/" + productsheet.Uuid;
-            metaData.Add(metaDatalink);
-            links.Add(metaData);
+            linksParagraph.Add(metaDatalink);
 
             if (!string.IsNullOrWhiteSpace(productsheet.ProductSpecificationUrl))
             {
-                ListItem ProductSpecificationUrl = new ListItem();
+                linksParagraph.Add("\r\n");
                 Anchor ProductSpecificationLink = new Anchor("Link til produktspesifikasjon", fontLink);
                 ProductSpecificationLink.Reference = productsheet.ProductSpecificationUrl;
-                ProductSpecificationUrl.Add(ProductSpecificationLink);
-                links.Add(ProductSpecificationUrl);
+                linksParagraph.Add(ProductSpecificationLink);
             }
 
             if (!string.IsNullOrWhiteSpace(productsheet.LegendDescriptionUrl))
             {
-                ListItem legendDescription = new ListItem();
+                linksParagraph.Add("\r\n");
                 Anchor legendDescriptionUrl = new Anchor("Link til tegnregler", fontLink);
                 legendDescriptionUrl.Reference = productsheet.LegendDescriptionUrl;
-                legendDescription.Add(legendDescriptionUrl);
-                links.Add(legendDescription);
+                linksParagraph.Add(legendDescriptionUrl);
             }
 
             if (!string.IsNullOrWhiteSpace(productsheet.ProductPageUrl))
             {
-                ListItem productPage = new ListItem();
+                linksParagraph.Add("\r\n");
                 Anchor productPageUrl = new Anchor("Link til produktside", fontLink);
                 productPageUrl.Reference = productsheet.ProductPageUrl;
-                productPage.Add(productPageUrl);
-                links.Add(productPage);
+                linksParagraph.Add(productPageUrl);
             }
 
-            linksParagraph.Add(links);
             ct.AddElement(linksParagraph);
         }
 
