@@ -104,7 +104,7 @@ namespace Kartverket.Produktark.Models
                 }
                 //Needs to be here to prevent app from hanging
                 if (!newPage)
-                    ct.YLine = doc.Top - 80f;
+                    ct.YLine = doc.Top - 90f;
                 else
                     ct.YLine = doc.Top - 30f;
 
@@ -163,8 +163,11 @@ namespace Kartverket.Produktark.Models
             ct = new ColumnText(cb);
             cb.BeginText();
             cb.SetFontAndSize(bf, 22);
-            cb.SetTextMatrix(doc.Left, doc.Top - 60);
-            cb.ShowText("Produktark: " + productsheet.Title);
+            //cb.SetTextMatrix(doc.Left, doc.Top - 60);
+            //cb.NewlineShowText("Produktark: " + productsheet.Title);
+            ct.SetSimpleColumn(new Phrase(new Chunk("Produktark: " + productsheet.Title, font1)),
+                     doc.Left, doc.Top - 30, 570, 36, 25, Element.ALIGN_LEFT | Element.ALIGN_TOP);
+            ct.Go();
             cb.EndText();
         }
 
