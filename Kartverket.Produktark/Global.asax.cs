@@ -8,6 +8,10 @@ using Autofac;
 using Kartverket.Produktark.Models;
 using log4net;
 using System;
+using System.Globalization;
+using System.Threading;
+using System.Web;
+using Kartverket.Produktark.Models.Translations;
 
 namespace Kartverket.Produktark
 {
@@ -41,6 +45,24 @@ namespace Kartverket.Produktark
             log.Error("App_Error", ex);
         }
 
+        protected void Application_BeginRequest()
+        {
+            var cookie = Context.Request.Cookies["_culture"];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie("_culture", Culture.NorwegianCode);
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
 
+            if (!string.IsNullOrEmpty(cookie.Value))
+            {
+                var culture = new CultureInfo(cookie.Value);
+                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentUICulture = culture;
+            }
+        }
     }
+
+
 }
+
