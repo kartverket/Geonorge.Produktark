@@ -10,8 +10,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="@Html.KartkatalogenUrl()Content/img/favicon.ico" />
     <title>@ViewBag.Title</title>
 
-    <!-- Stylesheets -->
-    @Styles.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/css/styles")
 
     <!-- Scripts -->
     <script>
@@ -25,19 +23,28 @@
             currentCulture: '@CultureHelper.GetCurrentCulture()'
         };
     </script>
-    @Scripts.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/scripts")
-    @Scripts.Render("~/bundles/js")
+
+    <script>
+        var applicationVersionNumber = '@Html.ApplicationVersionNumber()';
+        var applicationEnvironment = '@Html.EnvironmentName()';
+
+        var cultureData = {
+            friendlyUrlEN: '@Html.Raw(VirtualPathUtility.ToAbsolute("~/Home/SetCulture?culture="))@Kartverket.Produktark.Models.Translations.Culture.EnglishCode&ReturnUrl=@Request.Url',
+            friendlyUrlNO: '@Html.Raw(VirtualPathUtility.ToAbsolute("~/Home/SetCulture?culture="))@Kartverket.Produktark.Models.Translations.Culture.NorwegianCode&ReturnUrl=@Request.Url',
+            currentCulture: '@CultureHelper.GetCurrentCulture()'
+            };
+    </script>
 
     @RenderSection("head", false)
     @RenderSection("scripts", false)
 </head>
 
-<body class="geonorge-container prototype  geonorge ng-scope" ng-app="geonorge">
+<body class="geonorge-container prototype  geonorge">
 
     <div id="loading-animation" class="loading-animation" style="display: none;"></div>
-
-    @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
-    @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_SharedMenu.min.cshtml")
+    
+    @Html.Raw(File.ReadAllText(Server.MapPath("~/dist/partials/Header.html")))
+    @Styles.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/css/styles")
 
     <div class="body-content">
         <div class="container container-breadcrumbs" id="navTabCont">
@@ -49,7 +56,7 @@
         </div>
 
         @if (TempData["error"] != null)
-            {
+        {
             <div class="alert alert-danger"><p>@TempData["error"]</p></div>
         }
 
@@ -67,5 +74,21 @@
     {
         @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Footer_eng.min.cshtml");
     }
+
+    <script>
+        searchOption.supportsLogin = false;
+        searchOption.epiBaseUrl = '@Html.GeonorgeUrl()';
+        var orderItems = Cookies.get('orderitems');
+        if (orderItems && orderItems > 0) {
+            $('.downloads__count').show();
+            $('.downloads__count').text(orderItems);
+        }
+    </script>
+
+    @Scripts.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/js/scripts")
+    @Scripts.Render("~/bundles/js")
+    @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
+
+
 </body>
 </html>
