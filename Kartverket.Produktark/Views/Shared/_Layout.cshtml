@@ -11,19 +11,7 @@
     <title>@ViewBag.Title</title>
 
 
-    <!-- Scripts -->
-    <script>
-        var applicationEnvironment = '@Html.EnvironmentName()';
-        var applicationVersionNumber = '@Html.ApplicationVersionNumber()';
-
-        var cultureData = {
-            supportsMultiCulture: @(Html.SupportsMultiCulture() ? "true" : "false"),
-            urlSetCulture: '@VirtualPathUtility.ToAbsolute("~/Home/SetCulture?culture=")@Kartverket.Produktark.Models.Translations.Culture.EnglishCode&ReturnUrl=@Request.Url',
-            urlSetCultureNorwegian: '@VirtualPathUtility.ToAbsolute("~/Home/SetCulture?culture=")@Kartverket.Produktark.Models.Translations.Culture.NorwegianCode&ReturnUrl=@Request.Url',
-            currentCulture: '@CultureHelper.GetCurrentCulture()'
-        };
-    </script>
-
+    @RenderSection("head", false)
     <script>
         var applicationVersionNumber = '@Html.ApplicationVersionNumber()';
         var applicationEnvironment = '@Html.EnvironmentName()';
@@ -34,16 +22,14 @@
             currentCulture: '@CultureHelper.GetCurrentCulture()'
             };
     </script>
-
-    @RenderSection("head", false)
-    @RenderSection("scripts", false)
 </head>
 
 <body class="geonorge-container prototype  geonorge">
 
     <div id="loading-animation" class="loading-animation" style="display: none;"></div>
-    
+
     @Html.Raw(File.ReadAllText(Server.MapPath("~/dist/partials/Header.html")))
+    @Styles.Render("~/shared-partials-styles")
     @Styles.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/css/styles")
 
     <div class="body-content">
@@ -74,7 +60,7 @@
     {
         @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Footer_eng.min.cshtml");
     }
-
+    @Scripts.Render("~/shared-partials-scripts")
     <script>
         searchOption.supportsLogin = false;
         searchOption.epiBaseUrl = '@Html.GeonorgeUrl()';
@@ -88,7 +74,7 @@
     @Scripts.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/js/scripts")
     @Scripts.Render("~/bundles/js")
     @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
-
+    @RenderSection("scripts", false)
 
 </body>
 </html>
