@@ -491,7 +491,7 @@ namespace Kartverket.Produktark.Models
                 {
                     var imageMap = Image.GetInstance(new Uri(productsheet.Thumbnail));
                     imageMap.Alt = "Bilde av karteksempel";
-                    imageMap.ScaleToFit(140f, 100f);
+                    imageMap.ScaleToFit(252f, 212f);
                     imageMap.SpacingBefore = 4;
                     ct.AddElement(imageMap);
                     ct.AddElement(descriptionHeading);
