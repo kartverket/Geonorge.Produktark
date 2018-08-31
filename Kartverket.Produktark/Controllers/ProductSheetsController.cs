@@ -67,7 +67,6 @@ namespace Kartverket.Produktark.Controllers
             if (!string.IsNullOrWhiteSpace(uuid))
             {
                 model = _productSheetService.CreateProductSheetFromMetadata(uuid);
-                model.SetTranslations();
             }
             else
                 model = new ProductSheet();
@@ -118,7 +117,6 @@ namespace Kartverket.Produktark.Controllers
             {
                 return HttpNotFound();
             }
-            productSheet.SetTranslations();
             ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", productSheet.MaintenanceFrequency);
             return View(productSheet);
         }
