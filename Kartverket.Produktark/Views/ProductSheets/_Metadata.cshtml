@@ -1,5 +1,5 @@
 ﻿@model Kartverket.Produktark.Models.ProductSheet
-
+@Html.HiddenFor(m => m.KeywordsPlace)
 <div class="form-group required has-feedback">
     @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -71,7 +71,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.MaintenanceFrequency, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("MaintenanceFrequency", ViewBag.MaintenanceFrequencyValues as SelectList, Model.MaintenanceFrequency, new { @class = "form-control" })
+        @Html.DropDownList("MaintenanceFrequency", ViewBag.MaintenanceFrequencyValues as SelectList, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.MaintenanceFrequency, "", new { @class = "text-danger" })
     </div>
 </div>
