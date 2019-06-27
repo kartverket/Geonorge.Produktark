@@ -9,15 +9,18 @@ using Kartverket.Geonorge.Utilities;
 using Kartverket.Geonorge.Utilities.Organization;
 using Kartverket.Produktark.Models;
 using Autofac.Core.Activators.Reflection;
+using Geonorge.AuthLib.NetFull;
+
 
 namespace Kartverket.Produktark
 {
     public static class DependencyConfig
     {
-        public static void Configure(ContainerBuilder builder)
+        public static IContainer Configure(ContainerBuilder builder)
         {
             builder.RegisterControllers(typeof(MvcApplication).Assembly).PropertiesAutowired();
             builder.RegisterModule(new AutofacWebTypesModule());
+            builder.RegisterModule<GeonorgeAuthenticationModule>();
 
             builder.RegisterType<ProductSheetContext>().InstancePerRequest().AsSelf();
             builder.RegisterType<ProductSheetService>().As<IProductSheetService>();
@@ -40,6 +43,8 @@ namespace Kartverket.Produktark
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+            return container;
         }
     }
 }
