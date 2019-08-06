@@ -591,6 +591,7 @@
     <Content Include="dist\maps\vendor.css.map" />
     <Content Include="dist\maps\vendor.js.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="PostDeploy.ps1" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\bootstrap.js" />
