@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using GeoNorgeAPI;
 using Kartverket.Produktark.Models;
 using System.Security.Claims;
+using Geonorge.AuthLib.Common;
 
 namespace Kartverket.Produktark.Controllers
 {
@@ -35,7 +36,7 @@ namespace Kartverket.Produktark.Controllers
             if (IsAdmin())
                 return View(_dbContext.ProductSheet.ToList());
             else
-            return View(_productSheetService.FindProductSheetsForOrganization(ClaimsPrincipal.Current.Organization()));
+            return View(_productSheetService.FindProductSheetsForOrganization(ClaimsPrincipal.Current.GetOrganizationName()));
            
         }
 
@@ -217,7 +218,7 @@ namespace Kartverket.Produktark.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
-            if (ClaimsPrincipal.Current.Organization().ToLower() == productSheet.ContactMetadata.Organization.ToLower() || IsAdmin()) 
+            if (ClaimsPrincipal.Current.GetOrganizationName().ToLower() == productSheet.ContactMetadata.Organization.ToLower() || IsAdmin()) 
             { 
             _dbContext.ProductSheet.Remove(productSheet);
             _dbContext.SaveChanges();
@@ -249,13 +250,7 @@ namespace Kartverket.Produktark.Controllers
 
         bool IsAdmin() {
 
-            foreach (var role in ClaimsPrincipal.Current.Roles())
-            {
-                 if(role == "nd.metadata_admin"){
-                     return true;
-                 }
-            }
-            return false;
+            return ClaimsPrincipal.Current.IsInRole(GeonorgeRoles.MetadataAdmin);
         }
 
         protected override void OnException(ExceptionContext filterContext)

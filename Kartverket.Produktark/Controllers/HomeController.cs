@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using Kartverket.Produktark.Helpers;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
 
 namespace Kartverket.Produktark.Controllers
 {
@@ -47,6 +51,31 @@ namespace Kartverket.Produktark.Controllers
                 return Redirect(returnUrl);
             else
                 return RedirectToAction("Index");
+        }
+
+        public void SignIn()
+        {
+            var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
+            HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = redirectUrl },
+                OpenIdConnectAuthenticationDefaults.AuthenticationType);
+        }
+
+        public void SignOut()
+        {
+            var redirectUri = WebConfigurationManager.AppSettings["GeoID:PostLogoutRedirectUri"];
+            HttpContext.GetOwinContext().Authentication.SignOut(
+                new AuthenticationProperties { RedirectUri = redirectUri },
+                OpenIdConnectAuthenticationDefaults.AuthenticationType,
+                CookieAuthenticationDefaults.AuthenticationType);
+        }
+
+        /// <summary>
+        /// This is the action responding to /signout-callback-oidc route after logout at the identity provider
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SignOutCallback()
+        {
+            return RedirectToAction(nameof(ProductSheetsController.Index), "ProductSheets");
         }
     }
 }

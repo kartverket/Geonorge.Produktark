@@ -18,6 +18,8 @@ namespace Kartverket.Produktark
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "ProductSheets", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute("OIDC-callback-signout", "signout-callback-oidc", new { controller = "Home", action = "SignOutCallback" });
         }
     }
 }
