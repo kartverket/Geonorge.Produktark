@@ -37,6 +37,7 @@ namespace Kartverket.Produktark
             log4net.Config.XmlConfigurator.Configure();
         }
 
+        protected void Session_Start() { }
 
         protected void Application_Error(Object sender, EventArgs e)
         {
