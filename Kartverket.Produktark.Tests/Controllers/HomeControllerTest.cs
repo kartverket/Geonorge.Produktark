@@ -14,7 +14,7 @@ namespace Kartverket.Produktark.Tests.Controllers
             HomeController controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            RedirectToRouteResult result = controller.Index() as RedirectToRouteResult;
 
             // Assert
             Assert.IsNotNull(result);
