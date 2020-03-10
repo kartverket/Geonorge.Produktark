@@ -554,8 +554,6 @@
     <Content Include="Images\logo_etat.png" />
     <Content Include="Images\logo_karteksempel.png" />
     <Content Include="Images\logo_norgedigitalt.png" />
-    <Content Include="bower.json" />
-    <Content Include=".bowerrc" />
     <Content Include="Content\bower_components\kartverket-felleskomponenter\.bower.json" />
     <Content Include="Content\bower_components\kartverket-felleskomponenter\assets\fonts\702ZOKiLJc3WVjuplzInF5uFdDttMLvmWuJdhhgs.ttf" />
     <Content Include="Content\bower_components\kartverket-felleskomponenter\assets\fonts\fontawesome-webfont.eot" />
