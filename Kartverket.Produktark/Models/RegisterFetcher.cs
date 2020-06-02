@@ -100,12 +100,14 @@ namespace Kartverket.Produktark.Models
             if (!dic.Equals(default(KeyValuePair<String, String>)))
                 value = dic.Value;
 
+            Dictionary<string, string> inspire = GetInspireAccessRestrictions();
+
             if (value == "restricted")
-                value = "Skjermede data";
-            if (OtherConstraintsAccess == "no restrictions")
-                value = "Åpne data";
-            else if (OtherConstraintsAccess == "norway digital restricted")
-                value = "Norge digitalt-begrenset";
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1b"];
+            if (value == "no restrictions" || OtherConstraintsAccess == "no restrictions")
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"];
+            else if (value == "norway digital restricted" || OtherConstraintsAccess == "norway digital restricted")
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1d"];
 
             return value;
         }
@@ -194,6 +196,36 @@ namespace Kartverket.Produktark.Models
             }
 
             return CodeValues;
+        }
+
+        public Dictionary<string, string> GetInspireAccessRestrictions(string culture = "no")
+        {
+            System.Net.WebClient c = new System.Net.WebClient();
+            c.Encoding = System.Text.Encoding.UTF8;
+            c.Headers.Remove("Accept-Language");
+            c.Headers.Add("Accept-Language", culture);
+            var data = c.DownloadString(System.Web.Configuration.WebConfigurationManager.AppSettings["RegistryUrl"] + "api/metadata-kodelister/inspire-tilgangsrestriksjoner");
+            var response = Newtonsoft.Json.Linq.JObject.Parse(data);
+
+            Dictionary<string, string> inspire = new Dictionary<string, string>();
+
+            var items = response["containeditems"];
+
+            foreach (var item in items)
+            {
+                var id = item["codevalue"].ToString();
+                string label = item["label"].ToString();
+                string status = item["status"].ToString();
+
+
+
+                if (status == "Gyldig" || status == "Valid")
+                {
+                    inspire.Add(id, label);
+                }
+            }
+
+            return inspire;
         }
 
     }
