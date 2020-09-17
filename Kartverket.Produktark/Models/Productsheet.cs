@@ -27,6 +27,10 @@ namespace Kartverket.Produktark.Models
         public string SpecificUsage { get; set; }
         [DisplayName("Bruksbegrensninger")]
         public string UseLimitations { get; set; }
+        [DisplayName("Lisens tekst")]
+        public string UseConstraintsLicenseLinkText { get; set; }
+        [DisplayName("Lisens url")]
+        public string UseConstraintsLicenseLink { get; set; }
         public Contact ContactMetadata { get; set; }
         public Contact ContactPublisher { get; set; }
         public Contact ContactOwner { get; set; }

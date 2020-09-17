@@ -49,8 +49,6 @@
     </div>
 </div>
 
-
-
 <div class="form-group">
     @Html.LabelFor(model => model.ResolutionScale, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -97,6 +95,22 @@
     <div class="col-md-10">
         @Html.EditorFor(model => model.AccessConstraints, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.AccessConstraints, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.UseConstraintsLicenseLink, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.UseConstraintsLicenseLink, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.UseConstraintsLicenseLink, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.UseConstraintsLicenseLinkText, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.UseConstraintsLicenseLinkText, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.UseConstraintsLicenseLinkText, "", new { @class = "text-danger" })
     </div>
 </div>
 

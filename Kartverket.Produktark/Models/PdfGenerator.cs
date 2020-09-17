@@ -309,6 +309,15 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(accessConstraints);
             }
 
+            if (!string.IsNullOrWhiteSpace(productsheet.UseConstraintsLicenseLink) && !string.IsNullOrWhiteSpace(productsheet.UseConstraintsLicenseLinkText))
+            {
+                Phrase licenseUrlPhrase = new Phrase("\nLisens: ");
+                Anchor licenseUrl = new Anchor(productsheet.UseConstraintsLicenseLinkText, fontLink);
+                licenseUrl.Reference = productsheet.UseConstraintsLicenseLink;
+                licenseUrlPhrase.Add(licenseUrl);
+                ct.AddElement(licenseUrlPhrase);
+            }
+
             if (!string.IsNullOrWhiteSpace(productsheet.ServiceDetails))
             {
                 Phrase serviceDetailsHeading = new Phrase("\n" + "Tjeneste", font3Bold);
