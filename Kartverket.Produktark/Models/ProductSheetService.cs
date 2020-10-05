@@ -40,6 +40,8 @@ namespace Kartverket.Produktark.Models
                 productSheet.Purpose = simpleMetadata.Purpose;
                 productSheet.SpecificUsage = simpleMetadata.SpecificUsage;
                 productSheet.UseLimitations = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseLimitations : null;
+                productSheet.UseConstraintsLicenseLink = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseConstraintsLicenseLink : null;
+                productSheet.UseConstraintsLicenseLinkText = simpleMetadata.Constraints != null ? simpleMetadata.Constraints.UseConstraintsLicenseLinkText : null;
                 productSheet.ContactMetadata = simpleMetadata.ContactMetadata != null ? CreateContact(simpleMetadata.ContactMetadata) : new Contact();
                 productSheet.ContactPublisher = simpleMetadata.ContactPublisher != null ? CreateContact(simpleMetadata.ContactPublisher) : new Contact();
                 productSheet.ContactOwner = simpleMetadata.ContactOwner != null ? CreateContact(simpleMetadata.ContactOwner) : new Contact();

@@ -62,13 +62,17 @@ namespace Kartverket.Produktark.Models
 
             Rectangle pageSize = document.PageSize;
             if (_imagePathLogo!=""){
-            Image imageOrganization;
-            imageOrganization = Image.GetInstance(_imagePathLogo);
-            imageOrganization.Alt = "Etatens logo";
-            imageOrganization.ScaleToFit(41f, 41f);
+            try
+                { 
+                Image imageOrganization;
+                imageOrganization = Image.GetInstance(_imagePathLogo);
+                imageOrganization.Alt = "Etatens logo";
+                imageOrganization.ScaleToFit(41f, 41f);
 
-            imageOrganization.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
-            document.Add(imageOrganization);
+                imageOrganization.SetAbsolutePosition(pageSize.GetLeft(50), pageSize.GetTop(45));
+                document.Add(imageOrganization);
+                }
+            catch (Exception ex) {  }
             }
 
             var image_logo = Image.GetInstance(_imagePath + "logo_norgedigitalt.png");
