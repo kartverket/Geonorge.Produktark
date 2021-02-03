@@ -103,11 +103,11 @@ namespace Kartverket.Produktark.Models
             Dictionary<string, string> inspire = GetInspireAccessRestrictions();
 
             if (value == "restricted")
-                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1b"];
+                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1b"];
             if (value == "no restrictions" || OtherConstraintsAccess == "no restrictions")
-                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"];
+                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"];
             else if (value == "norway digital restricted" || OtherConstraintsAccess == "norway digital restricted")
-                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1d"];
+                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1d"];
 
             return value;
         }
