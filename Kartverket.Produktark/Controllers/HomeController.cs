@@ -59,7 +59,7 @@ namespace Kartverket.Produktark.Controllers
 
             var redirectUrl = Url.Action(nameof(ProductSheetsController.Index), "ProductSheets");
             if (!string.IsNullOrEmpty(uuid))
-                redirectUrl = "/ProductSheets/Create??uuid=" + uuid;
+                redirectUrl = "/ProductSheets/Create?uuid=" + uuid;
 
             HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = redirectUrl },
                 OpenIdConnectAuthenticationDefaults.AuthenticationType);
