@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -55,7 +55,12 @@ namespace Kartverket.Produktark.Controllers
 
         public void SignIn()
         {
-            var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
+            var uuid = Request.QueryString["uuid"];
+
+            var redirectUrl = Url.Action(nameof(ProductSheetsController.Index), "ProductSheets");
+            if (!string.IsNullOrEmpty(uuid))
+                redirectUrl = "/ProductSheets/Create?uuid=" + uuid;
+
             HttpContext.GetOwinContext().Authentication.Challenge(new AuthenticationProperties { RedirectUri = redirectUrl },
                 OpenIdConnectAuthenticationDefaults.AuthenticationType);
         }
