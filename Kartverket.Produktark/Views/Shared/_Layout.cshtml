@@ -32,7 +32,6 @@
     <main-navigation environment="@Html.EnvironmentName()"
                      language="@CultureHelper.GetCurrentCulture()"></main-navigation>
 
-    @Styles.Render("~/shared-partials-styles")
     @Styles.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/css/styles")
 
     <div class="body-content">
@@ -56,18 +55,11 @@
         </div>
     </div>
     <geonorge-footer language="@CultureHelper.GetCurrentCulture()" version="@Html.ApplicationVersionNumber()" environment="@Html.EnvironmentName()" />
-    @Scripts.Render("~/shared-partials-scripts")
-    <script>
-        searchOption.supportsLogin = false;
-        searchOption.epiBaseUrl = '@Html.GeonorgeUrl()';
-        var orderItems = Cookies.get('orderitems');
-        if (orderItems && orderItems > 0) {
-            $('.downloads__count').show();
-            $('.downloads__count').text(orderItems);
-        }
-    </script>
+
+
 
     @Scripts.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/js/scripts")
+
     @Scripts.Render("~/bundles/js")
     @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
     @RenderSection("scripts", false)

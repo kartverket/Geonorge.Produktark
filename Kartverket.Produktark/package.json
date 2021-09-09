@@ -6,7 +6,6 @@
     "gulp": "^4.0.2"
   },
   "dependencies": {
-    "geonorge-base": "^10.0.1",
-    "geonorge-shared-partials": "^1.0.0"
+    "geonorge-base": "^10.0.1"
   }
 }
