@@ -32,6 +32,8 @@ namespace Kartverket.Produktark.Models
 
             var simpleMetadata = new SimpleMetadata(metadata);
 
+                dynamic metedataExtended = register.GetMetadataExtended(simpleMetadata.Uuid);
+
            
                 productSheet.Uuid = simpleMetadata.Uuid;
                 productSheet.Title = simpleMetadata.Title;
@@ -66,8 +68,8 @@ namespace Kartverket.Produktark.Models
                     if (thumbnail.Type == "large_thumbnail")
                         break;
                 }
-                productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl, uuid) : "";
-
+            //productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl, uuid) : "";
+                productSheet.CoverageArea = metedataExtended.CoverageUrl;
                 productSheet.Projections = simpleMetadata.ReferenceSystems != null ? getProjections(simpleMetadata.ReferenceSystems) : "";
 
 

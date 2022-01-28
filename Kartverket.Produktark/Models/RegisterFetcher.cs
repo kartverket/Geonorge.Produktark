@@ -103,11 +103,11 @@ namespace Kartverket.Produktark.Models
             Dictionary<string, string> inspire = GetInspireAccessRestrictions();
 
             if (value == "restricted")
-                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1b"];
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1b"];
             if (value == "no restrictions" || OtherConstraintsAccess == "no restrictions")
-                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"];
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"];
             else if (value == "norway digital restricted" || OtherConstraintsAccess == "norway digital restricted")
-                value = inspire["http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1d"];
+                value = inspire["https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/INSPIRE_Directive_Article13_1d"];
 
             return value;
         }
@@ -196,6 +196,17 @@ namespace Kartverket.Produktark.Models
             }
 
             return CodeValues;
+        }
+        public object GetMetadataExtended(string uuid, string culture = "no")
+        {
+            System.Net.WebClient c = new System.Net.WebClient();
+            c.Encoding = System.Text.Encoding.UTF8;
+            c.Headers.Remove("Accept-Language");
+            c.Headers.Add("Accept-Language", culture);
+            var data = c.DownloadString(System.Web.Configuration.WebConfigurationManager.AppSettings["KartkatalogUrl"] + "api/getdata/" + uuid);
+            var response = Newtonsoft.Json.Linq.JObject.Parse(data);
+
+            return response;
         }
 
         public Dictionary<string, string> GetInspireAccessRestrictions(string culture = "no")

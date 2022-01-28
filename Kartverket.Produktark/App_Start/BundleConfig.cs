@@ -19,6 +19,7 @@ namespace Kartverket.Produktark
                "~/Content/bower_components/kartverket-felleskomponenter/assets/js/main.js"
            ));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                 "~/Scripts/jquery.validate*"));
                 
