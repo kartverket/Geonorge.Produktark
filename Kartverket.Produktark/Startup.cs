@@ -10,6 +10,11 @@ namespace Kartverket.Produktark
     {
         public void Configuration(IAppBuilder app)
         {
+            app.Use((context, next) => {
+                context.Request.Scheme = "https";
+                return next();
+            });
+
             // Use Autofac as an Owin middleware
             var container = DependencyConfig.Configure(new ContainerBuilder());
             app.UseAutofacMiddleware(container);
