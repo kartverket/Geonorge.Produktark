@@ -2,10 +2,7 @@
   "version": "1.0.0",
   "name": "asp.net",
   "private": true,
-  "devDependencies": {
-    "gulp": "^4.0.2"
-  },
   "dependencies": {
-    "geonorge-base": "^10.0.1"
+    "@kartverket/geonorge-web-components": "^0.2.7"
   }
 }
