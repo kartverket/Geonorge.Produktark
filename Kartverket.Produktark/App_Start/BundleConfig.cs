@@ -14,13 +14,14 @@ namespace Kartverket.Produktark
                 "~/Content/bower_components/kartverket-felleskomponenter/assets/css/main.min.css"
             ));
 
-            bundles.Add(new ScriptBundle("~/Content/bower_components/kartverket-felleskomponenter/assets/js/scripts").Include(
-               "~/Content/bower_components/kartverket-felleskomponenter/assets/js/vendor.min.js",
-               "~/Content/bower_components/kartverket-felleskomponenter/assets/js/main.js"
-           ));
+            bundles.Add(new ScriptBundle("~/node-modules/scripts").Include(
+               "~/node_modules/@kartverket/geonorge-web-components/MainNavigation.js",
+               "~/node_modules/@kartverket/geonorge-web-components/GeoNorgeFooter.js"
+               ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
+                "~/Scripts/jquery-3.4.1.js",
                 "~/Scripts/jquery.validate*"));
                 
         }
