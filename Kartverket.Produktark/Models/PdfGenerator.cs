@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,12 +66,12 @@ namespace Kartverket.Produktark.Models
 
 
                 doc.Close();
-                output.Flush();
-                output.Position = 0; 
-                
+            output.Flush();
+            output.Position = 0;
+
                 
             return output;
-        }
+            }
 
         private void WriteToColumns()
         {
@@ -156,6 +156,7 @@ namespace Kartverket.Produktark.Models
             doc.Open();
             doc.AddTitle(productsheet.Title);
             //doc.AddLanguage("Norwegian");
+            writer.ExtraCatalog.Put(PdfName.LANG, new PdfString("NO"));
 
             cb = writer.DirectContent;
 
