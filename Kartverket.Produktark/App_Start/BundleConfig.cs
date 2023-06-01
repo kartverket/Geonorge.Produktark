@@ -21,7 +21,7 @@ namespace Kartverket.Produktark
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js"));
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-                "~/Scripts/jquery-3.4.1.js",
+                "~/Scripts/jquery-3.7.0.js",
                 "~/Scripts/jquery.validate*"));
                 
         }
