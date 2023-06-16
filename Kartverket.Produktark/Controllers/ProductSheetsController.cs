@@ -139,7 +139,7 @@ namespace Kartverket.Produktark.Controllers
                 model = _productSheetService.UpdateProductSheetFromMetadata(productSheet.Uuid, model);
 
                 model.PrecisionInMeters = productSheet.PrecisionInMeters;
-                model.ServiceDetails = productSheet.ServiceDetails;
+                model.ServiceDetails = productSheet.ServiceDetails?.Trim();
                 model.ListOfFeatureTypes = productSheet.ListOfFeatureTypes;
                 model.ListOfAttributes = productSheet.ListOfAttributes;
 
@@ -159,6 +159,8 @@ namespace Kartverket.Produktark.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    productSheet.ServiceDetails = productSheet.ServiceDetails?.Trim();
+
                     _dbContext.Entry(productSheet).State = EntityState.Modified;
                     _dbContext.SaveChanges();
                     return RedirectToAction("CreatePdf", new { id = productSheet.Id });
