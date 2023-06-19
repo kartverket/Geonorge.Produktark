@@ -321,11 +321,11 @@ namespace Kartverket.Produktark.Models
 
             if (!string.IsNullOrWhiteSpace(productsheet.ServiceDetails))
             {
-                Phrase serviceDetailsHeading = new Phrase("\n" + "Tjeneste", font3Bold);
-                ct.AddElement(serviceDetailsHeading);
-
-                Phrase serviceDetails = new Phrase(productsheet.ServiceDetails, font3);
-                ct.AddElement(serviceDetails);
+                Phrase serviceUrlPhrase = new Phrase("\nTjeneste: ");
+                Anchor serviceUrl = new Anchor(productsheet.ServiceDetails, fontLink);
+                serviceUrl.Reference = productsheet.ServiceDetails;
+                serviceUrlPhrase.Add(serviceUrl);
+                ct.AddElement(serviceUrlPhrase);
             }
         }
 
