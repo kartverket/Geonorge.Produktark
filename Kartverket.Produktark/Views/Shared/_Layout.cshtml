@@ -10,7 +10,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="@Html.KartkatalogenUrl()Content/img/favicon.ico" />
     <link rel="stylesheet" href="/Content/site.css" />
     <title>@ViewBag.Title</title>
-
+    <script>var environmentIsProduction = @(Html.EnvironmentName() == "" ? "true" : "false");</script>
+    @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
 
     @RenderSection("head", false)
     <script>
@@ -60,8 +61,10 @@
 
     @Scripts.Render("~/bundles/js")
     @Scripts.Render("~/bundles/bootstrap")
-    <script>var environmentIsProduction = @(Html.EnvironmentName() == "" ? "true" : "false");</script>
-    @RenderPage("~/Content/bower_components/kartverket-felleskomponenter/assets/partials/_Analytics.min.cshtml")
     @RenderSection("scripts", false)
+    @if (Html.EnvironmentName() == "")
+    {
+        <noscript><p><img src="https://analyse.kartverket.no/analyse/matomo.php?idsite=16&rec=1" style="border:0" alt="" /></p></noscript>
+    }
 </body>
 </html>
