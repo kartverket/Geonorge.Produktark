@@ -113,13 +113,25 @@ namespace Kartverket.Produktark.Controllers
                 return RedirectToAction("Index");
             }
 
-            ProductSheet productSheet = _dbContext.ProductSheet.Find(id);
-            if (productSheet == null)
+
+            ProductSheet model = _dbContext.ProductSheet.Find(id);
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", productSheet.MaintenanceFrequency);
-            return View(productSheet);
+
+            model = _productSheetService.UpdateProductSheetFromMetadata(model.Uuid, model);
+
+
+            if (ModelState.IsValid)
+            {
+                _dbContext.Entry(model).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+            }
+
+
+            ViewBag.MaintenanceFrequencyValues = new SelectList(GetCodeList("9A46038D-16EE-4562-96D2-8F6304AAB124"), "Key", "Value", model.MaintenanceFrequency);
+            return View(model);
         }
 
         [HttpPost]
@@ -128,45 +140,20 @@ namespace Kartverket.Produktark.Controllers
         public ActionResult Edit(ProductSheet productSheet)
         {
 
-            if (!string.IsNullOrWhiteSpace(Request["hentNyeMetaData"]))
+            if (ModelState.IsValid)
             {
-                ProductSheet model = _dbContext.ProductSheet.Find(productSheet.Id);
-                if (model == null)
-                {
-                    return HttpNotFound();
-                }
+                productSheet.PrecisionInMeters = productSheet.PrecisionInMeters;
+                productSheet.ServiceDetails = productSheet.ServiceDetails?.Trim();
+                productSheet.ListOfFeatureTypes = productSheet.ListOfFeatureTypes;
+                productSheet.ListOfAttributes = productSheet.ListOfAttributes;
 
-                model = _productSheetService.UpdateProductSheetFromMetadata(productSheet.Uuid, model);
-
-                model.PrecisionInMeters = productSheet.PrecisionInMeters;
-                model.ServiceDetails = productSheet.ServiceDetails?.Trim();
-                model.ListOfFeatureTypes = productSheet.ListOfFeatureTypes;
-                model.ListOfAttributes = productSheet.ListOfAttributes;
-
-
-                if (ModelState.IsValid)
-                {
-                    _dbContext.Entry(model).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
-                }
-
-                return RedirectToAction("Edit", new { id = model.Id });
-                
+                _dbContext.Entry(productSheet).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+                return RedirectToAction("CreatePdf", new { id = productSheet.Id });
             }
 
-            else {
-
-
-                if (ModelState.IsValid)
-                {
-                    productSheet.ServiceDetails = productSheet.ServiceDetails?.Trim();
-
-                    _dbContext.Entry(productSheet).State = EntityState.Modified;
-                    _dbContext.SaveChanges();
-                    return RedirectToAction("CreatePdf", new { id = productSheet.Id });
-                }
              return View(productSheet);
-            }
+ 
         }
 
         public ActionResult CreatePdf(int? id)
