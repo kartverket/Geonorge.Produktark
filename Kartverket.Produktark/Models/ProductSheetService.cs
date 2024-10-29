@@ -71,7 +71,10 @@ namespace Kartverket.Produktark.Models
             //productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl, uuid) : "";
                 productSheet.CoverageArea = metedataExtended.CoverageUrl;
                 productSheet.Projections = simpleMetadata.ReferenceSystems != null ? getProjections(simpleMetadata.ReferenceSystems) : "";
-
+                if (!string.IsNullOrEmpty((string)metedataExtended.ServiceUuid))
+                {
+                    productSheet.ServiceDetails = "https://kartkatalog.geonorge.no/metadata/" + metedataExtended.ServiceUuid;
+                }
 
             return productSheet;
 
