@@ -82,6 +82,9 @@ namespace Kartverket.Produktark.Models
 
         private string GetDistributionFormats(List<SimpleDistributionFormat> distributionFormats)
         {
+            if(distributionFormats == null || distributionFormats.Count == 0)
+                return null;    
+
             var distinctFormats = distributionFormats.Select(d => d.Name).Distinct().ToList().OrderBy(o => o);
 
             string formats = null;
