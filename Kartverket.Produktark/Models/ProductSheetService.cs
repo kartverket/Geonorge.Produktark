@@ -82,14 +82,12 @@ namespace Kartverket.Produktark.Models
 
         private string GetDistributionFormats(List<SimpleDistributionFormat> distributionFormats)
         {
-            string formats = null;
-            foreach(var distributionFormat in distributionFormats)
-            {
-                string format = distributionFormat.Name;
-                if (!string.IsNullOrEmpty(distributionFormat.Version))
-                    format = format + ", " + distributionFormat.Version;
+            var distinctFormats = distributionFormats.Select(d => d.Name).Distinct().ToList().OrderBy(o => o);
 
-                formats = formats + format + Environment.NewLine;
+            string formats = null;
+            foreach(var distributionFormat in distinctFormats)
+            {
+                formats = formats + distributionFormat + Environment.NewLine;
             }
 
             return formats;
