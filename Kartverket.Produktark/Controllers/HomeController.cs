@@ -80,7 +80,7 @@ namespace Kartverket.Produktark.Controllers
         /// <returns></returns>
         public ActionResult SignOutCallback()
         {
-            return RedirectToAction(nameof(ProductSheetsController.Index), "ProductSheets");
+            return View("LogIn");
         }
     }
 }

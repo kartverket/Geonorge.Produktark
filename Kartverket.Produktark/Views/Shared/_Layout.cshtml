@@ -73,7 +73,8 @@
 
     <div id="loading-animation" class="loading-animation" style="display: none;"></div>
 
-    <main-navigation userinfo='@userInfoJson' organization='@organizationJson' environment="@Html.EnvironmentName()"
+    <main-navigation userinfo='@userInfoJson' organization='@organizationJson' environment="@Html.EnvironmentName()" signinurl="@Html.Raw(Url.Action("SignIn", "Home", new { ReturnUrl = Request.Url.ToString().Replace("http://","https://") }))"
+                     signouturl="@Html.Raw(Url.Action("SignOut", "Home"))"
                      language="@CultureHelper.GetCurrentCulture()" isLoggedIn="@Request.IsAuthenticated.ToString().ToLower()"></main-navigation>
 
     @Styles.Render("~/Content/bower_components/kartverket-felleskomponenter/assets/css/styles")
