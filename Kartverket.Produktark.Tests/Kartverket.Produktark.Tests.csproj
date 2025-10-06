@@ -59,13 +59,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Arkitektum.GIS.Lib.MetadataCSW, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Arkitektum.GIS.Lib.MetadataCSW.2.0.0-alpha2\lib\netstandard2.0\Arkitektum.GIS.Lib.MetadataCSW.dll</HintPath>
+      <HintPath>..\packages\Arkitektum.GIS.Lib.MetadataCSW.2.0.0\lib\netstandard2.0\Arkitektum.GIS.Lib.MetadataCSW.dll</HintPath>
     </Reference>
     <Reference Include="Arkitektum.GIS.Lib.SerializeUtil, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Arkitektum.GIS.Lib.SerializeUtil.1.4.0-alpha1\lib\netstandard2.0\Arkitektum.GIS.Lib.SerializeUtil.dll</HintPath>
+      <HintPath>..\packages\Arkitektum.GIS.Lib.SerializeUtil.1.4.0\lib\netstandard2.0\Arkitektum.GIS.Lib.SerializeUtil.dll</HintPath>
     </Reference>
     <Reference Include="GeoNorgeAPI, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GeoNorgeAPI.4.0.0-alpha3\lib\netstandard2.0\GeoNorgeAPI.dll</HintPath>
+      <HintPath>..\packages\GeoNorgeAPI.4.0.0\lib\netstandard2.0\GeoNorgeAPI.dll</HintPath>
     </Reference>
     <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
