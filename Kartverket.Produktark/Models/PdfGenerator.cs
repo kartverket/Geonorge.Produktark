@@ -406,6 +406,16 @@ namespace Kartverket.Produktark.Models
                 ct.AddElement(resolutionScale);
             }
 
+            if (!string.IsNullOrWhiteSpace(productsheet.ResolutionDistance))
+            {
+                Chunk resolutionDistanceHeading = new Chunk("Oppløsning i meter: ", font3Bold);
+                Chunk resolutionDistanceValue = new Chunk(productsheet.ResolutionDistance, font3);
+                Phrase resolutionDistance = new Phrase();
+                resolutionDistance.Add(resolutionDistanceHeading);
+                resolutionDistance.Add(resolutionDistanceValue);
+                ct.AddElement(resolutionDistance);
+            }
+
             if (!string.IsNullOrWhiteSpace(productsheet.PrecisionInMeters))
             {
                 Chunk precisionInMetersHeading = new Chunk("Stedfestingsnøyaktighet (meter): ", font3Bold);
