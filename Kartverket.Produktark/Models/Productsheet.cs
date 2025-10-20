@@ -36,6 +36,8 @@ namespace Kartverket.Produktark.Models
         public Contact ContactOwner { get; set; }
         [DisplayName("Målestokktall")]
         public string ResolutionScale { get; set; }
+        [DisplayName("Oppløsning i meter")]
+        public string ResolutionDistance { get; set; }
         [DisplayName("Nøkkelord")]
         public string KeywordsPlace { get; set; }
         [DisplayName("Prosesshistorie")]

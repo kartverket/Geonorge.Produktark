@@ -48,6 +48,7 @@ namespace Kartverket.Produktark.Models
                 productSheet.ContactPublisher = simpleMetadata.ContactPublisher != null ? CreateContact(simpleMetadata.ContactPublisher) : new Contact();
                 productSheet.ContactOwner = simpleMetadata.ContactOwner != null ? CreateContact(simpleMetadata.ContactOwner) : new Contact();
                 productSheet.ResolutionScale = simpleMetadata.ResolutionScale;
+                productSheet.ResolutionDistance= simpleMetadata.ResolutionDistance.HasValue ? simpleMetadata.ResolutionDistance.Value.ToString() : "";
                 productSheet.KeywordsPlace = CreateKeywords(SimpleKeyword.Filter(simpleMetadata.Keywords, SimpleKeyword.TYPE_PLACE, null));
                 productSheet.ProcessHistory = simpleMetadata.ProcessHistory;
                 productSheet.MaintenanceFrequency = simpleMetadata.MaintenanceFrequency;

@@ -439,6 +439,10 @@
     <Compile Include="Migrations\202009171038595_AddLicense.designer.cs">
       <DependentUpon>202009171038595_AddLicense.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510200639459_AddResolutionDistance.cs" />
+    <Compile Include="Migrations\202510200639459_AddResolutionDistance.designer.cs">
+      <DependentUpon>202510200639459_AddResolutionDistance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -892,6 +896,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009171038595_AddLicense.resx">
       <DependentUpon>202009171038595_AddLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510200639459_AddResolutionDistance.resx">
+      <DependentUpon>202510200639459_AddResolutionDistance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\UI.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
