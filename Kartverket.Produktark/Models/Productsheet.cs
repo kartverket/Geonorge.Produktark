@@ -60,6 +60,14 @@ namespace Kartverket.Produktark.Models
         public string ProductPageUrl { get; set; }
         [DisplayName("Produktspesifikasjon(URL)")]
         public string ProductSpecificationUrl { get; set; }
+        [DisplayName("Geografisk utstrekning nord")]
+        public string BBoxNorth { get; set; }
+        [DisplayName("Geografisk utstrekning sør")]
+        public string BBoxSouth { get; set; }
+        [DisplayName("Geografisk utstrekning øst")]
+        public string BBoxEast { get; set; }
+        [DisplayName("Geografisk utstrekning vest")]
+        public string BBoxWest { get; set; }
         [DisplayName("Dekningsoversikt")]
         public string CoverageArea { get; set; }
         [DisplayName("Projeksjoner")]

@@ -365,7 +365,8 @@ namespace Kartverket.Produktark.Models
 
         private void AddCoverage()
         {
-            ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
+            if (productsheet.KeywordsPlace != null || !string.IsNullOrWhiteSpace(productsheet.CoverageArea) || !string.IsNullOrEmpty(productsheet.BBoxNorth))
+                ct.AddElement(writeTblHeader("UTSTREKNINGSINFORMASJON"));
 
             if (productsheet.KeywordsPlace != null)
             {
@@ -387,6 +388,16 @@ namespace Kartverket.Produktark.Models
                 coverageAreaUrlPhrase.Add(coverageAreaUrl);
                 ct.AddElement(coverageAreaUrlPhrase);
 
+            }
+
+            if (!string.IsNullOrEmpty(productsheet.BBoxNorth))
+            {
+                Phrase bboxHeading = new Phrase("Geografisk utstrekning", font3Bold);
+                ct.AddElement(bboxHeading);
+                ct.AddElement(new Phrase("Nord: " + productsheet.BBoxNorth, font3));
+                ct.AddElement(new Phrase("Sør: " + productsheet.BBoxSouth, font3));
+                ct.AddElement(new Phrase("Øst: " + productsheet.BBoxEast, font3));
+                ct.AddElement(new Phrase("Vest: " + productsheet.BBoxWest, font3));
             }
 
             ct.AddElement(writeTblFooter(""));
