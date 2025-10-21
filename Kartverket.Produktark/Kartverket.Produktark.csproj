@@ -443,6 +443,10 @@
     <Compile Include="Migrations\202510200639459_AddResolutionDistance.designer.cs">
       <DependentUpon>202510200639459_AddResolutionDistance.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510210908274_AddBBox.cs" />
+    <Compile Include="Migrations\202510210908274_AddBBox.designer.cs">
+      <DependentUpon>202510210908274_AddBBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ClaimsPrincipalExtensions.cs" />
     <Compile Include="Models\IProductSheetService.cs" />
@@ -899,6 +903,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510200639459_AddResolutionDistance.resx">
       <DependentUpon>202510200639459_AddResolutionDistance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510210908274_AddBBox.resx">
+      <DependentUpon>202510210908274_AddBBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\UI.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

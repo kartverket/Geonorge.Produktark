@@ -69,6 +69,10 @@ namespace Kartverket.Produktark.Models
                     if (thumbnail.Type == "large_thumbnail")
                         break;
                 }
+                productSheet.BBoxNorth = simpleMetadata.BoundingBox != null ? simpleMetadata.BoundingBox.NorthBoundLatitude : null;
+                productSheet.BBoxSouth = simpleMetadata.BoundingBox != null ? simpleMetadata.BoundingBox.SouthBoundLatitude : null;
+                productSheet.BBoxWest = simpleMetadata.BoundingBox != null ? simpleMetadata.BoundingBox.WestBoundLongitude : null;
+                productSheet.BBoxEast = simpleMetadata.BoundingBox != null ? simpleMetadata.BoundingBox.EastBoundLongitude : null;
             //productSheet.CoverageArea = !string.IsNullOrWhiteSpace(simpleMetadata.CoverageUrl) ? GetCoverageLink(simpleMetadata.CoverageUrl, uuid) : "";
                 productSheet.CoverageArea = metedataExtended.CoverageUrl;
                 productSheet.Projections = simpleMetadata.ReferenceSystems != null ? getProjections(simpleMetadata.ReferenceSystems) : "";
