@@ -352,15 +352,13 @@ namespace Kartverket.Produktark.Models
 
         private void AddProcessHistory()
         {
-            ct.AddElement(writeTblHeader("KILDER OG METODE"));
-
             if (!string.IsNullOrWhiteSpace(productsheet.ProcessHistory))
             {
+                ct.AddElement(writeTblHeader("KILDER OG METODE"));
                 Phrase processHistory = new Phrase(productsheet.ProcessHistory, font3);
                 ct.AddElement(processHistory);
+                ct.AddElement(writeTblFooter(""));
             }
-
-            ct.AddElement(writeTblFooter(""));
         }
 
         private void AddCoverage()
